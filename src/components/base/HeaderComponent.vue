@@ -1,6 +1,8 @@
 <template>
   <header class="flex justify-between items-center bg-[#f9fafb] px-6 py-4">
-    <h1 class="text-xl font-semibold text-gray-800">Dashboard</h1>
+    <h1 class="text-xl font-semibold text-gray-800">
+      {{ route.meta.title || "Untitled Page" }}
+    </h1>
 
     <div class="flex items-center gap-4">
       <div
@@ -33,5 +35,7 @@
 </template>
 
 <script setup>
-// No script needed
+import { useRoute } from "vue-router";
+
+const route = useRoute();
 </script>
