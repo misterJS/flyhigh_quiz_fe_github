@@ -137,13 +137,15 @@
           </label>
         </div>
 
-        <BaseButton
-          variant="primary"
-          color="blue"
-          class="w-full flex justify-center rounded-md py-4"
-        >
-          <span>Create Account</span>
-        </BaseButton>
+        <router-link to="/home">
+          <BaseButton
+            variant="primary"
+            color="blue"
+            class="w-full flex justify-center rounded-md py-4"
+          >
+            <span>Create Account</span>
+          </BaseButton>
+        </router-link>
       </form>
 
       <p class="mt-6 text-sm text-center text-gray-600">
