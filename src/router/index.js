@@ -7,6 +7,7 @@ import ReportPage from "@/components/ReportPage.vue";
 import ClassesPage from "@/components/ClassesPage.vue";
 import SettingPage from "@/components/SettingPage.vue";
 import HelpPage from "@/components/HelpPage.vue";
+import QuizPage from "@/components/QuizPage.vue";
 
 const routes = [
   { path: "/", redirect: "/login" },
@@ -21,6 +22,12 @@ const routes = [
     name: "Register",
     component: RegisterPage,
     meta: { title: "Register" },
+  },
+  {
+    path: "/quiz",
+    name: "Quizzes",
+    component: QuizPage,
+    meta: { title: "Quizzes" },
   },
   {
     path: "/home",
@@ -48,9 +55,9 @@ const routes = [
   },
   {
     path: "/settings",
-    name: "Setting",
+    name: "Settings",
     component: SettingPage,
-    meta: { title: "Setting" },
+    meta: { title: "Settings" },
   },
   {
     path: "/help",

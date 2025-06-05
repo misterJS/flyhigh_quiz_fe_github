@@ -36,6 +36,7 @@
       <nav class="space-y-1 mb-6">
         <SidebarItemComponent icon="fas fa-th" text="Dashboard" to="/home" />
         <SidebarItemComponent icon="fas fa-gift" text="Rewards" to="/rewards" />
+        <SidebarItemComponent icon="fas fa-signal" text="Quiz" to="/quiz" />
         <SidebarItemComponent
           icon="fas fa-chart-bar"
           text="Reports"
