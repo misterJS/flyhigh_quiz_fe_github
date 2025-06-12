@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
+
 import LoginPage from "@/components/LoginPage.vue";
 import RegisterPage from "@/components/RegisterPage.vue";
 import DashboardPage from "@/components/DashboardPage.vue";
@@ -8,9 +9,17 @@ import ClassesPage from "@/components/ClassesPage.vue";
 import SettingPage from "@/components/SettingPage.vue";
 import HelpPage from "@/components/HelpPage.vue";
 import QuizPage from "@/components/QuizPage.vue";
+import QuizDetailPage from "@/components/detail/QuizDetailPage.vue";
+import RewardHistoryPage from "@/components/history/RewardHistoryPage.vue";
+import QuizConfirmationPage from "@/components/detail/QuizConfirmationPage.vue";
+import QuizSessionPage from "@/components/detail/QuizSessionPage.vue";
+import QuizFinishPage from "@/components/detail/QuizFinishPage.vue";
 
 const routes = [
-  { path: "/", redirect: "/login" },
+  {
+    path: "/",
+    redirect: "/login",
+  },
   {
     path: "/login",
     name: "Login",
@@ -24,12 +33,6 @@ const routes = [
     meta: { title: "Register" },
   },
   {
-    path: "/quiz",
-    name: "Quizzes",
-    component: QuizPage,
-    meta: { title: "Quizzes" },
-  },
-  {
     path: "/home",
     name: "Dashboard",
     component: DashboardPage,
@@ -40,6 +43,12 @@ const routes = [
     name: "Rewards",
     component: RewardPage,
     meta: { title: "Rewards" },
+  },
+  {
+    path: "/rewards-history",
+    name: "RewardsHistory",
+    component: RewardHistoryPage,
+    meta: { title: "Rewards History" },
   },
   {
     path: "/reports",
@@ -65,6 +74,36 @@ const routes = [
     component: HelpPage,
     meta: { title: "Help" },
   },
+  {
+    path: "/quiz",
+    name: "QuizPage",
+    component: QuizPage,
+    meta: { title: "Quiz List" },
+  },
+  {
+    path: "/quiz/:id",
+    name: "QuizDetail",
+    component: QuizDetailPage,
+    meta: { title: "Quiz Detail" },
+  },
+  {
+    path: "/quiz-confirmation",
+    name: "QuizConfirmationPage",
+    component: QuizConfirmationPage,
+    meta: { title: "Quiz Confirmation" },
+  },
+  {
+    path: "/quiz-session",
+    name: "QuizSessionPage",
+    component: QuizSessionPage,
+    meta: { title: "Quiz Session" },
+  },
+  {
+    path: "/quiz-finish",
+    name: "QuizFinishPage",
+    component: QuizFinishPage,
+    meta: { title: "Quiz Finish" },
+  },
 ];
 
 const router = createRouter({
@@ -72,9 +111,9 @@ const router = createRouter({
   routes,
 });
 
-// Optional: Set document title
+// Set document title from meta
 router.beforeEach((to, from, next) => {
-  document.title = to.meta.title || "My App";
+  document.title = to.meta.title || "FlyHigh App";
   next();
 });
 

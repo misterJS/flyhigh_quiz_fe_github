@@ -1,6 +1,57 @@
 <script setup>
 import SidebarComponent from "@/components/base/SidebarComponent.vue";
 import HeaderComponent from "@/components/base/HeaderComponent.vue";
+
+const leaderboard = [
+  {
+    username: "Victor André",
+    id: "7281",
+    points: 1207,
+    tier: 83,
+    streak: 59,
+    avatar: "https://i.pravatar.cc/40?img=1",
+  },
+  {
+    username: "Victor André",
+    id: "7281",
+    points: 1207,
+    tier: 83,
+    streak: 59,
+    avatar: "https://i.pravatar.cc/40?img=2",
+  },
+  {
+    username: "Victor André",
+    id: "7281",
+    points: 1207,
+    tier: 83,
+    streak: 59,
+    avatar: "https://i.pravatar.cc/40?img=3",
+  },
+  {
+    username: "Victor André",
+    id: "7281",
+    points: 1207,
+    tier: 83,
+    streak: 59,
+    avatar: "https://i.pravatar.cc/40?img=4",
+  },
+  {
+    username: "Sofia Martinez",
+    id: "7282",
+    points: 1150,
+    tier: 90,
+    streak: 65,
+    avatar: "https://i.pravatar.cc/40?img=5",
+  },
+  {
+    username: "Liam Chen",
+    id: "7283",
+    points: 1300,
+    tier: 75,
+    streak: 70,
+    avatar: "https://i.pravatar.cc/40?img=6",
+  },
+];
 </script>
 
 <template>
@@ -59,7 +110,6 @@ import HeaderComponent from "@/components/base/HeaderComponent.vue";
 
         <!-- Mid Section (Leaderboard & Reward + History) -->
         <div class="grid xl:grid-cols-[2fr_1fr] gap-4">
-          <!-- Leaderboard -->
           <div>
             <h3 class="text-base font-semibold text-gray-900 mb-4">
               Global Leaderboard
@@ -77,7 +127,7 @@ import HeaderComponent from "@/components/base/HeaderComponent.vue";
                 </thead>
                 <tbody class="text-gray-700">
                   <tr
-                    v-for="(user, i) in 6"
+                    v-for="(user, i) in leaderboard"
                     :key="i"
                     class="border-t"
                     :class="[
@@ -92,15 +142,13 @@ import HeaderComponent from "@/components/base/HeaderComponent.vue";
                   >
                     <td class="py-2 pr-4 font-bold">#{{ i + 1 }}</td>
                     <td class="py-6 pr-4 font-medium flex items-center gap-2">
-                      <img
-                        src="https://i.pravatar.cc/40"
-                        class="w-6 h-6 rounded-full"
-                      />
-                      Victor André
+                      <img :src="user.avatar" class="w-6 h-6 rounded-full" />
+                      {{ user.username }}
+                      <span class="text-xs text-gray-500">#{{ user.id }}</span>
                     </td>
-                    <td class="py-2 pr-4">1,207</td>
-                    <td class="py-2 pr-4">83</td>
-                    <td class="py-2">59</td>
+                    <td class="py-2 pr-4">{{ user.points }}</td>
+                    <td class="py-2 pr-4">{{ user.tier }}</td>
+                    <td class="py-2">{{ user.streak }}</td>
                   </tr>
                 </tbody>
               </table>
@@ -118,7 +166,9 @@ import HeaderComponent from "@/components/base/HeaderComponent.vue";
                 <a href="#" class="text-sm text-blue-600">See all</a>
               </div>
               <div class="space-y-4">
-                <div class="flex items-center justify-between">
+                <div
+                  class="flex items-center justify-between p-4 border rounded-xl"
+                >
                   <div class="flex items-center gap-3">
                     <img src="../assets/reward3.png" class="w-10 h-10" />
                     <div>
@@ -134,7 +184,9 @@ import HeaderComponent from "@/components/base/HeaderComponent.vue";
                     4%
                   </div>
                 </div>
-                <div class="flex items-center justify-between">
+                <div
+                  class="flex items-center justify-between p-4 border rounded-xl"
+                >
                   <div class="flex items-center gap-3">
                     <img src="../assets/reward3.png" class="w-10 h-10" />
                     <div>
@@ -150,7 +202,9 @@ import HeaderComponent from "@/components/base/HeaderComponent.vue";
                     85%
                   </div>
                 </div>
-                <div class="flex items-center justify-between">
+                <div
+                  class="flex items-center justify-between p-4 border rounded-xl"
+                >
                   <div class="flex items-center gap-3">
                     <img src="../assets/reward3.png" class="w-10 h-10" />
                     <div>
@@ -176,10 +230,15 @@ import HeaderComponent from "@/components/base/HeaderComponent.vue";
                 <a href="#" class="text-sm text-blue-600">See all</a>
               </div>
               <div class="space-y-3">
-                <div class="flex items-center justify-between">
+                <div
+                  class="flex items-center justify-between p-4 border rounded-xl"
+                >
                   <div class="flex items-center gap-3">
                     <img src="../assets/reward3.png" class="w-8 h-8" />
-                    <p class="text-sm text-gray-700">School Bag</p>
+                    <div>
+                      <p class="text-sm text-gray-700">School Bag</p>
+                      <p class="text-xs text-gray-400">01-20-2025</p>
+                    </div>
                   </div>
                   <button
                     class="text-xs bg-gray-100 text-gray-500 px-3 py-1 rounded-full"
@@ -187,10 +246,15 @@ import HeaderComponent from "@/components/base/HeaderComponent.vue";
                     Redeemed
                   </button>
                 </div>
-                <div class="flex items-center justify-between">
+                <div
+                  class="flex items-center justify-between p-4 border rounded-xl"
+                >
                   <div class="flex items-center gap-3">
                     <img src="../assets/reward3.png" class="w-8 h-8" />
-                    <p class="text-sm text-gray-700">School Bag</p>
+                    <div>
+                      <p class="text-sm text-gray-700">School Bag</p>
+                      <p class="text-xs text-gray-400">01-20-2025</p>
+                    </div>
                   </div>
                   <button
                     class="text-xs bg-gray-100 text-gray-500 px-3 py-1 rounded-full"
