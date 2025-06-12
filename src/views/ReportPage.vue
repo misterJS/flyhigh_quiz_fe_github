@@ -1,7 +1,7 @@
 <script setup>
 import SidebarComponent from "@/components/base/SidebarComponent.vue";
 import HeaderComponent from "@/components/base/HeaderComponent.vue";
-import RewardCardComponent from "./base/RewardCardComponent.vue";
+import RewardCardComponent from "@/components/base/RewardCardComponent.vue";
 </script>
 
 <template>

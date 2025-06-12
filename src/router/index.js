@@ -1,19 +1,19 @@
 import { createRouter, createWebHistory } from "vue-router";
 
-import LoginPage from "@/components/LoginPage.vue";
-import RegisterPage from "@/components/RegisterPage.vue";
-import DashboardPage from "@/components/DashboardPage.vue";
-import RewardPage from "@/components/RewardPage.vue";
-import ReportPage from "@/components/ReportPage.vue";
-import ClassesPage from "@/components/ClassesPage.vue";
-import SettingPage from "@/components/SettingPage.vue";
-import HelpPage from "@/components/HelpPage.vue";
-import QuizPage from "@/components/QuizPage.vue";
-import QuizDetailPage from "@/components/detail/QuizDetailPage.vue";
-import RewardHistoryPage from "@/components/history/RewardHistoryPage.vue";
-import QuizConfirmationPage from "@/components/detail/QuizConfirmationPage.vue";
-import QuizSessionPage from "@/components/detail/QuizSessionPage.vue";
-import QuizFinishPage from "@/components/detail/QuizFinishPage.vue";
+import LoginPage from "@/views/LoginPage.vue";
+import RegisterPage from "@/views/RegisterPage.vue";
+import DashboardPage from "@/views/DashboardPage.vue";
+import RewardPage from "@/views/RewardPage.vue";
+import ReportPage from "@/views/ReportPage.vue";
+import ClassesPage from "@/views/ClassesPage.vue";
+import SettingPage from "@/views/SettingPage.vue";
+import HelpPage from "@/views/HelpPage.vue";
+import QuizPage from "@/views/QuizPage.vue";
+import QuizDetailPage from "@/views/detail/QuizDetailPage.vue";
+import RewardHistoryPage from "@/views/history/RewardHistoryPage.vue";
+import QuizConfirmationPage from "@/views/detail/QuizConfirmationPage.vue";
+import QuizSessionPage from "@/views/detail/QuizSessionPage.vue";
+import QuizFinishPage from "@/views/detail/QuizFinishPage.vue";
 
 const routes = [
   {

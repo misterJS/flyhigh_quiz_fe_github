@@ -4,13 +4,13 @@
     <div class="w-1/2 items-center">
       <img
         v-if="selectedRole === 'Student'"
-        src="../assets/hero-login-1.png"
+        src="@/assets/hero-login-1.png"
         alt="Student"
         class="bg-cover"
       />
       <img
         v-else
-        src="../assets/hero-login-2.png"
+        src="@/assets/hero-login-2.png"
         alt="Parent"
         class="bg-cover"
       />
@@ -18,7 +18,7 @@
 
     <!-- Right Section -->
     <div class="w-1/2 flex flex-col justify-center px-10 max-w-md mx-auto">
-      <img src="../assets/logo.png" alt="Logo" class="w-20 mb-8 mx-auto" />
+      <img src="@/assets/logo.png" alt="Logo" class="w-20 mb-8 mx-auto" />
 
       <SwitchButtonGroup
         v-model="selectedRole"

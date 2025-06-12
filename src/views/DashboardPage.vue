@@ -1,10 +1,10 @@
 <script setup>
-import HeaderComponent from "./base/HeaderComponent.vue";
-import SidebarComponent from "./base/SidebarComponent.vue";
-import ScheduleList from "./base/ScheduleListComponent.vue";
-import QuizProgressList from "./base/ProgressListComponent.vue";
-import RewardProgressCard from "./base/RewardCardComponent.vue";
-import CalendarWidget from "./base/CalendarWidgetComponent.vue";
+import HeaderComponent from "@/components/base/HeaderComponent.vue";
+import SidebarComponent from "@/components/base/SidebarComponent.vue";
+import ScheduleList from "@/components/base/ScheduleListComponent.vue";
+import QuizProgressList from "@/components/base/ProgressListComponent.vue";
+import RewardProgressCard from "@/components/base/RewardCardComponent.vue";
+import CalendarWidget from "@/components/base/CalendarWidgetComponent.vue";
 
 import { ref, computed } from "vue";
 
