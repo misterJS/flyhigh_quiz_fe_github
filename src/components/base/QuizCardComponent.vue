@@ -1,12 +1,13 @@
 <template>
-  <div class="bg-white rounded-xl shadow-sm overflow-hidden">
-    <img
-      :src="require(`@/assets/${image}`)"
-      alt="Quiz image"
-      class="w-full h-40 object-cover"
-    />
-    <div class="p-4">
-      <!-- <div class="flex justify-between items-center mb-2">
+  <router-link to="/quiz/1">
+    <div class="bg-white rounded-xl shadow-sm overflow-hidden">
+      <img
+        :src="require(`@/assets/${image}`)"
+        alt="Quiz image"
+        class="w-full h-40 object-cover"
+      />
+      <div class="p-4">
+        <!-- <div class="flex justify-between items-center mb-2">
         <div class="flex items-center gap-1 text-sm text-[#6B7280]">
           <i class="fas fa-user-graduate"></i>
           <span>{{ students }} Student</span>
@@ -18,22 +19,23 @@
         </div>
       </div> -->
 
-      <h3 class="text-base font-medium text-[#111827] mb-2 line-clamp-2">
-        {{ title }}
-      </h3>
+        <h3 class="text-base font-medium text-[#111827] mb-2 line-clamp-2">
+          {{ title }}
+        </h3>
 
-      <div class="flex justify-between text-sm text-[#6B7280]">
-        <div class="flex items-center gap-1">
-          <i class="fas fa-book"></i>
-          <span>{{ modules }} Modul</span>
-        </div>
-        <div class="flex items-center gap-1">
-          <i class="fas fa-clock"></i>
-          <span>{{ duration }}</span>
+        <div class="flex justify-between text-sm text-[#6B7280]">
+          <div class="flex items-center gap-1">
+            <i class="fas fa-book"></i>
+            <span>{{ modules }} Modul</span>
+          </div>
+          <div class="flex items-center gap-1">
+            <i class="fas fa-clock"></i>
+            <span>{{ duration }}</span>
+          </div>
         </div>
       </div>
     </div>
-  </div>
+  </router-link>
 </template>
 
 <script setup>
