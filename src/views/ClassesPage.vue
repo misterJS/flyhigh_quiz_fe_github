@@ -1,7 +1,7 @@
 <script setup>
 import SidebarComponent from "@/components/base/SidebarComponent.vue";
 import HeaderComponent from "@/components/base/HeaderComponent.vue";
-import CalendarWidgetComponent from "./base/CalendarWidgetComponent.vue";
+import CalendarWidgetComponent from "@/components/base/CalendarWidgetComponent.vue";
 </script>
 
 <template>
