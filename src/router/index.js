@@ -15,11 +15,11 @@ import QuizConfirmationPage from "@/views/detail/QuizConfirmationPage.vue";
 import QuizSessionPage from "@/views/detail/QuizSessionPage.vue";
 import QuizFinishPage from "@/views/detail/QuizFinishPage.vue";
 
-const routes = [
-  {
-    path: "/",
-    redirect: "/login",
-  },
+const isMobile = window.innerWidth <= 768;
+
+const allRoutes = [
+  { path: "/", redirect: "/login" },
+
   {
     path: "/login",
     name: "Login",
@@ -32,11 +32,12 @@ const routes = [
     component: RegisterPage,
     meta: { title: "Register" },
   },
+
   {
     path: "/home",
     name: "Dashboard",
     component: DashboardPage,
-    meta: { title: "Dashboard" },
+    meta: { title: "Dashboard"},
   },
   {
     path: "/rewards",
@@ -54,13 +55,13 @@ const routes = [
     path: "/reports",
     name: "Reports",
     component: ReportPage,
-    meta: { title: "Reports" },
+    meta: { title: "Reports", device: "desktop" },
   },
   {
     path: "/classes",
     name: "Classes",
     component: ClassesPage,
-    meta: { title: "Classes" },
+    meta: { title: "Classes", device: "desktop" },
   },
   {
     path: "/settings",
@@ -68,12 +69,8 @@ const routes = [
     component: SettingPage,
     meta: { title: "Settings" },
   },
-  {
-    path: "/help",
-    name: "Help",
-    component: HelpPage,
-    meta: { title: "Help" },
-  },
+  { path: "/help", name: "Help", component: HelpPage, meta: { title: "Help" } },
+
   {
     path: "/quiz",
     name: "QuizPage",
@@ -104,14 +101,24 @@ const routes = [
     component: QuizFinishPage,
     meta: { title: "Quiz Finish" },
   },
+  // {
+  //   path: "/mobile-chat",
+  //   name: "MobileChat",
+  //   component: () => import("@/views/mobile/MobileChatPage.vue"),
+  //   meta: { title: "Mobile Chat", device: "mobile" },
+  // },
 ];
+
+const filteredRoutes = allRoutes.filter((route) => {
+  if (!route.meta?.device) return true;
+  return route.meta.device === (isMobile ? "mobile" : "desktop");
+});
 
 const router = createRouter({
   history: createWebHistory(),
-  routes,
+  routes: filteredRoutes,
 });
 
-// Set document title from meta
 router.beforeEach((to, from, next) => {
   document.title = to.meta.title || "FlyHigh App";
   next();
