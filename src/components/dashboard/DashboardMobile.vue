@@ -119,26 +119,38 @@ import BottomBarNavigation from "../base/BottomBarNavigation.vue";
 const subjects = [
   {
     name: "Biology",
-    icon: "/assets/icons/biology.png",
+    icon: require("@/assets/image (3).png"),
   },
   {
     name: "History",
-    icon: "/assets/icons/history.png",
+    icon: require("@/assets/image (4).png"),
   },
   {
     name: "Geography",
-    icon: "/assets/icons/geography.png",
+    icon: require("@/assets/image (5).png"),
   },
   {
     name: "Economics",
-    icon: "/assets/icons/economics.png",
+    icon: require("@/assets/image (6).png"),
   },
 ];
 
 const leaderboard = [
-  { name: "Brian Fred M.", xp: "421 XP", avatar: "@/assets/Avatar.png" },
-  { name: "Brian Fred M.", xp: "412 XP", avatar: "@/assets/Avatar.png" },
-  { name: "Brian Fred M.", xp: "401 XP", avatar: "@/assets/Avatar.png" },
+  {
+    name: "Brian Fred M.",
+    xp: "421 XP",
+    avatar: require("@/assets/Rectangle.png"),
+  },
+  {
+    name: "Brian Fred M.",
+    xp: "412 XP",
+    avatar: require("@/assets/Rectangle (1).png"),
+  },
+  {
+    name: "Brian Fred M.",
+    xp: "401 XP",
+    avatar: require("@/assets/Rectangle 5223.png"),
+  },
 ];
 
 const liveSessions = [
