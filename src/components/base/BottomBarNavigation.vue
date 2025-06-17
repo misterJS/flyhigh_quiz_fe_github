@@ -1,60 +1,58 @@
 <template>
   <nav
-    class="fixed bottom-0 left-0 right-0 bg-white border-t shadow p-3 flex justify-around text-sm text-gray-500 z-50"
+    class="fixed bottom-0 left-0 right-0 bg-white border-t shadow p-3 flex justify-around text-sm z-50 lg:hidden"
   >
-    <div
+    <router-link
+      to="/home"
       class="flex flex-col items-center"
-      :class="{ 'text-blue-600': currentTab === 'home' }"
-      @click="setTab('home')"
+      :class="isActive('Home')"
     >
       <i class="fas fa-home text-lg"></i>
       <span class="text-xs">Home</span>
-    </div>
+    </router-link>
 
-    <div
+    <router-link
+      to="/quiz"
       class="flex flex-col items-center"
-      :class="{ 'text-blue-600': currentTab === 'quiz' }"
-      @click="setTab('quiz')"
+      :class="isActive('Quiz')"
     >
       <i class="fas fa-edit text-lg"></i>
       <span class="text-xs">Quiz</span>
-    </div>
+    </router-link>
 
-    <div
+    <router-link
+      to="/ranking"
       class="flex flex-col items-center"
-      :class="{ 'text-blue-600': currentTab === 'ranking' }"
-      @click="setTab('ranking')"
+      :class="isActive('Ranking')"
     >
       <i class="fas fa-trophy text-lg"></i>
       <span class="text-xs">Ranking</span>
-    </div>
+    </router-link>
 
-    <div
+    <router-link
+      to="/profile"
       class="flex flex-col items-center"
-      :class="{ 'text-blue-600': currentTab === 'profile' }"
-      @click="setTab('profile')"
+      :class="isActive('Profile')"
     >
       <i class="fas fa-user text-lg"></i>
       <span class="text-xs">Profile</span>
-    </div>
+    </router-link>
   </nav>
 </template>
 
 <script setup>
-import { ref, watch } from "vue";
-import { useRouter, useRoute } from "vue-router";
+import { useRoute } from "vue-router";
 
-const router = useRouter();
 const route = useRoute();
 
-const currentTab = ref(route.name?.toLowerCase() || "home");
-
-watch(route, (newRoute) => {
-  currentTab.value = newRoute.name?.toLowerCase() || "home";
-});
-
-function setTab(tab) {
-  currentTab.value = tab;
-  router.push({ name: tab.charAt(0).toUpperCase() + tab.slice(1) });
-}
+const isActive = (name) => {
+  return route.name === name ? "text-blue-600 font-semibold" : "text-gray-500";
+};
 </script>
+
+<style scoped>
+.router-link-active {
+  color: #2563eb;
+  font-weight: 600;
+}
+</style>

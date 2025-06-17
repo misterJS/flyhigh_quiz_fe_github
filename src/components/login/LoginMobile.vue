@@ -92,12 +92,14 @@
         </div>
 
         <!-- Sign In Button -->
-        <button
-          @click="signIn"
-          class="w-full bg-blue-600 text-white py-2 rounded-full font-medium text-sm hover:bg-blue-700 transition"
-        >
-          Sign In
-        </button>
+        <router-link to="/home">
+          <button
+            @click="signIn"
+            class="w-full bg-blue-600 text-white py-2 rounded-full font-medium text-sm hover:bg-blue-700 transition"
+          >
+            Sign In
+          </button>
+        </router-link>
       </div>
     </div>
   </div>
