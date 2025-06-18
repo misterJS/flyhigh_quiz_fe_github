@@ -14,6 +14,7 @@ import RewardHistoryPage from "@/views/history/RewardHistoryPage.vue";
 import QuizConfirmationPage from "@/views/detail/QuizConfirmationPage.vue";
 import QuizSessionPage from "@/views/detail/QuizSessionPage.vue";
 import QuizFinishPage from "@/views/detail/QuizFinishPage.vue";
+import ProfilePage from "@/views/ProfilePage.vue";
 
 const isMobile = window.innerWidth <= 768;
 
@@ -32,12 +33,17 @@ const allRoutes = [
     component: RegisterPage,
     meta: { title: "Register" },
   },
-
+  {
+    path: "/profile",
+    name: "Profile",
+    component: ProfilePage,
+    meta: { title: "Profile" },
+  },
   {
     path: "/home",
     name: "Dashboard",
     component: DashboardPage,
-    meta: { title: "Dashboard"},
+    meta: { title: "Dashboard" },
   },
   {
     path: "/rewards",
@@ -55,7 +61,7 @@ const allRoutes = [
     path: "/reports",
     name: "Reports",
     component: ReportPage,
-    meta: { title: "Reports", device: "desktop" },
+    meta: { title: "Reports" },
   },
   {
     path: "/classes",
