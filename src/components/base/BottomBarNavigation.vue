@@ -30,9 +30,9 @@
     </router-link>
 
     <router-link
-      to="/profile"
+      to="/settings"
       class="flex flex-col items-center"
-      :class="isActive('Profile')"
+      :class="isActive('Setting')"
     >
       <i class="fas fa-user text-lg"></i>
       <span class="text-xs">Profile</span>
