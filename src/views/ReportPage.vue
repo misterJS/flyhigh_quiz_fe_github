@@ -5,7 +5,7 @@
 
     <div class="flex-1 flex flex-col">
       <!-- Header (only desktop) -->
-      <HeaderComponent class="hidden lg:block" />
+      <HeaderComponent class="hidden lg:flex" />
 
       <!-- Main Content -->
       <div class="p-4 lg:p-8 flex flex-col lg:flex-row gap-6">
