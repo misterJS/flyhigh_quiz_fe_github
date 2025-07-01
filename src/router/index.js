@@ -22,7 +22,7 @@ import HelpSupportMobile from "@/components/setting/MobileSetting/HelpSupportMob
 import NotificationMobile from "@/components/setting/MobileSetting/NotificationMobile.vue";
 import LanguageSettingMobile from "@/components/setting/MobileSetting/LanguageSettingMobile.vue";
 import AboutMobile from "@/components/setting/MobileSetting/AboutMobile.vue";
-
+import RankingPage from "@/views/RankingPage.vue";
 const isMobile = window.innerWidth <= 768;
 
 const allRoutes = [
@@ -57,6 +57,14 @@ const allRoutes = [
     name: "Rewards",
     component: RewardPage,
     meta: { title: "Rewards" },
+  },
+  { 
+    path: "/ranking",
+    
+    
+    name: "Ranking",
+    component:RankingPage,
+    meta: { title:"Ranking" },
   },
   {
     path: "/rewards-history",
