@@ -19,10 +19,11 @@ import EditProfileMobile from "@/components/setting/MobileSetting/EditProfileMob
 import ChangePasswordMobile from "@/components/setting/MobileSetting/ChangePasswordMobile.vue";
 import HistoryMobile from "@/components/setting/MobileSetting/HistoryMobile.vue";
 import HelpSupportMobile from "@/components/setting/MobileSetting/HelpSupportMobile.vue";
-import NotificationMobile from "@/components/setting/MobileSetting/NotificationMobile.vue";
+import NotificationSettingMobile from "@/components/setting/MobileSetting/NotificationSettingMobile.vue";
 import LanguageSettingMobile from "@/components/setting/MobileSetting/LanguageSettingMobile.vue";
 import AboutMobile from "@/components/setting/MobileSetting/AboutMobile.vue";
 import RankingPage from "@/views/RankingPage.vue";
+import NotificationMobile from "@/components/notification/NotificationMobile.vue";
 const isMobile = window.innerWidth <= 768;
 
 const allRoutes = [
@@ -58,13 +59,12 @@ const allRoutes = [
     component: RewardPage,
     meta: { title: "Rewards" },
   },
-  { 
+  {
     path: "/ranking",
-    
-    
+
     name: "Ranking",
-    component:RankingPage,
-    meta: { title:"Ranking" },
+    component: RankingPage,
+    meta: { title: "Ranking" },
   },
   {
     path: "/rewards-history",
@@ -116,6 +116,12 @@ const allRoutes = [
   },
   {
     path: "/notification-mobile",
+    name: "NotificationSettingMobile",
+    component: NotificationSettingMobile,
+    meta: { title: "Notification Setting Mobile", device: "mobile" },
+  },
+  {
+    path: "/notification",
     name: "NotificationMobile",
     component: NotificationMobile,
     meta: { title: "Notification Mobile", device: "mobile" },
