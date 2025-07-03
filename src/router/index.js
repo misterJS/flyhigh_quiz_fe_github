@@ -23,6 +23,8 @@ import NotificationMobile from "@/components/setting/MobileSetting/NotificationM
 import LanguageSettingMobile from "@/components/setting/MobileSetting/LanguageSettingMobile.vue";
 import AboutMobile from "@/components/setting/MobileSetting/AboutMobile.vue";
 import RankingPage from "@/views/RankingPage.vue";
+import SplashScreen from "@/components/onboarding/SplashScreen.vue";
+import OnboardingMobile7 from "@/components/onboarding/OnboardingMobile7.vue";
 const isMobile = window.innerWidth <= 768;
 
 const allRoutes = [
@@ -58,13 +60,11 @@ const allRoutes = [
     component: RewardPage,
     meta: { title: "Rewards" },
   },
-  { 
+  {
     path: "/ranking",
-    
-    
     name: "Ranking",
-    component:RankingPage,
-    meta: { title:"Ranking" },
+    component: RankingPage,
+    meta: { title: "Ranking" },
   },
   {
     path: "/rewards-history",
@@ -131,6 +131,18 @@ const allRoutes = [
     name: "AboutMobile",
     component: AboutMobile,
     meta: { title: "About", device: "mobile" },
+  },
+  {
+    path: "/splash-screen-mobile",
+    name: "SplashScreenMobile",
+    component: SplashScreen,
+    meta: { title: "Splash", device: "mobile" },
+  },
+  {
+    path: "/onboarding-mobile-7",
+    name: "OnboardingMobile7",
+    component: OnboardingMobile7,
+    meta: { title: "Onboarding", device: "mobile" },
   },
   { path: "/help", name: "Help", component: HelpPage, meta: { title: "Help" } },
   {
