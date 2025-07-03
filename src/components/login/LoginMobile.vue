@@ -92,14 +92,17 @@
         </div>
 
         <!-- Sign In Button -->
-        <router-link to="/home">
-          <button
-            @click="signIn"
-            class="w-full bg-blue-600 text-white py-2 rounded-full font-medium text-sm hover:bg-blue-700 transition"
-          >
-            Sign In
-          </button>
-        </router-link>
+        <button
+          @click="signIn"
+          class="w-full mt-4 bg-blue-600 text-white py-2 rounded-full font-medium text-sm hover:bg-blue-700 transition"
+        >
+          Sign In
+        </button>
+
+        <p v-if="loginError" class="text-red-600 text-center text-sm mt-2">
+          {{ loginError }} Please Try Again.
+        </p>
+
       </div>
     </div>
   </div>
@@ -107,23 +110,33 @@
 
 <script setup>
 import { ref } from "vue";
+import { useAuthStore } from "@/stores/authStore";
+import { useRouter } from "vue-router";
 
 const email = ref("");
 const password = ref("");
+const loginError = ref("");
 const rememberMe = ref(false);
 const showPassword = ref(false);
+
+const auth = useAuthStore();
+const router = useRouter();
 
 const togglePassword = () => {
   showPassword.value = !showPassword.value;
 };
 
-const signIn = () => {
-  console.log("Login:", email.value, password.value, rememberMe.value);
+const signIn = async () => {
+  try {
+    await auth.login(email.value, password.value);
+    router.push("/home");
+  } catch (err) {
+    loginError.value = err.message;
+  }
 };
 </script>
 
 <style scoped>
-/* Buat tinggi setengah layar secara manual */
 .h-1\/2-screen {
   height: 50vh;
 }
