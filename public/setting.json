@@ -1,0 +1,13 @@
+{
+    "apiURL": "https://quiz.flyhigh.my/flyhigh_be/api/",
+    "api_url_reference": [
+      "https://localhost:5001/api/",
+      "https://pickiddo.com/PICKIDDO_BE/api/",
+      "https://54.254.198.108/PICKIDDO_BE_ADMIN/api/",
+      "https://kiddo.mywire.org/PICKIDDO_BE_ADMIN/api/",
+      "https://app.pickiddo.com/V3_BE/api/",
+      "https://kiddo.mywire.org/V3_BE/api/",
+      "https://appflyhigh.interviewrr.ai/flyhigh_be/api/",
+      "https://app.flyhigh.asia/flyhigh_be/api/"
+    ]
+  } 

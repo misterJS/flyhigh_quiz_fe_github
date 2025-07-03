@@ -73,6 +73,7 @@
       </div>
       <button
         class="bg-blue-600 text-white rounded-full px-8 py-3 text-sm font-semibold"
+        @click="goFinish"
       >
         Next
       </button>
@@ -89,6 +90,10 @@ const selected = ref(null);
 
 function goBack() {
   router.back();
+}
+
+function goFinish() {
+  router.push("/quiz-finish");
 }
 
 const options = ["Sixty-five.", "Seventy-five.", "Eighty-five.", "Sixty-six."];
