@@ -2,13 +2,24 @@
 import BaseButton from "@/components/base/BaseButton.vue";
 import SwitchButtonGroup from "@/components/base/SwitchButton.vue";
 import { ref } from "vue";
+import { useAuthStore } from "@/stores/authStore";
+import { useRouter } from "vue-router";
 const selectedRole = ref("Student");
 
 const email = ref("");
 const password = ref("");
+const loginError = ref("");
 
-const signIn = () => {
-  console.log("Sign in:", email.value, password.value);
+const auth = useAuthStore();
+const router = useRouter();
+
+const signIn = async () => {
+  try {
+    await auth.login(email.value, password.value);
+    router.push("/home");
+  } catch (err) {
+    loginError.value = err.message;
+  }
 };
 </script>
 
@@ -85,14 +96,16 @@ const signIn = () => {
           <a href="#" class="text-blue-600 hover:underline">Forgot Password?</a>
         </div>
 
-        <router-link to="/home">
-          <BaseButton
-            variant="primary"
-            color="blue"
-            class="w-full flex justify-center rounded-md py-4"
-            ><span>Sign In</span></BaseButton
-          >
-        </router-link>
+        <BaseButton
+          @click="signIn"
+          variant="primary"
+          color="blue"
+          class="w-full mt-4 flex justify-center rounded-md py-4"
+          ><span>Sign In</span></BaseButton
+        >
+        <p v-if="loginError" class="text-red-600 text-center text-sm mt-2">
+          {{ loginError }} Please Try Again.
+        </p>
       </form>
 
       <p class="mt-6 text-sm text-center text-gray-600">
