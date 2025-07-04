@@ -26,6 +26,7 @@ import RankingPage from "@/views/RankingPage.vue";
 import SplashScreen from "@/components/onboarding/SplashScreen.vue";
 import OnboardingMobile7 from "@/components/onboarding/OnboardingMobile7.vue";
 import NotificationMobile from "@/components/notification/NotificationMobile.vue";
+import ForgetPasswordPage from "@/views/ForgetPasswordPage.vue";
 const isMobile = window.innerWidth <= 768;
 
 const allRoutes = [
@@ -42,6 +43,12 @@ const allRoutes = [
     name: "Register",
     component: RegisterPage,
     meta: { title: "Register" },
+  },
+  {
+    path: "/forget-password",
+    name: "Forget passowrd",
+    component: ForgetPasswordPage,
+    meta: { title: "Forget password" },
   },
   {
     path: "/profile",
@@ -61,13 +68,11 @@ const allRoutes = [
     component: RewardPage,
     meta: { title: "Rewards" },
   },
-  {
+
   {
     path: "/ranking",
 
     name: "Ranking",
-    component: RankingPage,
-    meta: { title: "Ranking" },
     component: RankingPage,
     meta: { title: "Ranking" },
   },

@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from "vue";
 import { computed } from "vue";
-const number = ref(3);
+const number = ref(1);
 const changeNumber = () => {
   number.value = (number.value % 3) + 1;
   console.log(number.value);
@@ -37,7 +37,9 @@ const slides = [
 ];
 </script>
 <template>
-  <div class="min-h-screen relative bg-[#05192B] pt-[80px]">
+  <div
+    class="min-h-screen w-screen relative overflow-hidden bg-[#05192B] pt-[80px]"
+  >
     <div
       class="border right-[-120px] absolute border-[#FFFFFF]/10 w-[234px] flex items-center rounded-full h-[234px] top-[-140px]"
     >
@@ -62,13 +64,13 @@ const slides = [
     </div>
     <div
       v-if="number === 2"
-      class="absolute w-[279px] shadow-md ml-[50px] mt-[192px] rounded-[10px] overflow-hidden"
+      class="absolute w-[279px] z-20 shadow-md ml-[50px] mt-[192px] rounded-[10px] overflow-hidden"
     >
       <img src="@/assets/My-recent-match.png" />
     </div>
     <div
       v-if="number === 2"
-      class="absolute w-[279px] shadow-md ml-[89px] mt-[312px] rounded-[10px] overflow-hidden"
+      class="absolute w-[279px] z-20 shadow-md ml-[89px] mt-[312px] rounded-[10px] overflow-hidden"
     >
       <img src="@/assets/My-recent-match.png" />
     </div>
