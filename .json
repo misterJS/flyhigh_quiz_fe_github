@@ -1,0 +1,23 @@
+[
+  {
+    "Id": 1,
+    "Name": "Beginner",
+    "Descriptions": "-Basic understanding, needs supervision\r\nIntermediate\r\n-Can work independently with some guidance",
+    "CreatedTime": "2025-06-25T09:33:47.43",
+    "Status": true
+  },
+  {
+    "Id": 2,
+    "Name": "Advanced",
+    "Descriptions": "-Strong proficiency, minimal guidance needed\r\nExpert\r\n-Deep expertise, often mentors others",
+    "CreatedTime": "2025-06-25T09:35:02",
+    "Status": true
+  },
+  {
+    "Id": 3,
+    "Name": "Master",
+    "Descriptions": "-Recognized authority, innovates in the field",
+    "CreatedTime": "2025-06-25T09:35:22.543",
+    "Status": true
+  }
+]
