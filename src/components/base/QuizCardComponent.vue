@@ -1,5 +1,5 @@
 <template>
-  <router-link to="/quiz/1">
+  <router-link :to="`/quiz/${id}`">
     <div class="bg-white rounded-xl shadow-sm overflow-hidden">
       <img
         :src="require(`@/assets/${image}`)"
@@ -47,6 +47,7 @@ defineProps({
   points: Number,
   modules: Number,
   duration: String,
+  id: Number,
 });
 </script>
 

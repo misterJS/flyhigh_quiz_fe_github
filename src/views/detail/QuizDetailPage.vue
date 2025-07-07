@@ -22,7 +22,7 @@
             <!-- Gambar -->
             <div class="rounded-xl overflow-hidden mb-6">
               <img
-                :src="quiz.image"
+                :src="require('@/assets/quiz.png')"
                 alt="Quiz Image"
                 class="w-full h-auto object-cover"
               />
@@ -30,10 +30,10 @@
 
             <!-- Judul & Deskripsi -->
             <h1 class="text-xl sm:text-2xl font-semibold text-[#111827] mb-3">
-              {{ quiz.title }}
+              {{ quiz?.title }}
             </h1>
             <p class="text-sm text-gray-600 mb-6 leading-relaxed">
-              {{ quiz.description }}
+              {{ quiz?.details }}
             </p>
 
             <!-- Outcome -->
@@ -44,20 +44,24 @@
               <div class="flex items-center gap-2">
                 <i class="far fa-star"></i>
                 Skill level:
-                <span class="text-[#2563EB] font-medium">{{ quiz.level }}</span>
+                <span class="text-[#2563EB] font-medium">{{
+                  quiz?.level
+                }}</span>
               </div>
               <div class="flex items-center gap-2">
                 <i class="fas fa-file-alt"></i>
                 Quizzes:
-                <span class="text-[#111827] font-medium">{{ quiz.soal }}</span>
+                <span class="text-[#111827] font-medium">{{
+                  quiz?.questionCount
+                }}</span>
               </div>
               <div class="flex items-center gap-2">
                 <i class="fas fa-language"></i>
-                Language: {{ quiz.language }}
+                Language: {{ quiz?.language }}
               </div>
               <div class="flex items-center gap-2">
                 <i class="fas fa-video"></i>
-                Video Quiz: <span class="font-medium">{{ quiz.video }}</span>
+                Video Quiz: <span class="font-medium">{{ quiz?.video }}</span>
               </div>
             </div>
 
@@ -190,20 +194,30 @@
 import { useRoute } from "vue-router";
 import SidebarComponent from "@/components/base/SidebarComponent.vue";
 import HeaderComponent from "@/components/base/HeaderComponent.vue";
-
+import { onMounted } from "vue";
+import { QuizPreview } from "@/api/quizApi";
+import { ref } from "vue";
+const quiz = ref(null);
 const route = useRoute();
 const quizId = route.params.id;
-
-const quiz = {
-  id: quizId,
-  title: "Additional Mathematics",
-  image: require("@/assets/quiz.png"),
-  description: `This module on Additional Mathematics is designed to deepen students' understanding of advanced mathematical concepts. It covers topics such as algebra, calculus, and geometry.`,
-  level: "All levels",
-  soal: 15,
-  language: "English",
-  video: "10 Minute",
-};
+onMounted(async () => {
+  try {
+    const response = await QuizPreview(quizId);
+    quiz.value = response;
+  } catch (err) {
+    console.error("Gagal ambil quiz:", err.message);
+  }
+});
+// const quiz = {
+//   id: quizId,
+//   title: "Additional Mathematics",
+//   image: require("@/assets/quiz.png"),
+//   description: `This module on Additional Mathematics is designed to deepen students' understanding of advanced mathematical concepts. It covers topics such as algebra, calculus, and geometry.`,
+//   level: "All levels",
+//   soal: 15,
+//   language: "English",
+//   video: "10 Minute",
+// };
 
 const leaderboard = [
   {
