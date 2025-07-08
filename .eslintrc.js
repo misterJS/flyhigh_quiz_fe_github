@@ -13,9 +13,7 @@ module.exports = {
     defineProps: "readonly",
     defineEmits: "readonly",
     defineExpose: "readonly",
-    defineModel: "readonly", // ⬅️ ini penting
+    defineModel: "readonly",
   },
-  rules: {
-    // custom rule di sini
-  },
+  rules: {},
 };

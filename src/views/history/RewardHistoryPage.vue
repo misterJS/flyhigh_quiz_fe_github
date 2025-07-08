@@ -4,7 +4,7 @@
     <div class="flex-1 flex flex-col">
       <HeaderComponent />
       <main class="flex-1 p-8">
-        <div class=" mx-auto">
+        <div class="mx-auto">
           <router-link
             to="/rewards"
             class="text-sm text-[#2563EB] flex items-center gap-1 mb-4"

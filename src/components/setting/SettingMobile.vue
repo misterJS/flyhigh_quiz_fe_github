@@ -17,8 +17,8 @@
     <div class="flex items-center gap-3 mb-6">
       <img src="@/assets/Avatar.png" class="w-12 h-12 rounded-full" />
       <div>
-        <p class="font-semibold text-sm">Alycia Clarissa Putri</p>
-        <p class="text-xs text-gray-500">alycia@gmail.com • Level Study</p>
+        <p class="font-semibold text-sm">{{ profile.name }}</p>
+        <p class="text-xs text-gray-500">{{ profile.email }} • Level Study</p>
       </div>
     </div>
 
@@ -103,8 +103,23 @@
 import SettingItem from "@/components/base/SettingItem.vue";
 import BottomBarNavigation from "../base/BottomBarNavigation.vue";
 import { useRouter } from "vue-router";
-
+import { GetProfile } from "@/api/settingApi";
+import { onMounted, ref } from "vue";
 const router = useRouter();
+const profile = ref({});
+const handleGetProfile = async () => {
+  try {
+    const userId = "35";
+    const response = await GetProfile(userId);
+    console.log(response);
+    profile.value = response;
+  } catch (error) {
+    console.error(error);
+  }
+};
+onMounted(() => {
+  handleGetProfile();
+});
 
 function goToUrl(dir) {
   router.push(dir);
