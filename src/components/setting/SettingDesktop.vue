@@ -56,9 +56,10 @@
                     >First Name</label
                   >
                   <input
+                    v-if="profile"
                     id="firstName"
                     type="text"
-                    value="Angela Laurealla"
+                    v-model="profile.name"
                     class="w-full border border-[#D1D5DB] rounded-lg px-4 py-2 text-sm text-[#111827] placeholder:text-[#9CA3AF] focus:ring-1 focus:ring-[#2563EB] focus:outline-none"
                   />
                 </div>
@@ -83,9 +84,10 @@
                   <span class="text-[#9CA3AF]">(Optional: Parent’s email)</span>
                 </label>
                 <input
+                  v-if="profile"
                   id="email"
                   type="email"
-                  value="Angelalaurealla@gmail.com"
+                  v-model="profile.email"
                   class="w-full border border-[#D1D5DB] rounded-lg px-4 py-2 text-sm text-[#111827] placeholder:text-[#9CA3AF] focus:ring-1 focus:ring-[#2563EB] focus:outline-none"
                 />
               </div>
@@ -105,9 +107,10 @@
                   />
                   <span class="text-sm text-[#111827] mr-2">+1</span>
                   <input
+                    v-if="profile"
                     id="phone"
                     type="tel"
-                    value="2345 678 4321"
+                    v-model="profile.phone"
                     class="flex-1 text-sm text-[#111827] bg-transparent focus:outline-none"
                   />
                 </div>
@@ -140,8 +143,9 @@
                 <select
                   class="w-full border border-[#D1D5DB] rounded-lg px-4 py-2 text-sm"
                 >
-                  <option>English</option>
-                  <option>Bahasa Indonesia</option>
+                  <option v-for="(language, index) in languages" :key="index">
+                    {{ language.name }}
+                  </option>
                 </select>
                 <p class="text-xs text-[#6B7280] mt-2">
                   Choose the language you speak at this time
@@ -379,16 +383,41 @@
 import { ref } from "vue";
 import SidebarComponent from "@/components/base/SidebarComponent.vue";
 import HeaderComponent from "@/components/base/HeaderComponent.vue";
-
+import { GetAllLanguages, GetProfile } from "@/api/settingApi";
+const profile = ref(null);
+const languages = ref([]);
 const tabs = ["Profile", "General", "Notification", "Password"];
 const activeTab = ref("Profile");
+import { onMounted } from "vue";
 const notifications = ref([
   { title: "Weekly Course & Assignment Updates", enabled: false },
   { title: "Quiz/Test Schedule Update", enabled: false },
   { title: "Quiz Progress Tracking", enabled: true },
   { title: "Quiz Submission Successful", enabled: true },
 ]);
-
+const handleGetProfile = async () => {
+  try {
+    const userId = "35";
+    const response = await GetProfile(userId);
+    console.log(response);
+    profile.value = response;
+  } catch (error) {
+    console.error(error);
+  }
+};
+const handleGetLanguages = async () => {
+  try {
+    const response = await GetAllLanguages();
+    console.log(response);
+    languages.value = response;
+  } catch (error) {
+    console.error(error);
+  }
+};
+onMounted(() => {
+  handleGetLanguages();
+  handleGetProfile();
+});
 const newPassword = ref("alexandekev024");
 const confirmPassword = ref("alexandekev024");
 const showNewPassword = ref(false);

@@ -31,14 +31,23 @@
           class="flex justify-between items-center"
         >
           <div class="flex items-center gap-3">
-            <img :src="lang.flag" class="w-7 h-5 rounded-md object-cover" />
+            <img
+              v-if="lang.id === 1"
+              :src="require('@/assets/flag-malaysia.png')"
+              class="w-7 h-5 rounded-md object-cover"
+            />
+            <img
+              v-else
+              :src="require('@/assets/flag-uk.png')"
+              class="w-7 h-5 rounded-md object-cover"
+            />
             <p class="text-sm font-medium text-gray-900">{{ lang.name }}</p>
           </div>
 
           <input
             type="radio"
-            :checked="selectedLanguage === lang.code"
-            @change="selectLanguage(lang.code)"
+            :checked="selectedLanguage === lang.id"
+            @change="selectLanguage(lang.id)"
             class="form-radio w-5 h-5 text-blue-600"
           />
         </div>
@@ -48,36 +57,31 @@
 </template>
 
 <script setup>
-import { ref, computed } from "vue";
-
+import { ref, computed, onMounted } from "vue";
+const languages = ref([]);
 const search = ref("");
 const selectedLanguage = ref("en-us");
-
-const languages = [
-  {
-    code: "en-us",
-    name: "English (USA)",
-    flag: require("@/assets/flag-usa.png"),
-  },
-  {
-    code: "en-gbr",
-    name: "English (GBR)",
-    flag: require("@/assets/flag-uk.png"),
-  },
-  {
-    code: "ms-my",
-    name: "Malaysia (Bahasa Melayu)",
-    flag: require("@/assets/flag-malaysia.png"),
-  },
-];
+import { GetAllLanguages } from "@/api/settingApi";
 
 const filteredLanguages = computed(() => {
-  if (!search.value) return languages;
-  return languages.filter((lang) =>
+  if (!search.value) return languages.value;
+  return languages.value.filter((lang) =>
     lang.name.toLowerCase().includes(search.value.toLowerCase())
   );
 });
+const handleGetLanguages = async () => {
+  try {
+    const response = await GetAllLanguages();
+    console.log(response);
+    languages.value = response;
+  } catch (error) {
+    console.error(error);
+  }
+};
 
+onMounted(() => {
+  handleGetLanguages();
+});
 function selectLanguage(code) {
   selectedLanguage.value = code;
   // Simulasi save language (bisa connect ke API kalau mau)
