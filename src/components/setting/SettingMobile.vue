@@ -36,6 +36,18 @@
           </div>
           <i class="fas fa-chevron-right text-gray-400 text-xs"></i>
         </div>
+        <div class="flex items-center justify-between py-3">
+          <div
+            class="flex items-center gap-3"
+            @click="goToUrl('/change-password')"
+          >
+            <i class="fas fa-user text-lg text-gray-700"></i>
+            <span class="text-sm font-medium text-gray-900"
+              >Change Password</span
+            >
+          </div>
+          <i class="fas fa-chevron-right text-gray-400 text-xs"></i>
+        </div>
       </div>
 
       <!-- Preferences Section -->

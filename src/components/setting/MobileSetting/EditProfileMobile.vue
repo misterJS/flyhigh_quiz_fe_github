@@ -2,7 +2,7 @@
   <div class="min-h-screen bg-[#f9fafb] p-4 pb-24">
     <!-- Header -->
     <div class="flex items-center gap-3 mb-6">
-      <button class="text-gray-700 text-lg">
+      <button @click="goBack" class="text-gray-700 text-lg">
         <i class="fas fa-arrow-left"></i>
       </button>
       <h1 class="font-semibold text-lg">Profile Edit</h1>
@@ -92,6 +92,14 @@ import { ref, onMounted } from "vue";
 import { useAuthStore } from "@/stores/authStore";
 import { updateProfileWithPhoto } from "@/api/profileApi";
 import { GetProfile } from "@/api/settingApi";
+
+import { useRouter } from "vue-router";
+
+const router = useRouter();
+
+const goBack = () => {
+  router.back();
+};
 
 const auth = useAuthStore();
 const name = ref("");
