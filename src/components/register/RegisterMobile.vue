@@ -132,7 +132,9 @@
 </template>
 
 <script setup>
+import { registerApi } from "@/api/authApi";
 import { ref } from "vue";
+import { useRouter } from "vue-router";
 
 const firstName = ref("");
 const lastName = ref("");
@@ -140,6 +142,7 @@ const email = ref("");
 const password = ref("");
 const confirmPassword = ref("");
 const agree = ref(false);
+const router = useRouter();
 const showPassword = ref(false);
 const showConfirmPassword = ref(false);
 
@@ -151,18 +154,30 @@ const toggleConfirmPassword = () => {
   showConfirmPassword.value = !showConfirmPassword.value;
 };
 
-const signUp = () => {
+const signUp = async () => {
   if (!agree.value) {
     alert("You must agree to the terms first.");
     return;
   }
-  console.log("Registering:", {
-    firstName: firstName.value,
-    lastName: lastName.value,
-    email: email.value,
-    password: password.value,
-    confirmPassword: confirmPassword.value,
-  });
+ 
+  try {
+    const payload = {
+      firstName: firstName.value,
+      lastName: lastName.value,
+      email: email.value,
+      password: password.value,
+      confirmPassword: confirmPassword.value,
+    };
+
+    const res = await registerApi(payload);
+
+    alert(res.message || "Registration successful!");
+
+    router.push("/login");
+  } catch (error) {
+    console.error("Registration error:", error);
+    alert(error.response?.data || "Registration failed.");
+  }
 };
 </script>
 
