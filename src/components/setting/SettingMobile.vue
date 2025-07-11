@@ -102,14 +102,17 @@
 <script setup>
 import SettingItem from "@/components/base/SettingItem.vue";
 import BottomBarNavigation from "../base/BottomBarNavigation.vue";
+import { useAuthStore } from "@/stores/authStore";
+const auth = useAuthStore();
 import { useRouter } from "vue-router";
 import { GetProfile } from "@/api/settingApi";
 import { onMounted, ref } from "vue";
 const router = useRouter();
 const profile = ref({});
+
 const handleGetProfile = async () => {
   try {
-    const userId = "35";
+    const userId = auth.userId;
     const response = await GetProfile(userId);
     console.log(response);
     profile.value = response;

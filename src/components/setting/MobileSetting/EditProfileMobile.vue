@@ -15,20 +15,22 @@
       <!-- Profile Picture -->
       <div class="flex items-center gap-3">
         <img
-          src="@/assets/Avatar.png"
+          :src="photoPreview || require('@/assets/Avatar.png')"
           class="w-24 h-24 rounded-full object-cover"
         />
-        <button
-          class="text-sm text-gray-600 border border-gray-300 px-4 py-1 rounded-full"
-        >
-          Change Photo
-        </button>
+        <input
+          type="file"
+          accept="image/*"
+          @change="handleFileChange"
+          class="text-sm"
+        />
       </div>
 
       <!-- Display Name -->
       <div>
         <p class="text-sm text-gray-900 mb-1">Display Name</p>
         <input
+          v-model="name"
           type="text"
           placeholder="Enter display name"
           class="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-400"
@@ -39,6 +41,7 @@
       <div>
         <p class="text-sm text-gray-900 mb-1">Email address</p>
         <input
+          v-model="email"
           type="email"
           placeholder="Enter email"
           class="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-400"
@@ -75,6 +78,7 @@
     <!-- Save Button -->
     <div class="fixed bottom-4 left-4 right-4">
       <button
+        @click="saveProfile"
         class="w-full bg-[#2563EB] text-white py-4 rounded-xl text-sm font-semibold shadow-lg"
       >
         Save
@@ -82,3 +86,59 @@
     </div>
   </div>
 </template>
+
+<script setup>
+import { ref, onMounted } from "vue";
+import { useAuthStore } from "@/stores/authStore";
+import { updateProfileWithPhoto } from "@/api/profileApi";
+import { GetProfile } from "@/api/settingApi";
+
+const auth = useAuthStore();
+const name = ref("");
+const email = ref("");
+const photoPreview = ref(null);
+const selectedPhoto = ref(null);
+
+const loadProfile = async () => {
+  try {
+    const userId = auth.userId;
+    const profile = await GetProfile(userId);
+    name.value = profile.name;
+    email.value = profile.email;
+    photoPreview.value = profile.photoURL;
+  } catch (error) {
+    console.error("Failed to load profile:", error);
+  }
+};
+
+const handleFileChange = (event) => {
+  const file = event.target.files[0];
+  if (file) {
+    selectedPhoto.value = file;
+    photoPreview.value = URL.createObjectURL(file);
+  }
+};
+
+const saveProfile = async () => {
+  try {
+    const formData = new FormData();
+    formData.append("UserId", auth.userId);
+    formData.append("Name", name.value);
+    formData.append("Email", email.value);
+    if (selectedPhoto.value) {
+      formData.append("Photo", selectedPhoto.value);
+    }
+
+    const res = await updateProfileWithPhoto(formData);
+    console.log(res);
+    alert("Profile updated!");
+  } catch (error) {
+    alert("Failed to update profile.");
+    console.error(error);
+  }
+};
+
+onMounted(() => {
+  loadProfile();
+});
+</script>

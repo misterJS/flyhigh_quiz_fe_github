@@ -137,15 +137,13 @@
           </label>
         </div>
 
-        <router-link to="/home">
-          <BaseButton
-            variant="primary"
-            color="blue"
-            class="w-full flex justify-center rounded-md py-4"
-          >
-            <span>Create Account</span>
-          </BaseButton>
-        </router-link>
+        <BaseButton
+          variant="primary"
+          color="blue"
+          class="w-full flex justify-center rounded-md py-4 mt-2"
+        >
+          <span>Create Account</span>
+        </BaseButton>
       </form>
 
       <p class="mt-6 text-sm text-center text-gray-600">
@@ -157,9 +155,11 @@
 </template>
 
 <script setup>
+import { registerApi } from "@/api/authApi";
 import BaseButton from "@/components/base/BaseButton.vue";
 import SwitchButtonGroup from "@/components/base/SwitchButton.vue";
 import { ref } from "vue";
+import { useRouter } from "vue-router";
 
 const selectedRole = ref("Student");
 const firstName = ref("");
@@ -168,10 +168,11 @@ const email = ref("");
 const password = ref("");
 const confirmPassword = ref("");
 const agreeTerms = ref(false);
+const router = useRouter();
 const showPassword = ref(false);
 const showConfirmPassword = ref(false);
 
-const register = () => {
+const register = async () => {
   if (!agreeTerms.value) {
     alert("You must agree to the terms and conditions");
     return;
@@ -182,12 +183,24 @@ const register = () => {
     return;
   }
 
-  console.log("Register:", {
-    role: selectedRole.value,
-    firstName: firstName.value,
-    lastName: lastName.value,
-    email: email.value,
-    password: password.value,
-  });
+  try {
+    const payload = {
+      firstName: firstName.value,
+      lastName: lastName.value,
+      email: email.value,
+      password: password.value,
+      confirmPassword: confirmPassword.value,
+      userType: selectedRole.value.toLowerCase(), // student / parent
+    };
+
+    const res = await registerApi(payload);
+
+    alert(res.message || "Registration successful!");
+
+    router.push("/login");
+  } catch (error) {
+    console.error("Registration error:", error);
+    alert(error.response?.data || "Registration failed.");
+  }
 };
 </script>
