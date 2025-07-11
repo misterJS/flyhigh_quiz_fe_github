@@ -2,7 +2,7 @@
   <div class="min-h-screen bg-[#f9fafb] p-4 pb-24">
     <!-- Header -->
     <div class="flex items-center gap-3 mb-6">
-      <button class="text-gray-700 text-lg">
+      <button @click="goBack" class="text-gray-700 text-lg">
         <i class="fas fa-arrow-left"></i>
       </button>
       <h1 class="font-semibold text-lg">About</h1>
@@ -37,3 +37,12 @@
     </div>
   </div>
 </template>
+<script setup>
+import { useRouter } from "vue-router";
+
+const router = useRouter();
+
+const goBack = () => {
+  router.back();
+};
+</script>
