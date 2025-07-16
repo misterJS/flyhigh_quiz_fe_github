@@ -15,7 +15,7 @@ export const QuizGradeAll = async () => {
   return response.data;
 };
 export const AllQuizList = async () => {
-  const response = await API.get("/read/QuizListSubject");
+  const response = await API.get("/read/GetListQuizQuestion");
   return response.data;
 };
 export const QuizPreview = async () => {
