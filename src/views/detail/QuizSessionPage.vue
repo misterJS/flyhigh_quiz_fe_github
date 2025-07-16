@@ -138,7 +138,6 @@ onMounted(async () => {
   }
 });
 
-// Timer countdown
 setInterval(() => {
   if (timer.value > 0) {
     timer.value--;
