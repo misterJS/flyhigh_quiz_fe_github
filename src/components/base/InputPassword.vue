@@ -27,7 +27,6 @@ defineProps({
   },
   placeholder: String,
 });
-import sms from "@/assets/sms.png";
 import lock from "@/assets/lock.png";
 const modelValue = defineModel();
 </script>

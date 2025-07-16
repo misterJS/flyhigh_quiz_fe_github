@@ -68,13 +68,13 @@
           <QuizCard
             v-for="(quiz, index) in quizzes"
             :key="index"
-            image="photo.png"
-            :title="quiz.SubjectName"
+            :image="quiz.image"
+            :title="quiz.title"
             :students="quiz.TotalStudent"
             :points="quiz.CreditAmount"
-            :modules="quiz.TotalModul"
-            :duration="quiz.TotalHour"
-            :id="quiz.SubjectId"
+            :modules="quiz.totalQuiz"
+            :duration="quiz.totalHour"
+            :id="quiz.id"
           />
         </section>
       </main>

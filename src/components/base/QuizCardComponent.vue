@@ -2,7 +2,7 @@
   <router-link :to="`/quiz/${id}`">
     <div class="bg-white rounded-xl shadow-sm overflow-hidden">
       <img
-        :src="require(`@/assets/${image}`)"
+        :src="image"
         alt="Quiz image"
         class="w-full h-40 object-cover"
       />
