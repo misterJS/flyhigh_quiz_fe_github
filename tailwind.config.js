@@ -3,6 +3,9 @@ module.exports = {
   content: ["./index.html", "./src/**/*.{vue,js,ts,jsx,tsx}"],
   theme: {
     extend: {
+      boxShadow: {
+        custom: "4px 4px 20px 0px #7A818B1A",
+      },
       colors: {
         primary: {
           blue: "#0076FF",
