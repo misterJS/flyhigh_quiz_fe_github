@@ -1,7 +1,7 @@
 <template>
   <div class="min-h-screen bg-[#f9fafb] px-4 pb-20 pt-5">
     <!-- Header -->
-    <div class="flex justify-between items-center mb-6 rounded-xl p-4 bg-white">
+    <div class="flex justify-between items-center mb-4 rounded-xl p-4 bg-white">
       <div class="flex items-center space-x-2">
         <img src="@/assets/Avatar.png" class="w-8 h-8 rounded-full" />
         <div class="text-sm">
@@ -35,7 +35,7 @@
     </div>
 
     <!-- Subjects -->
-    <div class="bg-white rounded-2xl shadow-custom p-4 mb-6">
+    <div class="bg-white rounded-2xl shadow-custom p-4 mb-4">
       <!-- Title Row -->
       <div class="flex justify-between items-center mb-4">
         <h3 class="text-base font-semibold text-gray-900">Subjects</h3>
@@ -59,6 +59,16 @@
         </div>
       </div>
     </div>
+
+    <BaseButton @click="goToUrl('/quiz/generate')" class="mb-4 py-4 rounded-xl">
+      <div class="flex gap-3 items-center w-full">
+        <img src="@/assets/ideas.png" class="w-8 h-8 rounded-full" />
+        <p class="font-semibold text-base text-left">
+          Create your own quiz, invite friends to play!
+        </p>
+        <i class="fas fa-angle-right w-8"></i>
+      </div>
+    </BaseButton>
 
     <!-- Leaderboard -->
     <div class="bg-white rounded-2xl shadow-custom p-4 mb-6">
@@ -85,27 +95,7 @@
     </div>
 
     <!-- Live Sessions -->
-    <div class="mb-6">
-      <div class="flex justify-between items-center p-4 mb-2">
-        <h3 class="font-semibold text-sm">Live Sessions</h3>
-        <a href="#" class="text-xs text-blue-600 font-medium">View All</a>
-      </div>
-      <div class="space-y-2">
-        <div
-          v-for="session in liveSessions"
-          :key="session.title"
-          class="bg-white p-3 rounded-xl shadow flex justify-between items-center"
-        >
-          <div>
-            <p class="text-sm font-medium truncate">{{ session.title }}</p>
-            <p class="text-xs text-gray-400">
-              {{ session.date }} • {{ session.time }}
-            </p>
-          </div>
-          <button class="text-blue-600 text-sm font-medium">Watch</button>
-        </div>
-      </div>
-    </div>
+    <liveSessionComponent />
 
     <!-- Bottom Navigation -->
     <BottomBarNavigation />
@@ -113,8 +103,15 @@
 </template>
 
 <script setup>
+import { useRouter } from "vue-router";
 import BaseButton from "../base/BaseButton.vue";
 import BottomBarNavigation from "../base/BottomBarNavigation.vue";
+import liveSessionComponent from "../base/LiveSessionComponent.vue";
+const router = useRouter();
+
+function goToUrl(dir) {
+  router.push(dir);
+}
 
 const subjects = [
   {
@@ -154,10 +151,5 @@ const leaderboard = [
     avatar: require("@/assets/Rectangle 5223.png"),
     badge: require("@/assets/Badge3.png"),
   },
-];
-
-const liveSessions = [
-  { title: "QnA: Design Thinking", date: "May 20, 2024", time: "09:00 AM" },
-  { title: "Tadika Kira Part 2", date: "May 20, 2024", time: "10:00 AM" },
 ];
 </script>

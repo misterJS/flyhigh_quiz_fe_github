@@ -78,7 +78,7 @@
             <div class="hidden lg:flex gap-4 mt-8">
               <router-link
                 :to="{
-                  path: '/quiz-confirmation',
+                  path: `/quiz-confirmation/${quizId}`,
                   query: {
                     id: quiz?.id,
                     img: quiz?.imagePath
@@ -165,7 +165,7 @@
       <div class="fixed bottom-0 left-0 right-0 lg:hidden bg-white border-t p-4 z-50">
         <router-link
           :to="{
-            path: '/quiz-confirmation',
+            path: `/quiz-confirmation/${quizId}`,
             query: {
               id: quiz?.id,
               img: quiz?.imagePath

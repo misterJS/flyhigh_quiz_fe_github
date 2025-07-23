@@ -73,9 +73,12 @@
 </template>
 
 <script setup>
-import { useRouter } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 
 const router = useRouter();
+const route = useRoute();
+const quizId = route.params.id;
+
 
 function goBack() {
   router.back();
@@ -86,6 +89,6 @@ function changeMind() {
 }
 
 function startQuiz() {
-  router.push("/quiz-session");
+  router.push(`/quiz-session/${quizId}`);
 }
 </script>
