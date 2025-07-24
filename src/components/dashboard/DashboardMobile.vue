@@ -6,7 +6,7 @@
         <img src="@/assets/Avatar.png" class="w-8 h-8 rounded-full" />
         <div class="text-sm">
           <p class="text-gray-500">Good morning</p>
-          <p class="font-semibold">Siti Tirta</p>
+          <p class="font-semibold">{{ profile.name }}</p>
         </div>
       </div>
       <div
@@ -107,11 +107,30 @@ import { useRouter } from "vue-router";
 import BaseButton from "../base/BaseButton.vue";
 import BottomBarNavigation from "../base/BottomBarNavigation.vue";
 import liveSessionComponent from "../base/LiveSessionComponent.vue";
+import { useAuthStore } from "@/stores/authStore";
+import { onMounted, ref } from "vue";
+import { GetProfile } from "@/api/settingApi";
 const router = useRouter();
+const auth = useAuthStore();
 
 function goToUrl(dir) {
   router.push(dir);
 }
+
+const profile = ref({});
+
+const handleGetProfile = async () => {
+  try {
+    const userId = auth.userId;
+    const response = await GetProfile(userId);
+    profile.value = response;
+  } catch (error) {
+    console.error(error);
+  }
+};
+onMounted(() => {
+  handleGetProfile();
+});
 
 const subjects = [
   {
