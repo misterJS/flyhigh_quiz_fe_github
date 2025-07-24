@@ -1,0 +1,4 @@
+#Thu Jul 24 09:19:08 MYT 2025
+base.0=/Users/nurul/flyhigh_quiz_fe/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+renamed.0=classes.dex
+path.0=classes.dex
