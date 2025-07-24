@@ -106,7 +106,9 @@ import { useRoute, useRouter } from "vue-router";
 import axios from "axios";
 import { useAuthStore } from "@/stores/authStore";
 import { submitAnswer } from "@/api/settingApi";
+import { useSnackbarStore } from "@/stores/snackbarStore";
 
+const snackbar = useSnackbarStore();
 const auth = useAuthStore();
 
 const route = useRoute();
@@ -174,6 +176,7 @@ async function goNextBatch() {
     );
 
     if (result) {
+      snackbar.trigger("Quiz Done!", "success");
       router.push({
         path: "/quiz-finish",
         query: {
@@ -182,6 +185,10 @@ async function goNextBatch() {
           exp: result.Exp,
         },
       });
+      localStorage.removeItem("quiz_timer");
+      localStorage.removeItem("selected_answers");
+    } else {
+      snackbar.trigger("Quiz isn't done!", "error");
     }
   }
 }
@@ -211,6 +218,7 @@ setInterval(() => {
     timer.value--;
     localStorage.setItem("quiz_timer", timer.value.toString());
   } else {
+    snackbar.trigger("Time is up!", "error");
     submitAnswer(
       quizId,
       auth.userId,

@@ -84,12 +84,12 @@ const sessions = [
     time: "08:00 AM",
   },
   {
-    title: "QnA: Design Thinking From Scratch",
+    title: "QnA: Design Thinking From Mobile",
     date: "July 20, 2024",
     time: "08:00 AM",
   },
   {
-    title: "QnA: Design Thinking From Scratch",
+    title: "QnA: Design Thinking From Test",
     date: "July 20, 2024",
     time: "08:00 AM",
   },
