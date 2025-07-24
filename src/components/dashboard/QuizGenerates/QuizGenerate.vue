@@ -97,6 +97,20 @@
           </select>
         </div>
 
+        <!-- Grade -->
+        <div>
+          <label class="text-base font-semibold text-gray-700">Grade</label>
+          <select
+            v-model="form.gradeId"
+            class="w-full mt-2 px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500"
+          >
+            <option disabled value="">Select Grade</option>
+            <option v-for="grade in allGrade" :key="grade.Id" :value="grade.Id">
+              {{ grade.GradeName }}
+            </option>
+          </select>
+        </div>
+
         <!-- Difficulty (Level) -->
         <div>
           <label class="text-base font-semibold text-gray-700">Level</label>
@@ -259,6 +273,10 @@ import { ref, computed, reactive, watchEffect, onMounted } from "vue";
 import axios from "axios";
 import { useAuthStore } from "@/stores/authStore";
 import { useRouter } from "vue-router";
+import { useSnackbarStore } from "@/stores/snackbarStore";
+import { QuizGradeAll } from "@/api/quizApi";
+
+const snackbar = useSnackbarStore();
 
 const router = useRouter();
 const auth = useAuthStore();
@@ -273,6 +291,7 @@ const form = reactive({
   totalQuestion: 50,
   privacy: "public",
   points: 5,
+  gradeId: "",
 });
 
 const timerOptions = [1, 30, 60];
@@ -284,19 +303,32 @@ const page = ref(0);
 const totalPages = 3;
 const search = ref("");
 const allSubjects = ref([]);
+const allGrade = ref([]);
 const subjects = ref([]);
 
 const getAllSubject = async () => {
   try {
     const data = await QuizListSubject();
     allSubjects.value = data;
-    subjects.value = data
+    subjects.value = data;
   } catch (error) {
     console.error(error);
   }
 };
 
-onMounted(getAllSubject);
+const getAllGrade = async () => {
+  try {
+    const data = await QuizGradeAll();
+    allGrade.value = data;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+onMounted(async () => {
+  getAllGrade();
+  getAllSubject();
+});
 
 const selectSubject = (subject) => {
   form.subjectId = subject.SubjectId;
@@ -317,7 +349,7 @@ const submitQuiz = async () => {
     const formData = new FormData();
     formData.append("userId", auth.userId); // atau ambil dari login user
     formData.append("subjectId", form.subjectId);
-    formData.append("gradeId", "18");
+    formData.append("gradeId", form.gradeId);
     formData.append("timer", toHHMMSS(form.timer));
     formData.append("chapter", form.chapter);
     formData.append("difficulty", generateDifficulty(form.level));
@@ -335,8 +367,10 @@ const submitQuiz = async () => {
     );
 
     console.log("SUCCESS:", response.data);
+    snackbar.trigger(`Quiz ${form.subjectName} created!`, "success");
     router.push("/quiz");
   } catch (error) {
+    snackbar.trigger(error, "error");
     console.error("FAILED:", error);
   }
 };

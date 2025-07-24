@@ -48,6 +48,8 @@ export const submitAnswer = async (guid, studentId, answers) => {
     
     return response.data;
   } catch (err) {
+    localStorage.removeItem("quiz_timer");
+    localStorage.removeItem("selected_answers");
     console.error("Gagal submit jawaban:", err);
   }
 };

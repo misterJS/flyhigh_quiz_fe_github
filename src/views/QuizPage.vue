@@ -192,7 +192,7 @@ const grades = ref([{ id: 1, name: "Loading..." }]);
 const getAllQuiz = async () => {
   try {
     const data = await AllQuizList();
-    quizzes.value = data;
+    quizzes.value = data.filter((quiz) => quiz.totalQuiz > 0);
   } catch (error) {
     console.error(error);
   }
