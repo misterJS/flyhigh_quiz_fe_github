@@ -33,7 +33,7 @@ export const submitAnswer = async (guid, studentId, answers) => {
       Object.fromEntries(formData.entries())
     );
 
-    await axios.post(
+    const response = await axios.post(
       "https://quiz.flyhigh.my/flyhigh_be/api/kiddo/insert/SubmitAnswer",
       formData,
       {
@@ -45,6 +45,8 @@ export const submitAnswer = async (guid, studentId, answers) => {
 
     localStorage.removeItem("quiz_timer");
     localStorage.removeItem("selected_answers");
+    
+    return response.data;
   } catch (err) {
     console.error("Gagal submit jawaban:", err);
   }

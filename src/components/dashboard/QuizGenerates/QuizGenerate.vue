@@ -1,6 +1,6 @@
 <template>
   <div class="min-h-screen bg-[#FAFAFA] px-4 pt-6 pb-24">
-    <!-- Header Progress -->
+    <!-- Progress Header -->
     <div class="flex items-center justify-between mb-6">
       <button
         @click="prevPage"
@@ -18,15 +18,13 @@
       <span class="text-sm text-gray-600">{{ page + 1 }}/{{ totalPages }}</span>
     </div>
 
-    <!-- Page Content -->
+    <!-- Select Subject -->
     <div v-if="page === 0">
-      <!-- Select Subject -->
       <h2 class="text-lg font-semibold text-gray-900 mb-1">Select Subject</h2>
       <p class="text-sm text-gray-500 mb-4">
         Are you a qualified section 708 investor
       </p>
 
-      <!-- Search -->
       <div class="relative mb-6">
         <input
           v-model="search"
@@ -38,32 +36,31 @@
         <i class="fas fa-sliders-h absolute right-3 top-2.5 text-gray-500"></i>
       </div>
 
-      <!-- Grid Subjects -->
       <div class="grid grid-cols-2 gap-4 mb-28">
         <div
           v-for="(subject, i) in filteredSubjects"
           :key="i"
-          @click="selectSubject(subject.title)"
+          @click="selectSubject(subject)"
           :class="[
             'p-4 rounded-xl cursor-pointer transition text-center',
-            form.subject === subject.title
+            form.subjectId === subject.SubjectId
               ? 'bg-blue-50 border border-blue-500 shadow'
               : 'bg-white shadow hover:shadow-md',
           ]"
         >
           <img :src="subject.icon" alt="" class="w-12 h-12 mx-auto mb-2" />
           <h3 class="text-sm font-semibold text-gray-900">
-            {{ subject.title }}
+            {{ subject.SubjectName }}
           </h3>
-          <p class="text-xs text-gray-500 mt-1">{{ subject.subtitle }}</p>
+          <p class="text-xs text-gray-500 mt-1">{{ subject.Description }}</p>
         </div>
       </div>
     </div>
 
+    <!-- Timer, Chapter, Difficulty -->
     <div v-else-if="page === 1">
-      <!-- Settings -->
       <div class="space-y-6 mb-28 p-4 rounded-xl bg-white shadow">
-        <!-- Timer (Discrete: 1, 30, 60) -->
+        <!-- Timer -->
         <div>
           <label class="text-base font-semibold text-gray-700">Timer</label>
           <div class="relative mt-2 h-2 bg-gray-200 rounded">
@@ -95,13 +92,12 @@
             class="w-full mt-2 px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500"
           >
             <option disabled value="">Select chapter</option>
-            <option>2,5 - 10,12</option>
-            <option>1-5</option>
+            <option>1,2,3,4,5,6,7,8,9</option>
             <option>All Chapters</option>
           </select>
         </div>
 
-        <!-- Level (5 levels) -->
+        <!-- Difficulty (Level) -->
         <div>
           <label class="text-base font-semibold text-gray-700">Level</label>
           <div class="relative mt-2 h-2 bg-gray-200 rounded">
@@ -143,8 +139,8 @@
       </div>
     </div>
 
+    <!-- Privacy -->
     <div v-else-if="page === 2">
-      <!-- Privacy Settings -->
       <div class="mb-28 mt-5 bg-white rounded-2xl p-4">
         <h2 class="text-md font-semibold text-gray-900 mb-4">
           Who can view this quiz?
@@ -153,7 +149,7 @@
           Sebelum anda menekan "Create", sila pilih jenis privasi kuiz anda:
         </p>
         <div class="space-y-4">
-          <!-- Public Option -->
+          <!-- Public -->
           <label
             class="flex items-start gap-3 p-3 rounded-xl border cursor-pointer transition"
             :class="
@@ -166,12 +162,9 @@
               type="radio"
               v-model="form.privacy"
               value="public"
-              default-value="public"
               class="hidden"
             />
-            <div class="mt-1 text-xl">
-              <i class="fas fa-globe"></i>
-            </div>
+            <div class="mt-1 text-xl"><i class="fas fa-globe"></i></div>
             <div class="flex-1">
               <div class="font-semibold text-gray-900">
                 Public <span class="text-xs text-gray-400 ml-1">Default</span>
@@ -197,7 +190,7 @@
             </div>
           </label>
 
-          <!-- Private Option -->
+          <!-- Private -->
           <label
             class="flex items-start gap-3 p-3 rounded-xl border cursor-pointer transition"
             :class="
@@ -212,9 +205,7 @@
               value="private"
               class="hidden"
             />
-            <div class="mt-1 text-xl">
-              <i class="fas fa-lock"></i>
-            </div>
+            <div class="mt-1 text-xl"><i class="fas fa-lock"></i></div>
             <div class="flex-1">
               <div class="font-semibold text-gray-900">Private</div>
               <p class="text-sm text-gray-500">
@@ -241,7 +232,7 @@
       </div>
     </div>
 
-    <!-- Footer Buttons -->
+    <!-- Navigation Buttons -->
     <div
       class="fixed bottom-0 left-0 right-0 bg-white border-t px-4 py-3 flex gap-2 justify-between"
     >
@@ -263,79 +254,122 @@
 </template>
 
 <script setup>
-import { ref, computed, reactive, watchEffect } from "vue";
+import { QuizListSubject } from "@/api/subjectApi";
+import { ref, computed, reactive, watchEffect, onMounted } from "vue";
+import axios from "axios";
+import { useAuthStore } from "@/stores/authStore";
+import { useRouter } from "vue-router";
+
+const router = useRouter();
+const auth = useAuthStore();
 
 const form = reactive({
-  subject: "",
+  subjectId: null,
+  subjectName: "",
   timerIndex: 1,
   timer: 30,
-  chapter: "2,5 - 10,12",
+  chapter: "1,2,3,4,5,6,7,8,9",
   level: 2,
   totalQuestion: 50,
   privacy: "public",
+  points: 5,
 });
 
 const timerOptions = [1, 30, 60];
-
 watchEffect(() => {
   form.timer = timerOptions[form.timerIndex];
 });
 
 const page = ref(0);
 const totalPages = 3;
-
 const search = ref("");
-const subjects = [
-  {
-    title: "Accountant",
-    subtitle: "Personal class with a tutor",
-    icon: "/icons/accountant.png",
-  },
-  {
-    title: "A-Levels Law",
-    subtitle: "Create new waiting list entry",
-    icon: "/icons/law.png",
-  },
-  {
-    title: "Akhlaq",
-    subtitle: "Find your partner in waiting list",
-    icon: "/icons/akhlaq.png",
-  },
-  {
-    title: "One to one",
-    subtitle: "Personal class with a tutor",
-    icon: "/icons/one-to-one.png",
-  },
-  {
-    title: "Group of 2",
-    subtitle: "Create new waiting list entry",
-    icon: "/icons/group.png",
-  },
-  {
-    title: "Arabic",
-    subtitle: "Find your partner in waiting list",
-    icon: "/icons/arabic.png",
-  },
-  { title: "Physics", subtitle: "", icon: "/icons/physics.png" },
-  { title: "History", subtitle: "", icon: "/icons/history.png" },
-];
+const allSubjects = ref([]);
+const subjects = ref([]);
 
-const selectSubject = (title) => {
-  form.subject = title;
+const getAllSubject = async () => {
+  try {
+    const data = await QuizListSubject();
+    allSubjects.value = data;
+    subjects.value = data
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+onMounted(getAllSubject);
+
+const selectSubject = (subject) => {
+  form.subjectId = subject.SubjectId;
+  form.subjectName = subject.SubjectName;
 };
 
 const filteredSubjects = computed(() =>
-  subjects.filter((s) =>
-    s.title.toLowerCase().includes(search.value.toLowerCase())
+  subjects.value.filter((s) =>
+    s.SubjectName.toLowerCase().includes(search.value.toLowerCase())
   )
 );
 
 const isFirstPage = computed(() => page.value === 0);
 const isLastPage = computed(() => page.value === totalPages - 1);
 
+const submitQuiz = async () => {
+  try {
+    const formData = new FormData();
+    formData.append("userId", auth.userId); // atau ambil dari login user
+    formData.append("subjectId", form.subjectId);
+    formData.append("gradeId", "18");
+    formData.append("timer", toHHMMSS(form.timer));
+    formData.append("chapter", form.chapter);
+    formData.append("difficulty", generateDifficulty(form.level));
+    formData.append("totalQuestion", form.totalQuestion);
+    formData.append("points", form.points.toString());
+
+    const response = await axios.post(
+      "https://quiz.flyhigh.my/flyhigh_be/api/kiddo/insert/GenerateRandomQuestion",
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
+
+    console.log("SUCCESS:", response.data);
+    router.push("/quiz");
+  } catch (error) {
+    console.error("FAILED:", error);
+  }
+};
+
+const toHHMMSS = (minute) => {
+  const m = String(minute).padStart(2, "0");
+  return `00:${m}:00`;
+};
+
+const generateDifficulty = (level) => {
+  switch (parseInt(level)) {
+    case 0:
+      return "1";
+    case 1:
+      return "1,2";
+    case 2:
+      return "1,2,3";
+    case 3:
+      return "2,3,4";
+    case 4:
+      return "3,4,5";
+    default:
+      return "1,2,3";
+  }
+};
+
 const nextPage = () => {
-  if (!isLastPage.value) page.value++;
-  else console.log("CREATE QUIZ:", form.value);
+  if (!isLastPage.value) {
+    page.value++;
+  } else {
+    console.log("SUBMITTING...");
+    submitQuiz();
+  }
 };
 
 const prevPage = () => {

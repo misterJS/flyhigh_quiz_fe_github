@@ -17,7 +17,9 @@
     />
 
     <!-- Title -->
-    <h2 class="text-xl md:text-2xl font-semibold text-white md:text-[#007bff] mb-8">
+    <h2
+      class="text-xl md:text-2xl font-semibold text-white md:text-[#007bff] mb-8"
+    >
       Quizz Complete
     </h2>
 
@@ -27,19 +29,25 @@
         class="flex-1 bg-white/20 backdrop-blur-sm rounded-xl py-4 flex flex-col items-center"
       >
         <div class="text-3xl mb-2">🌟</div>
-        <div class="text-sm font-medium text-white md:text-[#007bff]">Advanced</div>
+        <div class="text-sm font-medium text-white md:text-[#007bff]">
+          {{ grade }}
+        </div>
       </div>
       <div
         class="flex-1 bg-white/20 backdrop-blur-sm rounded-xl py-4 flex flex-col items-center"
       >
         <div class="text-3xl mb-2">🥇</div>
-        <div class="text-sm font-medium text-white md:text-[#007bff]">90%</div>
+        <div class="text-sm font-medium text-white md:text-[#007bff]">
+          {{ score }}%
+        </div>
       </div>
       <div
         class="flex-1 bg-white/20 backdrop-blur-sm rounded-xl py-4 flex flex-col items-center"
       >
         <div class="text-3xl mb-2">☀️</div>
-        <div class="text-sm font-medium text-white md:text-[#007bff]">14 XP</div>
+        <div class="text-sm font-medium text-white md:text-[#007bff]">
+          {{ exp }} XP
+        </div>
       </div>
     </div>
 
@@ -54,9 +62,14 @@
 </template>
 
 <script setup>
-import { useRouter } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 
 const router = useRouter();
+const route = useRoute();
+
+const score = route.query.score || 0;
+const grade = route.query.grade || "Try Again";
+const exp = route.query.exp || 0;
 
 function goHome() {
   router.push("/home");

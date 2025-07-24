@@ -163,21 +163,26 @@ function selectAnswer(index, choiceIndex) {
   }
 }
 
-function goNextBatch() {
+async function goNextBatch() {
   if (!isLastBatch.value) {
     batchIndex.value++;
   } else {
-    submitAnswer(
+    const result = await submitAnswer(
       quizId,
       auth.userId,
       JSON.parse(localStorage.getItem("selected_answers"))
     );
-    console.log("Submit Payload:", {
-      guid: "generated-guid",
-      studentId: 123,
-      ansJson: selectedAnswers.value,
-    });
-    router.push("/quiz-finish");
+
+    if (result) {
+      router.push({
+        path: "/quiz-finish",
+        query: {
+          score: result.Score,
+          grade: result.Grade,
+          exp: result.Exp,
+        },
+      });
+    }
   }
 }
 
