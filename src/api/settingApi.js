@@ -18,3 +18,34 @@ export const GetProfile = async (id) => {
   });
   return response.data;
 };
+
+export const submitAnswer = async (guid, studentId, answers) => {
+  try {
+    const formData = new FormData();
+
+    formData.append("guid", guid);
+    formData.append("studentId", studentId);
+
+    formData.append("ansJson", JSON.stringify(answers.filter(Boolean)));
+
+    console.log(
+      "Submitting (FormData):",
+      Object.fromEntries(formData.entries())
+    );
+
+    await axios.post(
+      "https://quiz.flyhigh.my/flyhigh_be/api/kiddo/insert/SubmitAnswer",
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
+
+    localStorage.removeItem("quiz_timer");
+    localStorage.removeItem("selected_answers");
+  } catch (err) {
+    console.error("Gagal submit jawaban:", err);
+  }
+};
