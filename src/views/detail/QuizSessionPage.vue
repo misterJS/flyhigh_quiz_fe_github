@@ -121,6 +121,8 @@ const batchSize = 5;
 const batchIndex = ref(0);
 const timer = ref(parseInt(localStorage.getItem("quiz_timer")) || 600);
 
+let timerInterval = null;
+
 const batchStartIndex = computed(() => batchIndex.value * batchSize);
 const paginatedQuestions = computed(() =>
   questions.value.slice(
@@ -175,6 +177,8 @@ async function goNextBatch() {
       JSON.parse(localStorage.getItem("selected_answers"))
     );
 
+    clearInterval(timerInterval);
+
     if (result) {
       snackbar.trigger("Quiz Done!", "success");
       router.push({
@@ -193,8 +197,6 @@ async function goNextBatch() {
   }
 }
 
-console.log(JSON.parse(localStorage.getItem("selected_answers")));
-
 function goBack() {
   router.back();
 }
@@ -211,22 +213,26 @@ onMounted(async () => {
   } catch (err) {
     console.error("Gagal mengambil soal:", err);
   }
-});
 
-setInterval(() => {
-  if (timer.value > 0) {
-    timer.value--;
-    localStorage.setItem("quiz_timer", timer.value.toString());
-  } else {
-    snackbar.trigger("Time is up!", "error");
-    submitAnswer(
-      quizId,
-      auth.userId,
-      JSON.parse(localStorage.getItem("selected_answers"))
-    );
-    localStorage.removeItem("quiz_timer");
-    localStorage.removeItem("selected_answers");
-    router.push("/quiz-finish");
-  }
-}, 1000);
+  timerInterval = setInterval(() => {
+    if (timer.value > 0) {
+      timer.value--;
+      localStorage.setItem("quiz_timer", timer.value.toString());
+    } else {
+      clearInterval(timerInterval); 
+      snackbar.trigger("Time is up!", "error");
+
+      submitAnswer(
+        quizId,
+        auth.userId,
+        JSON.parse(localStorage.getItem("selected_answers"))
+      );
+
+      localStorage.removeItem("quiz_timer");
+      localStorage.removeItem("selected_answers");
+
+      router.push("/quiz-finish");
+    }
+  }, 1000);
+});
 </script>

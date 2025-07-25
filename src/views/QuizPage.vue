@@ -49,9 +49,9 @@
                 class="bg-gray-100 w-14 h-14 rounded-full shadow-sm flex items-center justify-center"
               >
                 <img
-                  :src="subject.icon"
+                  :src="`/subjects/${subject.SubjectName}.png`"
                   alt=""
-                  class="w-6 h-6 object-contain"
+                  class="w-[52px] h-[52px] object-contain"
                 />
               </div>
               <p class="text-sm mt-2 text-gray-800">

@@ -48,11 +48,21 @@
               : 'bg-white shadow hover:shadow-md',
           ]"
         >
-          <img :src="subject.icon" alt="" class="w-12 h-12 mx-auto mb-2" />
-          <h3 class="text-sm font-semibold text-gray-900">
+          <img
+            :src="`/subjects/${subject.SubjectName}.png`"
+            alt=""
+            class="w-[60px] h-[60px] mx-auto mb-2"
+          />
+          <h3 class="text-base font-semibold text-gray-900">
             {{ subject.SubjectName }}
           </h3>
-          <p class="text-xs text-gray-500 mt-1">{{ subject.Description }}</p>
+          <p class="text-sm text-gray-500 mt-1">
+            {{
+              subject.Description !== ""
+                ? subject.Description
+                : "Personal class with a tutor"
+            }}
+          </p>
         </div>
       </div>
     </div>
@@ -351,8 +361,8 @@ const submitQuiz = async () => {
     formData.append("subjectId", form.subjectId);
     formData.append("gradeId", form.gradeId);
     formData.append("timer", toHHMMSS(form.timer));
-    formData.append("chapter", form.chapter);
-    formData.append("difficulty", generateDifficulty(form.level));
+    // formData.append("chapter", form.chapter);
+    // formData.append("difficulty", generateDifficulty(form.level));
     formData.append("totalQuestion", form.totalQuestion);
     formData.append("points", form.points.toString());
 
@@ -380,22 +390,22 @@ const toHHMMSS = (minute) => {
   return `00:${m}:00`;
 };
 
-const generateDifficulty = (level) => {
-  switch (parseInt(level)) {
-    case 0:
-      return "1";
-    case 1:
-      return "1,2";
-    case 2:
-      return "1,2,3";
-    case 3:
-      return "2,3,4";
-    case 4:
-      return "3,4,5";
-    default:
-      return "1,2,3";
-  }
-};
+// const generateDifficulty = (level) => {
+//   switch (parseInt(level)) {
+//     case 0:
+//       return "1";
+//     case 1:
+//       return "1,2";
+//     case 2:
+//       return "1,2,3";
+//     case 3:
+//       return "2,3,4";
+//     case 4:
+//       return "3,4,5";
+//     default:
+//       return "1,2,3";
+//   }
+// };
 
 const nextPage = () => {
   if (!isLastPage.value) {
