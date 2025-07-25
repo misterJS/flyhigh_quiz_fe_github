@@ -5,7 +5,7 @@
       <div class="w-full max-w-sm px-6">
         <!-- Logo -->
         <img
-          src="@/assets/logo.png"
+          src="@/assets/logowhite.png"
           alt="Fly High Logo"
           class="w-24 mb-6 mx-auto"
         />
