@@ -46,7 +46,7 @@
       >
         <div class="text-3xl mb-2">☀️</div>
         <div class="text-sm font-medium text-white md:text-[#007bff]">
-          {{ exp }} XP
+          {{ exp }} Points
         </div>
       </div>
     </div>
