@@ -163,8 +163,57 @@
       </div>
     </div>
 
-    <!-- Privacy -->
     <div v-else-if="page === 2">
+      <!-- Quiz Cover Image -->
+      <div class="mt-6 bg-white p-4 rounded-2xl shadow">
+        <h2 class="text-base font-semibold text-gray-900 mb-4">
+          Quiz Cover Image
+        </h2>
+
+        <!-- Grid Image -->
+        <div class="grid grid-cols-3 gap-3 mb-6">
+          <div
+            v-for="(img, i) in allCovers"
+            :key="i"
+            class="relative rounded-xl overflow-hidden cursor-pointer"
+            @click="form.coverImage = img"
+          >
+            <img
+              :src="img"
+              class="w-full h-24 object-cover"
+              :class="form.coverImage === img ? 'ring-2 ring-blue-500' : ''"
+            />
+            <div
+              v-if="form.coverImage === img"
+              class="absolute inset-0 bg-black/30 flex items-center justify-center"
+            >
+              <div
+                class="w-6 h-6 bg-blue-600 rounded-full flex items-center justify-center text-white text-xs"
+              >
+                ✓
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Upload Button -->
+        <label
+          class="w-full flex items-center justify-center gap-2 border border-blue-600 text-blue-600 py-3 rounded-full font-medium text-sm cursor-pointer"
+        >
+          <i class="fas fa-folder-open"></i>
+          Find From Your Device
+          <input
+            type="file"
+            accept="image/*"
+            class="hidden"
+            @change="handleFileUpload"
+          />
+        </label>
+      </div>
+    </div>
+
+    <!-- Privacy -->
+    <div v-else-if="page === 3">
       <div class="mb-28 mt-5 bg-white rounded-2xl p-4">
         <h2 class="text-md font-semibold text-gray-900 mb-4">
           Who can view this quiz?
@@ -173,8 +222,50 @@
           Sebelum anda menekan "Create", sila pilih jenis privasi kuiz anda:
         </p>
         <div class="space-y-4">
+          <!-- Private -->
+          <label
+            class="flex items-start gap-3 p-3 rounded-xl border cursor-pointer transition"
+            :class="
+              form.privacy === 'private'
+                ? 'border-blue-500 bg-blue-50'
+                : 'border-gray-300'
+            "
+          >
+            <input
+              type="radio"
+              v-model="form.privacy"
+              value="private"
+              class="hidden"
+            />
+            <div class="mt-1 text-xl"><i class="fas fa-lock"></i></div>
+            <div class="flex-1">
+              <div class="font-semibold text-gray-900">
+                Private <span class="text-xs text-gray-400 ml-1">Default</span>
+              </div>
+              <p class="text-sm text-gray-500">
+                Kuiz ini hanya boleh dilihat dan digunakan oleh anda sahaja.
+              </p>
+            </div>
+            <div class="mt-1">
+              <span
+                class="w-5 h-5 inline-block rounded-full border-2 flex items-center justify-center"
+                :class="
+                  form.privacy === 'private'
+                    ? 'border-blue-500'
+                    : 'border-gray-300'
+                "
+              >
+                <span
+                  class="w-2.5 h-2.5 rounded-full"
+                  :class="form.privacy === 'private' ? 'bg-blue-500' : ''"
+                ></span>
+              </span>
+            </div>
+          </label>
+
           <!-- Public -->
           <label
+            @click="checkPublic()"
             class="flex items-start gap-3 p-3 rounded-xl border cursor-pointer transition"
             :class="
               form.privacy === 'public'
@@ -191,7 +282,10 @@
             <div class="mt-1 text-xl"><i class="fas fa-globe"></i></div>
             <div class="flex-1">
               <div class="font-semibold text-gray-900">
-                Public <span class="text-xs text-gray-400 ml-1">Default</span>
+                Public
+                <span class="text-xs text-red-500 italic ml-1"
+                  >Subscribers only</span
+                >
               </div>
               <p class="text-sm text-gray-500">
                 Kuiz anda akan boleh diakses dan digunakan oleh pengguna lain.
@@ -213,45 +307,60 @@
               </span>
             </div>
           </label>
+        </div>
+      </div>
 
-          <!-- Private -->
-          <label
-            class="flex items-start gap-3 p-3 rounded-xl border cursor-pointer transition"
-            :class="
-              form.privacy === 'private'
-                ? 'border-blue-500 bg-blue-50'
-                : 'border-gray-300'
-            "
+      <div
+        v-if="showModal"
+        class="fixed inset-0 flex items-center justify-center bg-black/40 z-50"
+      >
+        <div
+          class="bg-white w-80 rounded-2xl text-center shadow-lg overflow-hidden"
+        >
+          <!-- Header Image -->
+          <div
+            class="bg-[#FFF5E5] flex items-center justify-center py-6 relative"
           >
-            <input
-              type="radio"
-              v-model="form.privacy"
-              value="private"
-              class="hidden"
-            />
-            <div class="mt-1 text-xl"><i class="fas fa-lock"></i></div>
-            <div class="flex-1">
-              <div class="font-semibold text-gray-900">Private</div>
-              <p class="text-sm text-gray-500">
-                Kuiz ini hanya boleh dilihat dan digunakan oleh anda sahaja.
-              </p>
-            </div>
-            <div class="mt-1">
-              <span
-                class="w-5 h-5 inline-block rounded-full border-2 flex items-center justify-center"
-                :class="
-                  form.privacy === 'private'
-                    ? 'border-blue-500'
-                    : 'border-gray-300'
-                "
+            <img src="/modals/crown.png" alt="Premium Icon" class="w-14 h-14" />
+            <!-- titik-titik hias -->
+            <div
+              class="absolute left-6 top-6 w-2 h-2 rounded-full bg-orange-400"
+            ></div>
+            <div
+              class="absolute right-6 top-8 w-2 h-2 rounded-full bg-orange-400"
+            ></div>
+            <div
+              class="absolute left-10 bottom-5 w-2 h-2 rounded-full bg-orange-400"
+            ></div>
+            <div
+              class="absolute right-10 bottom-5 w-2 h-2 rounded-full bg-orange-400"
+            ></div>
+          </div>
+
+          <!-- Body -->
+          <div class="px-6 py-5">
+            <h3 class="font-semibold text-gray-900 mb-2">
+              Want to share your quiz with others?
+            </h3>
+            <p class="text-sm text-gray-500 mb-6">
+              To publish your quiz and make it accessible to others, please
+              <span class="text-red-500 font-semibold">subscribe</span> first.
+            </p>
+            <div class="space-y-3">
+              <button
+                class="w-full bg-blue-600 text-white py-2 rounded-full font-semibold"
+                @click="subscribeNow"
               >
-                <span
-                  class="w-2.5 h-2.5 rounded-full"
-                  :class="form.privacy === 'private' ? 'bg-blue-500' : ''"
-                ></span>
-              </span>
+                Subscribe Now
+              </button>
+              <button
+                class="w-full border border-blue-600 text-blue-600 py-2 rounded-full font-semibold"
+                @click="showModal = false"
+              >
+                Maybe Later
+              </button>
             </div>
-          </label>
+          </div>
         </div>
       </div>
     </div>
@@ -291,6 +400,23 @@ const snackbar = useSnackbarStore();
 const router = useRouter();
 const auth = useAuthStore();
 
+const showModal = ref(false);
+
+function checkPublic() {
+  // contoh: kalau belum subscribe, munculin modal
+  const isSubscribed = false; // ganti sesuai logic kamu
+  if (!isSubscribed) {
+    showModal.value = true;
+    form.privacy = "private"; // revert supaya nggak auto public
+  }
+}
+
+function subscribeNow() {
+  showModal.value = false;
+  // redirect ke halaman subscribe
+  router.push("/subscribe");
+}
+
 const form = reactive({
   subjectId: null,
   subjectName: "",
@@ -299,7 +425,8 @@ const form = reactive({
   chapter: "1,2,3,4,5,6,7,8,9",
   level: 2,
   totalQuestion: 50,
-  privacy: "public",
+  privacy: "private",
+  coverImage: "",
   points: 5,
   gradeId: "",
 });
@@ -310,11 +437,43 @@ watchEffect(() => {
 });
 
 const page = ref(0);
-const totalPages = 3;
+const totalPages = 4;
 const search = ref("");
 const allSubjects = ref([]);
 const allGrade = ref([]);
 const subjects = ref([]);
+
+const quizCovers = ref([
+  "/covers/cover1.png",
+  "/covers/cover2.png",
+  "/covers/cover3.jpg",
+  "/covers/cover4.jpg",
+  "/covers/cover5.jpg",
+  "/covers/cover6.jpg",
+  "/covers/cover7.jpg",
+  "/covers/cover8.jpg",
+  "/covers/cover9.jpg",
+]);
+
+// list final termasuk upload user
+const uploadedCover = ref(null);
+const allCovers = computed(() =>
+  uploadedCover.value
+    ? [uploadedCover.value, ...quizCovers.value]
+    : quizCovers.value
+);
+
+function handleFileUpload(event) {
+  const file = event.target.files[0];
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      uploadedCover.value = e.target.result; // preview dari file
+      form.coverImage = uploadedCover.value;
+    };
+    reader.readAsDataURL(file);
+  }
+}
 
 const getAllSubject = async () => {
   try {
