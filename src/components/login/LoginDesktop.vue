@@ -43,7 +43,7 @@ const signIn = async () => {
 
     <!-- Right Section -->
     <div class="w-1/2 flex flex-col justify-center px-10 max-w-md mx-auto">
-      <img src="@/assets/logo.png" alt="Logo" class="w-20 mb-8 mx-auto" />
+      <img src="@/assets/logo.png" alt="Logo" class="w-40 mb-8 mx-auto" />
 
       <SwitchButtonGroup
         v-model="selectedRole"
