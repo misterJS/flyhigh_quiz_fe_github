@@ -76,6 +76,9 @@
             :duration="quiz.totalHour"
             :id="quiz.id"
           />
+          <div v-if="loading" class="text-center py-4 text-gray-600">
+            Loading more quizzes...
+          </div>
         </section>
       </main>
     </div>
@@ -124,16 +127,17 @@
           </div>
         </div>
 
-        <!-- Category -->
         <div class="mb-6">
-          <h4 class="text-sm font-semibold mb-2">Category (8)</h4>
+          <h4 class="text-sm font-semibold mb-2">
+            Category ({{ categories.length || 0 }})
+          </h4>
           <div class="flex flex-wrap gap-2">
             <FilterPill
-              v-for="category in categories"
-              :key="category"
-              :label="category"
-              :active="selectedCategories.includes(category)"
-              @click="toggleCategory(category)"
+              v-for="cat in categories"
+              :key="cat.id"
+              :label="cat.name"
+              :active="selectedCategories.includes(cat.id)"
+              @click="toggleCategory(cat.id)"
             />
           </div>
         </div>
@@ -146,11 +150,7 @@
             v-model="grade"
           >
             <option disabled value="">Select grade</option>
-            <option
-              v-for="grade in grades"
-              :key="grade?.id"
-              :value="grade?.GradeName"
-            >
+            <option v-for="grade in grades" :key="grade?.Id" :value="grade?.Id">
               {{ grade?.GradeName }}
             </option>
           </select>
@@ -173,91 +173,138 @@ import SidebarComponent from "@/components/base/SidebarComponent.vue";
 import HeaderComponent from "@/components/base/HeaderComponent.vue";
 import QuizCard from "@/components/base/QuizCardComponent.vue";
 import BottomBarNavigation from "@/components/base/BottomBarNavigation.vue";
-import FilterPill from "@/components/base/FilterPill.vue"; // Ini reusable pill
-import { ref, onMounted } from "vue";
+import FilterPill from "@/components/base/FilterPill.vue";
+import { ref, onMounted, onBeforeUnmount } from "vue";
 import { QuizListSubject } from "@/api/subjectApi";
-import { AllQuizList } from "@/api/quizApi";
-// QuizGradeAll,
-// QuizPreview,
-// QuizSubjectAll,
+import { AllQuizList, QuizCategories } from "@/api/quizApi";
+
 const quizzes = ref([]);
 const allSubjects = ref([]);
+const categories = ref([]);
 const subjects = ref([]);
 const filterModalOpen = ref(false);
 const progress = ref("All");
-const selectedCategories = ref(["Mathematics"]);
+const selectedCategories = ref([]);
 const grade = ref("");
 const quizStore = useQuizGradeAll();
-const grades = ref([{ id: 1, name: "Loading..." }]);
-const getAllQuiz = async () => {
+const grades = ref([{ id: 1, GradeName: "Loading..." }]);
+
+// Pagination
+const page = ref(1);
+const pageSize = ref(10);
+const totalPages = ref(1);
+const loading = ref(false);
+
+const getAllQuiz = async (isLoadMore = false) => {
+  if (loading.value || (isLoadMore && page.value > totalPages.value)) return;
+  loading.value = true;
+
   try {
-    const data = await AllQuizList();
-    quizzes.value = data.filter((quiz) => quiz.totalQuiz > 0);
+    const params = {
+      page: page.value,
+      pageSize: pageSize.value,
+    };
+
+    if (selectedCategories.value.length > 0) {
+      params.quizCategoryIds = selectedCategories.value;
+    }
+    
+    if (grade.value) {
+      params.gradeId = grade.value;
+    }
+
+    const data = await AllQuizList(params);
+
+    if (!isLoadMore) {
+      quizzes.value = data.data.filter((quiz) => quiz.totalQuiz > 0);
+    } else {
+      quizzes.value.push(...data.data.filter((quiz) => quiz.totalQuiz > 0));
+    }
+
+    totalPages.value = data.totalPages;
+    page.value++;
   } catch (error) {
     console.error(error);
+  } finally {
+    loading.value = false;
   }
 };
+
 const getAllSubject = async () => {
   try {
     const data = await QuizListSubject();
-
     allSubjects.value = data;
     subjects.value = data.slice(0, 4);
   } catch (error) {
     console.error(error);
   }
 };
-onMounted(async () => {
+
+// Infinite Scroll
+const handleScroll = () => {
+  const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
+  if (scrollTop + clientHeight >= scrollHeight - 50) {
+    getAllQuiz(true);
+  }
+};
+
+onMounted(() => {
   getAllQuiz();
+  getCategories();
   getAllSubject();
+  window.addEventListener("scroll", handleScroll);
+});
+onBeforeUnmount(() => {
+  window.removeEventListener("scroll", handleScroll);
 });
 
-const categories = [
-  "Mathematics",
-  "Science",
-  "History",
-  "Literature",
-  "Biology",
-  "Art",
-  "Chemistry",
-  "Physics",
-];
+const getCategories = async () => {
+  try {
+    const res = await QuizCategories();
+    categories.value = res;
+  } catch (err) {
+    console.error("Gagal mengambil kategori:", err.message);
+  }
+};
 
 const handleFilterModalOpen = async () => {
   filterModalOpen.value = true;
-
   try {
     const data = await quizStore.Grade();
-
     grades.value = data.grade;
   } catch (err) {
     console.error("Gagal mengambil grade:", err.message);
   }
 };
-function toggleCategory(cat) {
-  if (selectedCategories.value.includes(cat)) {
+
+let handling = false;
+function toggleCategory(catId) {
+  if (handling) return;
+  handling = true;
+
+  if (selectedCategories.value.includes(catId)) {
     selectedCategories.value = selectedCategories.value.filter(
-      (c) => c !== cat
+      (id) => id !== catId
     );
   } else {
-    selectedCategories.value.push(cat);
+    selectedCategories.value.push(catId);
   }
+
+  setTimeout(() => (handling = false), 0);
 }
 
 function resetFilter() {
   progress.value = "All";
   selectedCategories.value = [];
   grade.value = "";
+  page.value = 1;
+  getAllQuiz(false);
 }
 
 function applyFilter() {
-  alert(
-    `Filter applied:\nProgress: ${
-      progress.value
-    }\nCategory: ${selectedCategories.value.join(", ")}\nGrade: ${
-      grade.value || "-"
-    }`
-  );
+  page.value = 1;
+  quizzes.value = [];
+  getAllQuiz(false);
   filterModalOpen.value = false;
 }
 </script>

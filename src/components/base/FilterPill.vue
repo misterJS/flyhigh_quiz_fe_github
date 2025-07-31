@@ -4,9 +4,9 @@
       'px-4 py-2 rounded-full text-sm border font-medium transition',
       active
         ? 'bg-blue-600 text-white border-transparent'
-        : 'bg-white border-gray-300 text-gray-700'
+        : 'bg-white border-gray-300 text-gray-700',
     ]"
-    @click="$emit('click')"
+    @click.stop="$emit('click')"
   >
     {{ label }}
   </button>
@@ -16,6 +16,6 @@
 // eslint-disable-next-line no-undef
 defineProps({
   label: String,
-  active: Boolean
+  active: Boolean,
 });
 </script>
