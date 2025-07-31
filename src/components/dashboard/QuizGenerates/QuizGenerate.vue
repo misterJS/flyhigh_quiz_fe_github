@@ -396,24 +396,23 @@ import { useSnackbarStore } from "@/stores/snackbarStore";
 import { QuizGradeAll } from "@/api/quizApi";
 
 const snackbar = useSnackbarStore();
-
 const router = useRouter();
 const auth = useAuthStore();
 
 const showModal = ref(false);
+const uploadedFile = ref(null); // file object asli untuk dikirim
+const uploadedCover = ref(null); // preview base64
 
 function checkPublic() {
-  // contoh: kalau belum subscribe, munculin modal
-  const isSubscribed = false; // ganti sesuai logic kamu
+  const isSubscribed = false;
   if (!isSubscribed) {
     showModal.value = true;
-    form.privacy = "private"; // revert supaya nggak auto public
+    form.privacy = "private";
   }
 }
 
 function subscribeNow() {
   showModal.value = false;
-  // redirect ke halaman subscribe
   router.push("/subscribe");
 }
 
@@ -455,8 +454,6 @@ const quizCovers = ref([
   "/covers/cover9.jpg",
 ]);
 
-// list final termasuk upload user
-const uploadedCover = ref(null);
 const allCovers = computed(() =>
   uploadedCover.value
     ? [uploadedCover.value, ...quizCovers.value]
@@ -466,9 +463,10 @@ const allCovers = computed(() =>
 function handleFileUpload(event) {
   const file = event.target.files[0];
   if (file) {
+    uploadedFile.value = file; // simpan file untuk backend
     const reader = new FileReader();
     reader.onload = (e) => {
-      uploadedCover.value = e.target.result; // preview dari file
+      uploadedCover.value = e.target.result; // hanya preview
       form.coverImage = uploadedCover.value;
     };
     reader.readAsDataURL(file);
@@ -516,30 +514,32 @@ const isLastPage = computed(() => page.value === totalPages - 1);
 const submitQuiz = async () => {
   try {
     const formData = new FormData();
-    formData.append("userId", auth.userId); // atau ambil dari login user
+    formData.append("userId", auth.userId);
     formData.append("subjectId", form.subjectId);
     formData.append("gradeId", form.gradeId);
     formData.append("timer", toHHMMSS(form.timer));
-    // formData.append("chapter", form.chapter);
-    // formData.append("difficulty", generateDifficulty(form.level));
+    formData.append("chapter", form.chapter);
+    formData.append("difficulty", generateDifficulty(form.level));
     formData.append("totalQuestion", form.totalQuestion);
     formData.append("points", form.points.toString());
+    formData.append("isPublic", form.privacy === "public");
+
+    // kirim file kalau ada
+    if (uploadedFile.value) {
+      formData.append("coverImage", uploadedFile.value);
+    }
 
     const response = await axios.post(
       "https://quiz.flyhigh.my/flyhigh_be/api/kiddo/insert/GenerateRandomQuestion",
       formData,
-      {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      }
+      { headers: { "Content-Type": "multipart/form-data" } }
     );
 
     console.log("SUCCESS:", response.data);
     snackbar.trigger(`Quiz ${form.subjectName} created!`, "success");
     router.push("/quiz");
   } catch (error) {
-    snackbar.trigger(error, "error");
+    snackbar.trigger("Failed to create quiz", "error");
     console.error("FAILED:", error);
   }
 };
@@ -549,28 +549,27 @@ const toHHMMSS = (minute) => {
   return `00:${m}:00`;
 };
 
-// const generateDifficulty = (level) => {
-//   switch (parseInt(level)) {
-//     case 0:
-//       return "1";
-//     case 1:
-//       return "1,2";
-//     case 2:
-//       return "1,2,3";
-//     case 3:
-//       return "2,3,4";
-//     case 4:
-//       return "3,4,5";
-//     default:
-//       return "1,2,3";
-//   }
-// };
+const generateDifficulty = (level) => {
+  switch (parseInt(level)) {
+    case 0:
+      return "1";
+    case 1:
+      return "1,2";
+    case 2:
+      return "1,2,3";
+    case 3:
+      return "2,3,4";
+    case 4:
+      return "3,4,5";
+    default:
+      return "1,2,3";
+  }
+};
 
 const nextPage = () => {
   if (!isLastPage.value) {
     page.value++;
   } else {
-    console.log("SUBMITTING...");
     submitQuiz();
   }
 };
