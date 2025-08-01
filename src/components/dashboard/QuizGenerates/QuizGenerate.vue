@@ -103,7 +103,7 @@
           >
             <option disabled value="">Select chapter</option>
             <option>1,2,3,4,5,6,7,8,9</option>
-            <option>All Chapters</option>
+            <option value="1,2,3,4,5,6,7,8,9">All Chapters</option>
           </select>
         </div>
 
