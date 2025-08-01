@@ -5,8 +5,7 @@ const baseURL = "https://quiz.flyhigh.my/flyhigh_be/api";
 
 const API = axios.create({
   baseURL: `${baseURL}/kiddo`,
-  paramsSerializer: (params) =>
-    qs.stringify(params, { arrayFormat: "repeat" }), 
+  paramsSerializer: (params) => qs.stringify(params, { arrayFormat: "repeat" }),
 });
 
 export const QuizSubjectAll = async () => {
@@ -30,7 +29,7 @@ export const AllQuizList = async (params) => {
     throw error;
   }
 };
-export const QuizPreview = async () => {
-  const response = await API.get("/read/QuizPreview?quizId=1");
+export const QuizPreview = async (params) => {
+  const response = await API.get("/read/GetQuizGenDetail", { params });
   return response.data;
 };

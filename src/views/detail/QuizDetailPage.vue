@@ -3,11 +3,11 @@
     <!-- Sidebar desktop -->
     <SidebarComponent class="hidden lg:block" />
 
-    <div class="flex-1 flex flex-col">
+    <div class="flex-1 flex flex-col w-full">
       <!-- Header desktop -->
-      <HeaderComponent class="hidden lg:block" />
+      <HeaderComponent class="hidden lg:flex" />
 
-      <main class="flex-1 p-4 sm:p-6 lg:p-8 pb-32 lg:pb-8">
+      <main class="flex-1 p-4 sm:p-6 lg:p-8 pb-24">
         <div class="flex flex-col lg:flex-row gap-8 mx-auto max-w-6xl">
           <!-- Kiri -->
           <div class="flex-1">
@@ -44,12 +44,16 @@
               <div class="flex items-center gap-2">
                 <i class="far fa-star"></i>
                 Skill level:
-                <span class="text-[#2563EB] font-medium">{{ quiz?.level }}</span>
+                <span class="text-[#2563EB] font-medium">{{
+                  quiz?.level
+                }}</span>
               </div>
               <div class="flex items-center gap-2">
                 <i class="fas fa-file-alt"></i>
                 Quizzes:
-                <span class="text-[#111827] font-medium">{{ quiz?.questionCount }}</span>
+                <span class="text-[#111827] font-medium">{{
+                  quiz?.questionCount
+                }}</span>
               </div>
               <div class="flex items-center gap-2">
                 <i class="fas fa-language"></i>
@@ -62,15 +66,20 @@
             </div>
 
             <!-- Requirements -->
-            <h2 class="text-sm font-semibold text-[#111827] mb-3">Requirements</h2>
-            <ul class="list-disc ml-6 text-sm text-gray-600 space-y-2 leading-relaxed">
+            <h2 class="text-sm font-semibold text-[#111827] mb-3">
+              Requirements
+            </h2>
+            <ul
+              class="list-disc ml-6 text-sm text-gray-600 space-y-2 leading-relaxed"
+            >
               <li>
                 You don't need a background in user experience, design or coding
                 to take this course.
               </li>
               <li>
                 This is an in-depth course. If you allocate 60–90 mins a day,
-                and do all of the activities, it will take 2–3 weeks to complete.
+                and do all of the activities, it will take 2–3 weeks to
+                complete.
               </li>
             </ul>
 
@@ -81,14 +90,15 @@
                   path: `/quiz-confirmation/${quizId}`,
                   query: {
                     id: quiz?.id,
-                    img: quiz?.imagePath
-                  }
+                    img: quiz?.imagePath,
+                  },
                 }"
                 class="bg-[#2563EB] hover:bg-[#1E40AF] w-full text-white text-sm px-6 py-2.5 rounded-lg font-semibold text-center"
               >
                 Start Solo Quiz
               </router-link>
               <button
+                disabled
                 class="text-[#2563EB] text-sm px-6 py-2.5 w-full rounded-lg border border-[#D1D5DB] bg-white font-semibold"
               >
                 Start Team Quiz
@@ -99,8 +109,12 @@
           <!-- Kanan -->
           <div class="w-full lg:w-[500px] space-y-6">
             <!-- Reward -->
-            <div class="bg-white rounded-xl p-5 shadow-sm relative overflow-hidden">
-              <p class="text-sm font-semibold text-[#111827] mb-1">80% Quiz Clear 🍀</p>
+            <div
+              class="bg-white rounded-xl p-5 shadow-sm relative overflow-hidden"
+            >
+              <p class="text-sm font-semibold text-[#111827] mb-1">
+                80% Quiz Clear 🍀
+              </p>
               <p class="text-sm text-gray-600 mb-4">
                 Let's complete a little more to claim the prize
               </p>
@@ -119,7 +133,9 @@
             <div class="bg-white rounded-xl p-5 shadow-sm">
               <div class="flex justify-between items-center mb-4">
                 <p class="text-sm font-semibold text-[#111827]">Leader Board</p>
-                <button class="text-xs text-[#2563EB] font-medium">See all</button>
+                <button class="text-xs text-[#2563EB] font-medium">
+                  See all
+                </button>
               </div>
               <ul class="space-y-4">
                 <li
@@ -134,8 +150,12 @@
                       alt="avatar"
                     />
                     <div>
-                      <p class="text-sm text-gray-900 font-medium">{{ user.name }}</p>
-                      <p class="text-xs text-gray-500">{{ user.quizzes }} Quizzes Completed</p>
+                      <p class="text-sm text-gray-900 font-medium">
+                        {{ user.name }}
+                      </p>
+                      <p class="text-xs text-gray-500">
+                        {{ user.quizzes }} Quizzes Completed
+                      </p>
                     </div>
                   </div>
                   <p class="text-sm font-semibold">{{ user.xp }}</p>
@@ -145,7 +165,9 @@
 
             <!-- Achievement -->
             <div class="bg-white rounded-xl p-5 shadow-sm mb-32 lg:mb-0">
-              <p class="text-sm font-semibold text-[#111827] mb-4">Achievement</p>
+              <p class="text-sm font-semibold text-[#111827] mb-4">
+                Achievement
+              </p>
               <div class="grid grid-cols-2 gap-4 text-sm">
                 <div
                   v-for="badge in badges"
@@ -162,14 +184,16 @@
       </main>
 
       <!-- Tombol Quiz mobile -->
-      <div class="fixed bottom-0 left-0 right-0 lg:hidden bg-white border-t p-4 z-50">
+      <div
+        class="fixed bottom-0 left-0 right-0 lg:hidden bg-white border-t p-4 z-50"
+      >
         <router-link
           :to="{
             path: `/quiz-confirmation/${quizId}`,
             query: {
               id: quiz?.id,
-              img: quiz?.imagePath
-            }
+              img: quiz?.imagePath,
+            },
           }"
           class="w-full block text-center bg-[#2563EB] hover:bg-[#1E40AF] text-white py-3 rounded-full text-sm font-semibold"
         >
@@ -191,9 +215,13 @@ const quiz = ref(null);
 const route = useRoute();
 const quizId = route.params.id;
 
+const params = {
+  guid: quizId,
+};
+
 onMounted(async () => {
   try {
-    const response = await QuizPreview(quizId);
+    const response = await QuizPreview(params);
     quiz.value = response;
   } catch (err) {
     console.error("Gagal ambil quiz:", err.message);
