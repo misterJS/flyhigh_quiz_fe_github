@@ -174,6 +174,7 @@ import HeaderComponent from "@/components/base/HeaderComponent.vue";
 import QuizCard from "@/components/base/QuizCardComponent.vue";
 import BottomBarNavigation from "@/components/base/BottomBarNavigation.vue";
 import FilterPill from "@/components/base/FilterPill.vue";
+import { useAuthStore } from "@/stores/authStore";
 import { ref, onMounted, onBeforeUnmount } from "vue";
 import { QuizListSubject } from "@/api/subjectApi";
 import { AllQuizList, QuizCategories } from "@/api/quizApi";
@@ -187,6 +188,7 @@ const progress = ref("All");
 const selectedCategories = ref([]);
 const grade = ref("");
 const quizStore = useQuizGradeAll();
+const auth = useAuthStore();
 const grades = ref([{ id: 1, GradeName: "Loading..." }]);
 
 // Pagination
@@ -201,6 +203,7 @@ const getAllQuiz = async (isLoadMore = false) => {
 
   try {
     const params = {
+      userId: auth.userId,
       page: page.value,
       pageSize: pageSize.value,
     };
@@ -208,7 +211,7 @@ const getAllQuiz = async (isLoadMore = false) => {
     if (selectedCategories.value.length > 0) {
       params.quizCategoryIds = selectedCategories.value;
     }
-    
+
     if (grade.value) {
       params.gradeId = grade.value;
     }
