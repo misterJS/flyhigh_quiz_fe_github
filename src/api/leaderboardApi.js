@@ -14,7 +14,9 @@ export const WeeklyLeaderboard = async () => {
   const response = await API.get("/read/WeeklyLeaderboard?top=10");
   return response.data;
 };
-export const LeaderboardByUserId = async () => {
-  const response = await API.get("/read/LeaderboardByUserId?examUserId=1");
+export const LeaderboardByUserId = async (studentId) => {
+  const response = await API.get(
+    `/read/leaderboardbystudentid?studentId=${studentId}`
+  );
   return response.data;
 };

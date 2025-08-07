@@ -110,6 +110,7 @@ import liveSessionComponent from "../base/LiveSessionComponent.vue";
 import { useAuthStore } from "@/stores/authStore";
 import { onMounted, ref } from "vue";
 import { GetProfile } from "@/api/settingApi";
+import { AllTimeLeaderboard } from "@/api/leaderboardApi";
 const router = useRouter();
 const auth = useAuthStore();
 
@@ -128,8 +129,34 @@ const handleGetProfile = async () => {
     console.error(error);
   }
 };
+
+const leaderboard = ref([]);
+
+const fetchLeaderboard = async () => {
+  try {
+    const data = await AllTimeLeaderboard();
+
+    leaderboard.value = data.map((user, index) => ({
+      name: user.Name,
+      xp: user.XP,
+      avatar: require("@/assets/Rectangle.png"),
+      badge: getBadge(index + 1),
+    }));
+  } catch (error) {
+    console.error("Error fetching leaderboard:", error);
+  }
+};
+
+function getBadge(rank) {
+  if (rank === 1) return require("@/assets/Badge1.png");
+  if (rank === 2) return require("@/assets/Badge2.png");
+  if (rank === 3) return require("@/assets/Badge3.png");
+  return require("@/assets/Badge3.png");
+}
+
 onMounted(() => {
   handleGetProfile();
+  fetchLeaderboard();
 });
 
 const subjects = [
@@ -148,27 +175,6 @@ const subjects = [
   {
     name: "Economics",
     icon: require("@/assets/economics.png"),
-  },
-];
-
-const leaderboard = [
-  {
-    name: "Brian Fred M.",
-    xp: "421 XP",
-    avatar: require("@/assets/Rectangle.png"),
-    badge: require("@/assets/Badge1.png"),
-  },
-  {
-    name: "Brian Fred M.",
-    xp: "412 XP",
-    avatar: require("@/assets/Rectangle (1).png"),
-    badge: require("@/assets/Badge2.png"),
-  },
-  {
-    name: "Brian Fred M.",
-    xp: "401 XP",
-    avatar: require("@/assets/Rectangle 5223.png"),
-    badge: require("@/assets/Badge3.png"),
   },
 ];
 </script>
