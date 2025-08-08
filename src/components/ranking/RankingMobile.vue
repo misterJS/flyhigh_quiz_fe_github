@@ -43,78 +43,67 @@
     </div>
 
     <div class="flex gap-[22px] mx-auto mt-[35px]">
-      <div class="mt-[64px]">
+      <!-- Rank 2 -->
+      <div class="mt-[64px]" v-if="leaderboardData[1]">
         <div class="relative w-fit mx-auto">
           <img
             :src="top2"
-            alt="top"
             class="w-[14px] absolute top-[35px] left-1/2 -translate-x-1/2 z-10"
           />
-          <img
-            :src="avatarNumber1"
-            alt="Avatar"
-            class="w-[56px] mx-auto relative z-0"
-          />
-
-          <p class="font-medium text-sm">Ananda Muss</p>
+          <img :src="avatarNumber1" class="w-[56px] mx-auto relative z-0" />
+          <p class="font-medium text-sm text-center">
+            {{ leaderboardData[1].Name }}
+          </p>
           <p class="font-medium text-[12px] text-center text-[#29FD88]">
-            421 XP
+            {{ leaderboardData[1].XP }} XP
           </p>
         </div>
-
         <div
-          class="w-[100px] h-[361px] bg-gradient-to-b from-[#146DBF] to-[#04427C] rounded-[14px] mt-[12px]"
+          class="w-[100px] h-[320px] bg-gradient-to-b from-[#146DBF] to-[#04427C] rounded-[14px] mt-[12px]"
         ></div>
       </div>
-      <div>
+
+      <!-- Rank 1 -->
+      <div v-if="leaderboardData[0]">
         <div class="relative w-fit mx-auto">
           <img
             :src="crown"
-            alt="Crown"
             class="w-[32px] absolute top-[-19px] left-1/2 -translate-x-1/2 z-10"
           />
           <img
             :src="top1"
-            alt="top"
             class="w-[14px] absolute top-[35px] left-1/2 -translate-x-1/2 z-10"
           />
-          <img
-            :src="avatarNumber1"
-            alt="Avatar"
-            class="w-[56px] mx-auto relative z-0"
-          />
-
-          <p class="font-medium text-sm">Ananda Muss</p>
+          <img :src="avatarNumber1" class="w-[56px] mx-auto relative z-0" />
+          <p class="font-medium text-sm text-center">
+            {{ leaderboardData[0].Name }}
+          </p>
           <p class="font-medium text-[12px] text-center text-[#29FD88]">
-            421 XP
+            {{ leaderboardData[0].XP }} XP
           </p>
         </div>
-
         <div
           class="w-[100px] h-[361px] bg-gradient-to-b from-[#146DBF] to-[#04427C] rounded-[14px] mt-[12px]"
         ></div>
       </div>
-      <div class="mt-[64px]">
+
+      <!-- Rank 3 -->
+      <div class="mt-[64px]" v-if="leaderboardData[2]">
         <div class="relative w-fit mx-auto">
           <img
             :src="top3"
-            alt="top"
             class="w-[14px] absolute top-[35px] left-1/2 -translate-x-1/2 z-10"
           />
-          <img
-            :src="avatarNumber1"
-            alt="Avatar"
-            class="w-[56px] mx-auto relative z-0"
-          />
-
-          <p class="font-medium text-sm">Ananda Muss</p>
+          <img :src="avatarNumber1" class="w-[56px] mx-auto relative z-0" />
+          <p class="font-medium text-sm text-center">
+            {{ leaderboardData[2].Name }}
+          </p>
           <p class="font-medium text-[12px] text-center text-[#29FD88]">
-            421 XP
+            {{ leaderboardData[2].XP }} XP
           </p>
         </div>
-
         <div
-          class="w-[100px] h-[361px] bg-gradient-to-b from-[#146DBF] to-[#04427C] rounded-[14px] mt-[12px]"
+          class="w-[100px] h-[280px] bg-gradient-to-b from-[#146DBF] to-[#04427C] rounded-[14px] mt-[12px]"
         ></div>
       </div>
     </div>
@@ -131,38 +120,21 @@
         <p class="text-black font-medium">List Of Winners</p>
         <p class="text-black text-[12px]">120 students</p>
       </div>
-      <div class="text-black mt-6">
+      <div
+        v-for="(user, index) in leaderboardData"
+        :key="user.StudentId"
+        class="text-black mt-6"
+      >
         <div class="border-[#EDEDED] border-b flex">
-          <img :src="badge1" alt="Avatar" class="w-[36px] mr-4 mb-4" />
-          <img :src="avatarNumber1" alt="Avatar" class="w-[36px] mb-4 mr-4" />
+          <img
+            :src="[badge1, badge2, badge3][index] || badge1"
+            class="w-[36px] mr-4 mb-4"
+          />
+          <img :src="avatarNumber1" class="w-[36px] mb-4 mr-4" />
           <div>
-            <p class="font-semibold text-[14px]">Brian Fred M.</p>
+            <p class="font-semibold text-[14px]">{{ user.Name }}</p>
             <p class="font-semibold text-[10px] text-[#007CEF]">
-              Brian Fred M.
-            </p>
-          </div>
-        </div>
-      </div>
-      <div class="text-black mt-6">
-        <div class="border-[#EDEDED] border-b flex">
-          <img :src="badge2" alt="Avatar" class="w-[36px] mr-4 mb-4" />
-          <img :src="avatarNumber1" alt="Avatar" class="w-[36px] mb-4 mr-4" />
-          <div>
-            <p class="font-semibold text-[14px]">Brian Fred M.</p>
-            <p class="font-semibold text-[10px] text-[#007CEF]">
-              Brian Fred M.
-            </p>
-          </div>
-        </div>
-      </div>
-      <div class="text-black mt-6">
-        <div class="border-[#EDEDED] border-b flex">
-          <img :src="badge3" alt="Avatar" class="w-[36px] mr-4 mb-4" />
-          <img :src="avatarNumber1" alt="Avatar" class="w-[36px] mb-4 mr-4" />
-          <div>
-            <p class="font-semibold text-[14px]">Brian Fred M.</p>
-            <p class="font-semibold text-[10px] text-[#007CEF]">
-              Brian Fred M.
+              {{ user.XP }} XP
             </p>
           </div>
         </div>
@@ -176,7 +148,7 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { onMounted, ref, watch } from "vue";
 import BottomBarNavigation from "../base/BottomBarNavigation.vue";
 import avatarNumber1 from "../../assets/rank1.png";
 import crown from "../../assets/crown.png";
@@ -186,8 +158,35 @@ import badge3 from "../../assets/Badge3.png";
 import top1 from "../../assets/top1.png";
 import top2 from "../../assets/top2.png";
 import top3 from "../../assets/top3.png";
+import { AllTimeLeaderboard, WeeklyLeaderboard } from "@/api/leaderboardApi";
 const backgroundImage = "/Background-Image.png";
 const activeTab = ref("weekly");
+
+const leaderboardData = ref([]);
+const isLoading = ref(true);
+
+const fetchLeaderboard = async () => {
+  isLoading.value = true;
+  try {
+    if (activeTab.value === "weekly") {
+      leaderboardData.value = await WeeklyLeaderboard();
+    } else {
+      leaderboardData.value = await AllTimeLeaderboard();
+    }
+  } catch (err) {
+    console.error("Error fetching leaderboard:", err);
+  } finally {
+    isLoading.value = false;
+  }
+};
+
+watch(activeTab, () => {
+  fetchLeaderboard();
+});
+
+onMounted(() => {
+  fetchLeaderboard();
+});
 </script>
 
 <style scoped></style>

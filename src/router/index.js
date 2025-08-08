@@ -28,6 +28,7 @@ import OnboardingMobile7 from "@/components/onboarding/OnboardingMobile7.vue";
 import NotificationMobile from "@/components/notification/NotificationMobile.vue";
 import ForgetPasswordPage from "@/views/ForgetPasswordPage.vue";
 import QuizGenerate from "@/components/dashboard/QuizGenerates/QuizGenerate.vue";
+
 const isMobile = window.innerWidth <= 768;
 
 const allRoutes = [
@@ -63,11 +64,11 @@ const allRoutes = [
     component: DashboardPage,
     meta: { title: "Dashboard" },
   },
-    {
+  {
     path: "/quiz/generate",
     name: "QuizGenerate",
     component: QuizGenerate,
-    meta: { title: "Quiz Generate" , device: "mobile"  },
+    meta: { title: "Quiz Generate", device: "mobile" },
   },
   {
     path: "/rewards",
