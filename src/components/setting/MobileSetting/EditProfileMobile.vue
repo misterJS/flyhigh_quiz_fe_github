@@ -94,6 +94,7 @@ import { updateProfileWithPhoto } from "@/api/profileApi";
 import { GetProfile } from "@/api/settingApi";
 
 import { useRouter } from "vue-router";
+import { useSnackbarStore } from "@/stores/snackbarStore";
 
 const router = useRouter();
 
@@ -101,6 +102,7 @@ const goBack = () => {
   router.back();
 };
 
+const snackbar = useSnackbarStore();
 const auth = useAuthStore();
 const name = ref("");
 const email = ref("");
@@ -131,7 +133,7 @@ const saveProfile = async () => {
   try {
     const formData = new FormData();
     formData.append("UserId", auth.userId);
-    formData.append("Name", name.value);
+    formData.append("DisplayName", name.value);
     formData.append("Email", email.value);
     if (selectedPhoto.value) {
       formData.append("Photo", selectedPhoto.value);
@@ -139,9 +141,11 @@ const saveProfile = async () => {
 
     const res = await updateProfileWithPhoto(formData);
     console.log(res);
-    alert("Profile updated!");
+    snackbar.trigger(`Profile successfully changed`, "success");
+    router.push("/settings");
   } catch (error) {
     alert("Failed to update profile.");
+    snackbar.trigger(`Failed to update profile.`, "error");
     console.error(error);
   }
 };

@@ -3,14 +3,6 @@
     <!-- Header -->
     <div class="flex justify-between items-center mb-8">
       <h1 class="text-lg font-semibold text-gray-900">Setting</h1>
-      <div class="relative">
-        <img src="@/assets/Avatar.png" class="w-10 h-10 rounded-full" />
-        <div
-          class="absolute -top-1 -right-1 bg-yellow-400 rounded-full p-1 text-white text-xs"
-        >
-          <i class="fas fa-lightbulb"></i>
-        </div>
-      </div>
     </div>
 
     <!-- Profile Info -->
@@ -41,7 +33,7 @@
             class="flex items-center gap-3"
             @click="goToUrl('/change-password')"
           >
-            <i class="fas fa-user text-lg text-gray-700"></i>
+            <i class="fas fa-key text-lg text-gray-700"></i>
             <span class="text-sm font-medium text-gray-900"
               >Change Password</span
             >
@@ -60,7 +52,6 @@
           label="Report Quiz"
         />
         <SettingItem icon="fas fa-credit-card" label="Payment Method" />
-        <SettingItem icon="fas fa-map-marker-alt" label="Location" />
         <SettingItem
           @click="goToUrl('/history-quiz')"
           icon="fas fa-bookmark"
