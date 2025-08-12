@@ -13,7 +13,9 @@
         class="flex items-center gap-1 bg-[#F0ECFE] px-3 py-2 rounded-full text-sm"
       >
         💎
-        <span class="font-medium text-[#9B7BF8]">120</span>
+        <span class="font-medium text-[#9B7BF8]">{{
+          leaderboardScore[0]?.XP ?? 0
+        }}</span>
       </div>
     </div>
 
@@ -24,8 +26,16 @@
           Congratulations!
         </p>
         <p class="text-sm text-gray-500">You’re Close to a Reward</p>
-        <p class="text-base text-[#1E1E1F] mt-2">300 / 500 💎</p>
-        <p class="text-[10px] text-gray-400 mb-2">60% of target</p>
+        <p class="text-base text-[#1E1E1F] mt-2">
+          {{ leaderboardScore[0]?.XP ?? 0 }} / 500 💎
+        </p>
+        <p class="text-[10px] text-gray-400 mb-2">
+          {{
+            leaderboardScore[0]?.XP != null
+              ? (500 / leaderboardScore[0].XP / 100).toFixed(2) + "%"
+              : "0%"
+          }}
+        </p>
         <BaseButton class="rounded-xl">View All Rewards</BaseButton>
       </div>
       <img
@@ -39,7 +49,7 @@
       <!-- Title Row -->
       <div class="flex justify-between items-center mb-4">
         <h3 class="text-base font-semibold text-gray-900">Subjects</h3>
-        <a href="#" class="text-sm text-blue-600 font-medium">View All</a>
+        <a href="/quiz" class="text-sm text-blue-600 font-medium">View All</a>
       </div>
 
       <!-- Subject Icons -->
@@ -74,7 +84,9 @@
     <div class="bg-white rounded-2xl shadow-custom p-4 mb-6">
       <div class="flex justify-between items-center mb-2">
         <h3 class="font-semibold text-base text-gray-900">Leaderboard</h3>
-        <a href="#" class="text-sm text-blue-600 font-medium">View All</a>
+        <a href="/ranking" class="text-sm text-blue-600 font-medium"
+          >View All</a
+        >
       </div>
       <div class="space-y-2">
         <div
@@ -110,7 +122,7 @@ import liveSessionComponent from "../base/LiveSessionComponent.vue";
 import { useAuthStore } from "@/stores/authStore";
 import { onMounted, ref } from "vue";
 import { GetProfile } from "@/api/settingApi";
-import { AllTimeLeaderboard } from "@/api/leaderboardApi";
+import { AllTimeLeaderboard, LeaderboardByUserId } from "@/api/leaderboardApi";
 const router = useRouter();
 const auth = useAuthStore();
 
@@ -147,6 +159,18 @@ const fetchLeaderboard = async () => {
   }
 };
 
+const leaderboardScore = ref("");
+
+const fetchLeaderboardById = async () => {
+  try {
+    const data = await LeaderboardByUserId(auth.userId);
+
+    leaderboardScore.value = data;
+  } catch (error) {
+    console.error("Error fetching leaderboard:", error);
+  }
+};
+
 function getBadge(rank) {
   if (rank === 1) return require("@/assets/Badge1.png");
   if (rank === 2) return require("@/assets/Badge2.png");
@@ -157,6 +181,7 @@ function getBadge(rank) {
 onMounted(() => {
   handleGetProfile();
   fetchLeaderboard();
+  fetchLeaderboardById();
 });
 
 const subjects = [

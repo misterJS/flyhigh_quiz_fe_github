@@ -63,6 +63,7 @@
     <!-- Logout Section -->
     <div class="bg-white rounded-3xl p-5 shadow mb-6">
       <button
+        @click="signOut()"
         class="flex items-center justify-between w-full text-sm font-semibold text-red-500"
       >
         <div class="flex items-center gap-2">
@@ -121,6 +122,8 @@ const loadProfile = async () => {
   }
 };
 
+const loginError = ref("");
+
 const handleFileChange = (event) => {
   const file = event.target.files[0];
   if (file) {
@@ -147,6 +150,15 @@ const saveProfile = async () => {
     alert("Failed to update profile.");
     snackbar.trigger(`Failed to update profile.`, "error");
     console.error(error);
+  }
+};
+
+const signOut = async () => {
+  try {
+    await auth.logout();
+    router.push("/login");
+  } catch (err) {
+    loginError.value = err.message;
   }
 };
 
