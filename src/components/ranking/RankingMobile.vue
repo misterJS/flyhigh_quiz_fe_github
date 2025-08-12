@@ -118,7 +118,9 @@
       </div>
       <div class="w-full flex justify-between mt-6">
         <p class="text-black font-medium">List Of Winners</p>
-        <p class="text-black text-[12px]">120 students</p>
+        <p class="text-black text-[12px]">
+          {{ leaderboardData.length }} students
+        </p>
       </div>
       <div
         v-for="(user, index) in leaderboardData"

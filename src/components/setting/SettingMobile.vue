@@ -93,7 +93,11 @@
           icon="fas fa-question-circle"
           label="About"
         />
-        <SettingItem icon="fas fa-sign-out-alt" label="Sign Out" />
+        <SettingItem
+          @click="signOut()"
+          icon="fas fa-sign-out-alt"
+          label="Sign Out"
+        />
       </div>
     </div>
   </div>
@@ -108,6 +112,7 @@ import BottomBarNavigation from "../base/BottomBarNavigation.vue";
 import { useAuthStore } from "@/stores/authStore";
 const auth = useAuthStore();
 import { useRouter } from "vue-router";
+const loginError = ref("");
 import { GetProfile } from "@/api/settingApi";
 import { onMounted, ref } from "vue";
 const router = useRouter();
@@ -123,6 +128,16 @@ const handleGetProfile = async () => {
     console.error(error);
   }
 };
+
+const signOut = async () => {
+  try {
+    await auth.logout();
+    router.push("/login");
+  } catch (err) {
+    loginError.value = err.message;
+  }
+};
+
 onMounted(() => {
   handleGetProfile();
 });
