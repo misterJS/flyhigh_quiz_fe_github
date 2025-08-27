@@ -1,75 +1,53 @@
 <template>
-  <div class="min-h-screen bg-[#f9fafb] pb-24 px-4 pt-6">
+  <div class="min-h-screen bg-[#F9FAFB] pb-24 px-4 pt-6">
     <!-- Header -->
-    <div class="flex justify-between items-center mb-8">
-      <h1 class="text-lg font-semibold text-gray-900">Setting</h1>
+    <div class="flex justify-between items-center mb-6">
+      <h1 class="text-lg font-normal text-gray-900">Setting</h1>
     </div>
 
-    <!-- Profile Info -->
-    <div class="flex items-center gap-3 mb-6">
-      <img src="@/assets/Avatar.png" class="w-12 h-12 rounded-full" />
-      <div>
-        <p class="font-semibold text-sm">{{ profile.name }}</p>
-        <p class="text-xs text-gray-500">{{ profile.email }} • Level Study</p>
+    <!-- Profile Row -->
+    <div class="flex items-center justify-between mb-6">
+      <div class="flex items-center gap-3">
+        <img src="@/assets/Avatar.png" class="w-12 h-12 rounded-full" alt="avatar" />
+        <div>
+          <p class="font-semibold text-sm text-gray-900 leading-tight">
+            {{ profile.name || '—' }}
+          </p>
+          <p class="text-xs text-gray-500">
+            {{ profile.email || '—' }} <span class="mx-1">•</span> Level Study
+          </p>
+        </div>
+      </div>
+
+      <!-- Badge kanan -->
+      <div class="relative">
+        <img src="@/assets/Badge1.png" class="w-11 h-11" />
       </div>
     </div>
 
-    <!-- Menu Items -->
+    <!-- Menus -->
     <div class="space-y-8">
-      <!-- Edit Profile -->
+      <!-- Account -->
       <div>
-        <div class="flex items-center justify-between py-3">
-          <div
-            class="flex items-center gap-3"
-            @click="goToUrl('/edit-profile')"
-          >
-            <i class="fas fa-user text-lg text-gray-700"></i>
-            <span class="text-sm font-medium text-gray-900">Edit Profile</span>
-          </div>
-          <i class="fas fa-chevron-right text-gray-400 text-xs"></i>
-        </div>
-        <div class="flex items-center justify-between py-3">
-          <div
-            class="flex items-center gap-3"
-            @click="goToUrl('/change-password')"
-          >
-            <i class="fas fa-key text-lg text-gray-700"></i>
-            <span class="text-sm font-medium text-gray-900"
-              >Change Password</span
-            >
-          </div>
-          <i class="fas fa-chevron-right text-gray-400 text-xs"></i>
-        </div>
+        <MenuRow icon="fas fa-user" label="Edit Profile" @click="goToUrl('/edit-profile')" />
+        <MenuRow icon="fas fa-key" label="Change Password" @click="goToUrl('/change-password')" />
+        <MenuRow icon="fas fa-crown" label="Subscribe" @click="goToUrl('/subscribe')" />
       </div>
 
-      <!-- Preferences Section -->
+      <!-- Preferences -->
       <div>
         <p class="text-xs text-gray-400 font-semibold mb-3">Preferences</p>
 
-        <SettingItem
-          @click="goToUrl('/reports')"
-          icon="fas fa-flag"
-          label="Report Quiz"
-        />
-        <SettingItem icon="fas fa-credit-card" label="Payment Method" />
-        <SettingItem
-          @click="goToUrl('/history-quiz')"
-          icon="fas fa-bookmark"
-          label="Saved"
-        />
-        <SettingItem
-          @click="goToUrl('/notification-mobile')"
-          icon="fas fa-bell"
-          label="Notifications"
-        />
+        <MenuRow icon="fas fa-flag" label="Report Quiz" @click="goToUrl('/reports')" />
+        <MenuRow icon="fas fa-credit-card" label="Payment Method" @click="goToUrl('/payment-method')" />
+        <MenuRow icon="far fa-bookmark" label="Saved" @click="goToUrl('/history-quiz')" />
+        <MenuRow icon="far fa-bell" label="Notifications" @click="goToUrl('/notification-mobile')" />
 
-        <!-- Language -->
-        <div
-          class="flex items-center justify-between py-3"
-          @click="goToUrl('/language-setting-m')"
-        >
+        <!-- Languages (punya value di kanan) -->
+        <div class="flex items-center justify-between py-3 border-b border-gray-100 cursor-pointer"
+             @click="goToUrl('/language-setting-m')">
           <div class="flex items-center gap-3">
-            <i class="fas fa-globe text-lg text-gray-700"></i>
+            <i class="fas fa-globe text-lg text-gray-700 w-6 text-center"></i>
             <span class="text-sm font-medium text-gray-900">Languages</span>
           </div>
           <div class="flex items-center gap-1">
@@ -79,51 +57,73 @@
         </div>
       </div>
 
-      <!-- Resources Section -->
+      <!-- Resources -->
       <div>
         <p class="text-xs text-gray-400 font-semibold mb-3">Resources</p>
 
-        <SettingItem
-          @click="goToUrl('/help-support')"
-          icon="fas fa-info-circle"
-          label="Help & Support"
-        />
-        <SettingItem
-          @click="goToUrl('/about-mobile')"
-          icon="fas fa-question-circle"
-          label="About"
-        />
-        <SettingItem
-          @click="signOut()"
-          icon="fas fa-sign-out-alt"
-          label="Sign Out"
-        />
+        <MenuRow icon="far fa-life-ring" label="Help & Support" @click="goToUrl('/help-support')" />
+        <MenuRow icon="far fa-circle-question" label="About" @click="goToUrl('/about-mobile')" />
+        <MenuRow icon="fas fa-sign-out-alt" label="Sign Out" @click="signOut()" />
       </div>
     </div>
   </div>
 
-  <!-- Bottom Navigation -->
   <BottomBarNavigation />
 </template>
 
 <script setup>
-import SettingItem from "@/components/base/SettingItem.vue";
 import BottomBarNavigation from "../base/BottomBarNavigation.vue";
 import { useAuthStore } from "@/stores/authStore";
-const auth = useAuthStore();
-import { useRouter } from "vue-router";
-const loginError = ref("");
 import { GetProfile } from "@/api/settingApi";
-import { onMounted, ref } from "vue";
+import { onMounted, ref, defineComponent, h } from "vue";
+import { useRouter } from "vue-router";
+
 const router = useRouter();
+const auth = useAuthStore();
+
+const loginError = ref("");
 const profile = ref({});
 
+/* ✅ Definisikan MenuRow via render function (tidak butuh runtime template compiler) */
+const MenuRow = defineComponent({
+  name: "MenuRow",
+  props: {
+    icon: { type: String, required: true },
+    label: { type: String, required: true },
+  },
+  emits: ["click"],
+  setup(props, { emit }) {
+    return () =>
+      h(
+        "div",
+        {
+          class:
+            "flex items-center justify-between py-3 border-b border-gray-100 cursor-pointer",
+          onClick: () => emit("click"),
+        },
+        [
+          h("div", { class: "flex items-center gap-3" }, [
+            h("i", {
+              class: `${props.icon} text-lg text-gray-700 w-6 text-center`,
+            }),
+            h(
+              "span",
+              { class: "text-sm font-medium text-gray-900" },
+              props.label
+            ),
+          ]),
+          h("i", { class: "fas fa-chevron-right text-gray-400 text-xs" }),
+        ]
+      );
+  },
+});
+
+// fetch profile
 const handleGetProfile = async () => {
   try {
     const userId = auth.userId;
     const response = await GetProfile(userId);
-    console.log(response);
-    profile.value = response;
+    profile.value = response || {};
   } catch (error) {
     console.error(error);
   }
@@ -134,7 +134,7 @@ const signOut = async () => {
     await auth.logout();
     router.push("/login");
   } catch (err) {
-    loginError.value = err.message;
+    loginError.value = err?.message || "Failed to sign out";
   }
 };
 
@@ -146,3 +146,7 @@ function goToUrl(dir) {
   router.push(dir);
 }
 </script>
+
+<style scoped>
+/* no extra styles */
+</style>
