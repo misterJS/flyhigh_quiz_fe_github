@@ -28,6 +28,7 @@ import OnboardingMobile7 from "@/components/onboarding/OnboardingMobile7.vue";
 import NotificationMobile from "@/components/notification/NotificationMobile.vue";
 import ForgetPasswordPage from "@/views/ForgetPasswordPage.vue";
 import QuizGenerate from "@/components/dashboard/QuizGenerates/QuizGenerate.vue";
+import SubscribePage from "@/views/SubscribePage.vue";
 
 const isMobile = window.innerWidth <= 768;
 
@@ -79,7 +80,6 @@ const allRoutes = [
 
   {
     path: "/ranking",
-
     name: "Ranking",
     component: RankingPage,
     meta: { title: "Ranking" },
@@ -107,6 +107,12 @@ const allRoutes = [
     name: "Settings",
     component: SettingPage,
     meta: { title: "Settings" },
+  },
+  {
+    path: "/subscribe",
+    name: "Subscribe",
+    component: SubscribePage,
+    meta: { title: "Subscribe"},
   },
   {
     path: "/edit-profile",
