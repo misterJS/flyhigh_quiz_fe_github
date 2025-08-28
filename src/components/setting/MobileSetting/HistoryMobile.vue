@@ -5,7 +5,7 @@
       <button @click="goBack" class="text-gray-700 text-lg">
         <i class="fas fa-arrow-left"></i>
       </button>
-      <h1 class="font-semibold text-lg">History</h1>
+      <h1 class="font-normal text-lg">History</h1>
     </div>
 
     <!-- Today Section -->

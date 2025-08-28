@@ -1,69 +1,67 @@
 <template>
-  <div class="min-h-screen bg-[#007bff] md:bg-white flex flex-col justify-between">
-    <!-- Back -->
-    <div class="p-4 md:px-10 md:pt-8 text-white md:text-black">
-      <button @click="goBack" class="text-sm">← Back to detail</button>
+  <div class="min-h-screen bg-[#0B6CF0] text-white relative flex flex-col">
+    <!-- Lingkaran besar background -->
+    <div class="absolute inset-0 flex top-[15%] justify-center pointer-events-none">
+      <div class="w-[300px] h-[300px] md:w-[640px] md:h-[640px] rounded-full bg-white/10"></div>
     </div>
 
-    <!-- Content -->
-    <div
-      class="flex-1 flex flex-col justify-center items-center text-center px-6 md:px-0"
-    >
-      <!-- Illustration (mobile & desktop) -->
-      <div class="relative">
-        <div class="hidden md:block">
-          <img
-            src="@/assets/Ilustration.png"
-            alt="Quiz Illustration"
-            class="w-80 md:w-96 mb-8"
-          />
+    <!-- Konten tengah -->
+    <div class="flex-1 flex flex-col items-center justify-center px-6 pt-10">
+      <!-- Stack Card -->
+      <div class="relative w-[320px] sm:w-[360px]">
+        <!-- shadow layers -->
+        <div class="absolute inset-x-6 bottom-[-28px] h-8 bg-white/70 rounded-2xl blur-[2px]"></div>
+        <div class="absolute inset-x-5 bottom-[-18px] h-8 bg-white/80 rounded-2xl"></div>
+        <div class="absolute inset-x-4 bottom-[-8px] h-8 bg-white rounded-2xl"></div>
+
+        <!-- Card utama -->
+        <div class="relative bg-white text-[#0F1020] rounded-2xl px-6 py-7 shadow-xl">
+          <div class="text-[#FF7A7A] text-xs font-semibold text-center mb-3 tracking-wider">01/25</div>
+          <p class="text-[18px] font-semibold leading-6 text-center">
+            What is the total number of
+            <br class="hidden sm:block" />
+            marbles Budi has now?
+          </p>
         </div>
 
-        <div class="md:hidden relative">
-          <div
-            class="absolute top-4 left-0 right-0 text-center text-xs text-[#FF8181] font-semibold"
-          >
-            01/25
+        <!-- Badge kategori -->
+        <div
+          class="absolute left-1/2 -translate-x-1/2 -bottom-20 bg-[#0B2E63] text-white
+                 rounded-2xl px-5 py-3 w-[240px] flex items-center gap-3 shadow-md"
+        >
+          <div class="w-9 h-9 rounded-full bg-white/15 flex items-center justify-center">
+            <i class="fas fa-book-open text-white"></i>
           </div>
-          <div class="bg-white rounded-xl shadow-lg py-8 px-6 w-[300px]">
-            <p class="text-base font-semibold text-gray-900">
-              What is the total number of marbles Budi has now?
-            </p>
-          </div>
-          <div
-            class="absolute -bottom-5 left-1/2 -translate-x-1/2 bg-[#00285B] text-white px-4 py-2 rounded-xl text-xs font-medium"
-          >
-            📖 10+ Quiz category
+          <div class="leading-5">
+            <div class="text-[15px] font-semibold">10+</div>
+            <div class="text-[12px] opacity-80 -mt-0.5">Quiz category</div>
           </div>
         </div>
       </div>
 
-      <h2
-        class="text-lg md:text-2xl font-semibold text-white md:text-black mb-2 mt-20 md:mt-8"
-      >
-        Let's start the quizz
-      </h2>
-      <p class="text-sm md:text-base text-white/80 md:text-black max-w-md">
-        Answer all the questions to the best of your ability.
-      </p>
+      <!-- Headline & sub -->
+      <div class="mt-48 text-center">
+        <h2 class="text-[24px] font-normal mb-2">Let's start the quizz</h2>
+        <p class="text-white/90 text-[15px] max-w-sm">
+          Answer all the questions to the best of your ability.
+        </p>
+      </div>
     </div>
 
-    <!-- Footer Buttons -->
-    <div
-      class="w-full border-t border-white/30 py-6 md:flex md:justify-center md:gap-6 md:px-8"
-    >
-      <div
-        class="flex flex-col gap-4 md:flex-row-reverse w-full max-w-xl mx-auto px-4 md:px-0"
-      >
+    <!-- Tombol bawah -->
+    <div class="px-6 pb-10">
+      <div class="max-w-md mx-auto flex flex-col gap-4">
         <button
           @click="startQuiz"
-          class="w-full md:w-full px-6 py-3 bg-white text-[#007bff] md:bg-[#007bff] md:text-white rounded-full font-medium text-sm hover:bg-white/90 transition"
+          class="w-full h-14 rounded-[22px] bg-white text-[#0B6CF0] text-[16px] font-semibold shadow
+                 hover:bg-white/95 transition"
         >
           Let’s Go
         </button>
         <button
           @click="changeMind"
-          class="w-full md:w-full px-6 py-3 text-white border border-white md:border-gray-400 md:text-[#007bff] rounded-full font-medium text-sm hover:bg-white/10 transition"
+          class="w-full h-14 rounded-[22px] border border-white text-white text-[16px] font-semibold
+                 hover:bg-white/10 transition"
         >
           Change My Mind
         </button>
@@ -79,15 +77,10 @@ const router = useRouter();
 const route = useRoute();
 const quizId = route.params.id;
 
-
-function goBack() {
-  router.back();
-}
-
 function changeMind() {
-  alert("Okay, you changed your mind 😅");
+  // sesuaikan behaviour-mu
+  router.push("/quiz");
 }
-
 function startQuiz() {
   router.push(`/quiz-session/${quizId}`);
 }

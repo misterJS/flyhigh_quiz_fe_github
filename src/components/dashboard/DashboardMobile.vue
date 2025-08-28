@@ -1,23 +1,34 @@
 <template>
   <div class="min-h-screen bg-[#f9fafb] px-4 pb-20 pt-5">
     <!-- Header -->
-    <div class="flex justify-between items-center mb-4 rounded-xl p-4 bg-white">
-      <div class="flex items-center space-x-2">
-        <img src="@/assets/Avatar.png" class="w-8 h-8 rounded-full" />
-        <div class="text-sm">
-          <p class="text-gray-500">Good morning</p>
-          <p class="font-semibold">{{ profile.name }}</p>
+    <div class="flex items-center justify-between mb-6 rounded-[22px] p-5 bg-white shadow-sm">
+      <!-- Left: avatar + greeting + name -->
+      <div class="flex items-center gap-4">
+        <!-- avatar dalam lingkaran hijau -->
+        <div class="w-12 h-12 rounded-full bg-[#E6F6E9] flex items-center justify-center">
+          <img src="@/assets/Avatar.png" class="w-9 h-9 rounded-full" alt="avatar" />
+        </div>
+
+        <div class="leading-snug">
+          <p class="text-xs text-[#9AA3AF]">Good morning</p>
+          <p class="text-base font-normal text-[#1C103B]">
+            {{ profile.name || '—' }}
+          </p>
         </div>
       </div>
-      <div
-        class="flex items-center gap-1 bg-[#F0ECFE] px-3 py-2 rounded-full text-sm"
-      >
-        💎
-        <span class="font-medium text-[#9B7BF8]">{{
-          leaderboardScore[0]?.XP ?? 0
-        }}</span>
+
+      <!-- Right: XP badge -->
+      <div class="flex items-center gap-2 bg-[#EEE8FF] px-4 py-2 rounded-full">
+        <!-- diamond icon -->
+        <svg viewBox="0 0 24 24" class="w-5 h-5 text-[#7C5CFF]" fill="currentColor" aria-hidden="true">
+          <polygon points="12,2 20,8 20,16 12,22 4,16 4,8"></polygon>
+        </svg>
+        <span class="text-base font-semibold text-[#7C5CFF]">
+          {{ leaderboardScore[0]?.XP ?? 0 }}
+        </span>
       </div>
     </div>
+
 
     <!-- Congratulations Card -->
     <div class="bg-white rounded-xl p-4 border relative overflow-hidden mb-6">
@@ -27,7 +38,7 @@
         </p>
         <p class="text-sm text-gray-500">You’re Close to a Reward</p>
         <p class="text-base text-[#1E1E1F] mt-2">
-          {{ leaderboardScore[0]?.XP ?? 0 }} / 500 💎
+          {{ leaderboardScore[0]?.XP ?? 0 }} / 500 <span class="absolute bottom-[45%] left-[81px]">🎯</span>
         </p>
         <p class="text-[10px] text-gray-400 mb-2">
           {{
@@ -38,10 +49,7 @@
         </p>
         <BaseButton class="rounded-xl">View All Rewards</BaseButton>
       </div>
-      <img
-        src="@/assets/cup-orange.png"
-        class="absolute right-2 bottom-2 w-20"
-      />
+      <img src="@/assets/cup-confetti.png" class="absolute right-2 bottom-2 w-42" />
     </div>
 
     <!-- Subjects -->
@@ -54,16 +62,8 @@
 
       <!-- Subject Icons -->
       <div class="flex justify-between">
-        <div
-          v-for="subject in subjects"
-          :key="subject.name"
-          class="flex flex-col items-center text-center"
-        >
-          <img
-            :src="subject.icon"
-            alt=""
-            class="w-[52px] h-[52px] object-contain"
-          />
+        <div v-for="subject in subjects" :key="subject.name" class="flex flex-col items-center text-center">
+          <img :src="subject.icon" alt="" class="w-[52px] h-[52px] object-contain" />
 
           <p class="text-sm mt-2 text-gray-800">{{ subject.name }}</p>
         </div>
@@ -84,16 +84,11 @@
     <div class="bg-white rounded-2xl shadow-custom p-4 mb-6">
       <div class="flex justify-between items-center mb-2">
         <h3 class="font-semibold text-base text-gray-900">Leaderboard</h3>
-        <a href="/ranking" class="text-sm text-blue-600 font-medium"
-          >View All</a
-        >
+        <a href="/ranking" class="text-sm text-blue-600 font-medium">View All</a>
       </div>
       <div class="space-y-2">
-        <div
-          v-for="(user, index) in leaderboard"
-          :key="index"
-          class="flex justify-between items-center bg-white p-3 border-b"
-        >
+        <div v-for="(user, index) in leaderboard" :key="index"
+          class="flex justify-between items-center bg-white p-3 border-b">
           <div class="flex items-center gap-3">
             <img :src="user.avatar" class="w-10 h-10 rounded-full" />
             <div>

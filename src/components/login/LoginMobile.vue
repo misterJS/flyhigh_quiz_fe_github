@@ -1,110 +1,113 @@
 <template>
-  <div class="min-h-screen flex flex-col">
-    <!-- Top Blue Half -->
-    <div class="bg-blue-600 flex justify-center items-center h-1/2-screen">
-      <div class="w-full max-w-sm px-6">
+  <div class="min-h-screen flex flex-col bg-[#F6F7FB]">
+    <!-- TOP BLUE -->
+    <section class="relative h-[46vh] grid-bg bg-[#0B63F6] text-white">
+      <div class="h-full max-w-sm mx-auto px-6 flex flex-col items-center justify-center">
         <!-- Logo -->
-        <img
-          src="@/assets/logowhite.png"
-          alt="Fly High Logo"
-          class="w-24 mb-6 mx-auto"
-        />
+        <img src="@/assets/logowhite.png" alt="Fly High" class="w-24 mb-6" />
 
         <!-- Heading -->
-        <div class="text-center mb-4 text-white">
-          <h2 class="text-xl font-semibold">Sign In to Your Account</h2>
-          <p class="text-sm">
+        <div class="text-center">
+          <h2 class="text-[32px] leading-tight font-normal">
+            Sign In to Your<br />Account
+          </h2>
+          <p class="text-sm mt-2">
             Don’t have an account?
-            <a href="#" class="text-white underline font-medium">Sign Up</a>
+            <router-link to="/register" class="underline font-medium">Sign Up</router-link>
           </p>
         </div>
       </div>
-    </div>
+    </section>
 
-    <!-- Bottom White Half -->
-    <div class="bg-white flex justify-center items-start h-1/2-screen">
+    <!-- CARD -->
+    <section class="relative flex-1">
       <div
-        class="bg-white w-full max-w-sm rounded-2xl shadow px-6 py-5 space-y-4 border border-gray-200 -mt-24"
+        class="max-w-sm mx-auto -mt-16 bg-white rounded-2xl shadow-md border border-gray-200 px-5 py-5 space-y-4"
       >
         <!-- Google Sign-in -->
         <button
-          class="w-full flex items-center justify-center border border-gray-300 rounded-full py-2 text-sm font-medium text-gray-600 hover:bg-gray-50"
+          type="button"
+          class="w-full h-11 flex items-center justify-center gap-2 border border-gray-300 rounded-full text-sm font-medium text-gray-700 hover:bg-gray-50"
+          @click="signInWithGoogle"
         >
           <img
             src="https://www.svgrepo.com/show/475656/google-color.svg"
             alt="Google"
-            class="w-5 h-5 mr-2"
+            class="w-5 h-5"
           />
-          Google
+          Continue with Google
         </button>
 
         <!-- Divider -->
-        <div class="flex items-center justify-between text-gray-400 text-xs">
-          <hr class="flex-grow border-t" />
+        <div class="flex items-center text-gray-400 text-xs">
+          <hr class="flex-1 border-t" />
           <span class="px-2">Or</span>
-          <hr class="flex-grow border-t" />
+          <hr class="flex-1 border-t" />
         </div>
 
         <!-- Email -->
         <div>
-          <label class="text-xs text-gray-600 mb-1 block">Email</label>
+          <label class="block text-xs text-gray-600 mb-1">Email</label>
           <div class="relative">
             <input
               v-model="email"
               type="email"
               placeholder="Type your email"
-              class="w-full pl-10 pr-4 py-2 rounded-full border border-gray-300 text-sm bg-[#f3f6fd] focus:ring-1 focus:ring-blue-500 focus:outline-none"
+              class="w-full h-11 rounded-full bg-[#F3F6FD] border border-gray-300 pl-11 pr-4 text-sm focus:outline-none focus:ring-1 focus:ring-[#0B63F6]"
             />
-            <span class="absolute left-3 top-2.5 text-gray-400">📧</span>
+            <i class="fas fa-envelope absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm"></i>
           </div>
         </div>
 
         <!-- Password -->
         <div>
-          <label class="text-xs text-gray-600 mb-1 block">Password</label>
+          <label class="block text-xs text-gray-600 mb-1">Password</label>
           <div class="relative">
             <input
               v-model="password"
               :type="showPassword ? 'text' : 'password'"
               placeholder="Type your password"
-              class="w-full pl-10 pr-10 py-2 rounded-full border border-gray-300 text-sm bg-[#f3f6fd] focus:ring-1 focus:ring-blue-500 focus:outline-none"
+              class="w-full h-11 rounded-full bg-[#F3F6FD] border border-gray-300 pl-11 pr-12 text-sm focus:outline-none focus:ring-1 focus:ring-[#0B63F6]"
             />
-            <span class="absolute left-3 top-2.5 text-gray-400">🔒</span>
+            <i class="fas fa-lock absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm"></i>
+
+            <!-- Eye button in a circle -->
             <button
               type="button"
               @click="togglePassword"
-              class="absolute right-3 top-2.5 text-gray-400 text-sm"
+              class="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center text-gray-500 hover:bg-gray-50"
+              :aria-label="showPassword ? 'Hide password' : 'Show password'"
             >
-              👁️
+              <i :class="showPassword ? 'far fa-eye-slash' : 'far fa-eye'"></i>
             </button>
           </div>
         </div>
 
         <!-- Options -->
         <div class="flex items-center justify-between text-sm">
-          <label class="flex items-center space-x-2">
+          <label class="flex items-center gap-2">
             <input type="checkbox" v-model="rememberMe" class="rounded" />
             <span class="text-gray-500 text-xs">Remember me</span>
           </label>
-          <a href="#" class="text-red-500 text-xs font-medium">
+          <router-link to="/forgot-password" class="text-red-500 text-xs font-medium">
             Forgot Password?
-          </a>
+          </router-link>
         </div>
 
         <!-- Sign In Button -->
         <button
+          type="button"
           @click="signIn"
-          class="w-full mt-4 bg-blue-600 text-white py-2 rounded-full font-medium text-sm hover:bg-blue-700 transition"
+          class="w-full h-12 mt-2 bg-[#0B63F6] hover:bg-[#155EE0] text-white rounded-full font-semibold text-sm transition"
         >
           Sign In
         </button>
 
-        <p v-if="loginError" class="text-red-600 text-center text-sm mt-2">
-          {{ loginError }} Please Try Again.
+        <p v-if="loginError" class="text-red-600 text-center text-sm mt-1">
+          {{ loginError }} Please try again.
         </p>
-
       </div>
-    </div>
+    </section>
   </div>
 </template>
 
@@ -122,22 +125,34 @@ const showPassword = ref(false);
 const auth = useAuthStore();
 const router = useRouter();
 
-const togglePassword = () => {
-  showPassword.value = !showPassword.value;
-};
+const togglePassword = () => (showPassword.value = !showPassword.value);
 
 const signIn = async () => {
   try {
-    await auth.login(email.value, password.value);
+    await auth.login(email.value, password.value, { remember: rememberMe.value });
     router.push("/home");
   } catch (err) {
-    loginError.value = err.message;
+    loginError.value = err?.message || "Login failed.";
+  }
+};
+
+const signInWithGoogle = async () => {
+  try {
+    await auth.loginWithGoogle?.();
+    router.push("/home");
+  } catch (err) {
+    loginError.value = err?.message || "Google sign-in failed.";
   }
 };
 </script>
 
 <style scoped>
-.h-1\/2-screen {
-  height: 50vh;
+/* Biru bergaris seperti grid */
+.grid-bg {
+  background-image:
+    linear-gradient(rgba(255,255,255,0.12) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.12) 1px, transparent 1px);
+  background-size: 28px 28px, 28px 28px;
+  background-position: center;
 }
 </style>

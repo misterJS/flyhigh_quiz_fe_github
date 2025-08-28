@@ -1,190 +1,146 @@
 <template>
-  <div class="min-h-screen bg-[#f9fafb] flex flex-col lg:flex-row">
-    <!-- Sidebar (only desktop) -->
+  <div class="min-h-screen bg-[#F9FAFB] flex flex-col lg:flex-row">
+    <!-- Sidebar (desktop) -->
     <SidebarComponent class="hidden lg:block" />
 
     <div class="flex-1 flex flex-col">
-      <!-- Header (only desktop) -->
+      <!-- Header (desktop) -->
       <HeaderComponent class="hidden lg:flex" />
 
-      <!-- Main Content -->
-      <div class="p-4 lg:p-8 flex flex-col lg:flex-row gap-6">
-        <!-- LEFT CONTENT -->
-        <div class="flex-1">
-          <!-- Profile Header -->
-          <div
-            class="relative bg-white rounded-xl shadow-sm overflow-hidden mb-6"
-          >
-            <img
-              src="../assets/Avatar.png"
-              class="w-full h-40 lg:h-60 object-cover"
-            />
-            <button
-              class="absolute top-4 right-4 bg-white p-2 rounded-full shadow"
-            >
-              <i class="fas fa-pen text-gray-600"></i>
+      <!-- ===== HERO (image full-width, header tools overlay) ===== -->
+      <section class="relative">
+        <!-- image nempel ke atas -->
+        <img :src="heroSrc" class="w-full h-[260px] object-cover" alt="profile hero" />
+
+        <!-- overlay header buttons -->
+        <div class="absolute inset-x-0 top-0 flex items-center justify-between px-4 pt-4">
+          <div class="flex gap-1 items-center">
+
+            <button @click="goBack" class="w-9 h-9 grid place-items-center rounded-full bg-transparent">
+              <i class="fas fa-arrow-left text-[#0F172A]"></i>
             </button>
+            <p>Report</p>
           </div>
-
-          <div class="bg-transparent mb-6 py-4 border-b">
-            <h2 class="font-semibold text-lg mb-1">Adzami Pratama Anura</h2>
-            <p class="text-sm text-gray-500 mb-1">adzami@gmail.com</p>
-            <p class="text-sm text-gray-400">Joined on April 12, 2025</p>
-
-            <!-- Mobile Add Friend -->
-            <div class="lg:hidden mb-6 mt-6">
-              <h3 class="text-lg mb-3">Add Friend</h3>
-              <div class="flex justify-center gap-4">
-                <button
-                  class="flex items-center justify-center px-12 py-4 rounded-full border border-gray-300"
-                >
-                  <i class="fas fa-search text-sm"></i>
-                </button>
-                <button
-                  class="flex items-center justify-center px-12 py-4 rounded-full border border-gray-300"
-                >
-                  <i class="fas fa-share-alt text-sm"></i>
-                </button>
-                <button
-                  class="flex items-center justify-center px-12 py-4 rounded-full border border-gray-300"
-                >
-                  <i class="fas fa-paper-plane text-sm"></i>
-                </button>
-              </div>
-            </div>
-          </div>
-
-          <!-- Quiz Performance -->
-          <div>
-            <h3 class="font-semibold text-base mb-4">Quiz Performance</h3>
-
-            <!-- Mobile Card -->
-            <div class="lg:hidden bg-white rounded-xl p-4 shadow-sm space-y-4">
-              <div
-                v-for="item in performanceData"
-                :key="item.title"
-                class="space-y-1"
-              >
-                <div class="flex justify-between">
-                  <span class="font-semibold">{{ item.title }}</span>
-                  <span class="font-semibold text-gray-600"
-                    >{{ item.score }}/100</span
-                  >
-                </div>
-                <div class="text-xs text-gray-400">
-                  {{ item.date }} • {{ item.time }}
-                </div>
-                <div class="flex justify-between text-xs text-gray-500">
-                  <span>Correct: {{ item.correct }}</span>
-                  <span>Incorrect: {{ item.incorrect }}</span>
-                </div>
-                <hr />
-              </div>
-            </div>
-
-            <!-- Desktop Table -->
-            <div class="hidden lg:block bg-white rounded-xl shadow-sm p-6">
-              <div class="overflow-x-auto">
-                <table class="min-w-full text-sm">
-                  <thead class="bg-gray-50 text-gray-500">
-                    <tr>
-                      <th class="px-4 py-3 text-start">Quiz Title</th>
-                      <th class="px-4 py-3 text-start">Date</th>
-                      <th class="px-4 py-3 text-start">Score</th>
-                      <th class="px-4 py-3 text-start">Correct</th>
-                      <th class="px-4 py-3 text-start">Incorrect</th>
-                      <th class="px-4 py-3 text-start">Time Spend</th>
-                    </tr>
-                  </thead>
-                  <tbody class="divide-y text-gray-700">
-                    <tr v-for="item in performanceData" :key="item.title">
-                      <td class="px-4 py-4">{{ item.title }}</td>
-                      <td class="px-4 py-4">{{ item.date }}</td>
-                      <td class="px-4 py-4 font-medium">{{ item.score }}</td>
-                      <td class="px-4 py-4">{{ item.correct }}</td>
-                      <td class="px-4 py-4">{{ item.incorrect }}</td>
-                      <td class="px-4 py-4">{{ item.time }}</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
+          <button @click="share" class="w-9 h-9 grid place-items-center rounded-full bg-transparent">
+            <i class="fas fa-external-link-square-alt text-[#0F172A]"></i>
+          </button>
         </div>
 
-        <!-- RIGHT SIDEBAR -->
-        <div class="w-full lg:w-[340px] flex flex-col gap-6">
-          <!-- Reward Card -->
-          <div class="bg-white rounded-xl p-6 shadow-sm relative">
-            <p class="font-semibold text-sm mb-1">Congratulations!</p>
-            <p class="text-sm text-gray-500 mb-2">You’re Close to a Reward</p>
-            <p class="font-semibold text-lg">300 / 500 💎</p>
-            <p class="text-xs text-gray-400 mb-3">80% of target</p>
-            <button
-              class="bg-blue-600 text-white text-sm px-4 py-2 rounded-full mb-4"
-            >
+        <!-- tombol edit biru mengambang di tepi kanan gambar -->
+        <button @click="editProfile"
+          class="absolute right-4 -bottom-6 w-12 h-12 rounded-xl bg-[#0B6CF0] text-white grid place-items-center shadow-lg"
+          aria-label="Edit profile">
+          <i class="fas fa-pen"></i>
+        </button>
+      </section>
+
+      <!-- ===== BODY (profil tanpa card) ===== -->
+      <main class="px-4 lg:px-8 pt-8">
+        <!-- nama + meta TANPA card -->
+        <div class="max-w-5xl mx-auto">
+          <h1 class="text-[24px] leading-7 font-normal text-[#0F172A]">
+            Adzami Pratama Anura
+          </h1>
+          <p class="text-[15px] text-gray-500 mt-2">adzami@gmail.com</p>
+          <p class="text-[15px] text-gray-400 mt-1">Joined on April 12, 2025</p>
+
+          <!-- Add Friend (tiga tombol bulat) -->
+          <div class="mt-7">
+            <h3 class="text-[22px] font-normal mb-3">Add Friend</h3>
+            <div class="grid grid-cols-3 gap-4">
+              <button class="h-[84px] rounded-[22px] bg-white border border-gray-200 shadow-sm grid place-items-center">
+                <i class="fas fa-search text-[18px]"></i>
+              </button>
+              <button class="h-[84px] rounded-[22px] bg-white border border-gray-200 shadow-sm grid place-items-center">
+                <i class="fas fa-share-alt text-[18px]"></i>
+              </button>
+              <button class="h-[84px] rounded-[22px] bg-white border border-gray-200 shadow-sm grid place-items-center">
+                <i class="fas fa-paper-plane text-[18px]"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- ===== Congratulations card ===== -->
+          <div class="mt-8 bg-white rounded-[22px] border border-gray-200 shadow-sm p-5 relative overflow-hidden">
+            <h4 class="text-[20px] font-normal">Congratulations!</h4>
+            <p class="text-[15px] text-gray-500 mt-1">You’re Close to a Reward</p>
+
+            <div class="mt-3">
+              <div class="text-[22px] font-semibold flex items-center gap-2">
+                300 / 500 <span class="-translate-y-[2px]">🎯</span>
+              </div>
+              <p class="text-xs text-gray-400 mt-1">80% of target</p>
+            </div>
+
+            <button class="mt-4 bg-[#0B6CF0] text-white px-5 py-3 rounded-xl text-sm font-semibold">
               View All Rewards
             </button>
-            <img
-              src="@/assets/cup-orange.png"
-              class="w-24 absolute right-4 top-20 opacity-90"
-            />
+
+            <img :src="require('@/assets/cup-confetti.png')"
+              class="absolute right-2 bottom-2 w-36 pointer-events-none select-none" />
           </div>
 
-          <!-- Ongoing Quiz -->
-          <div class="bg-white rounded-xl p-6 shadow-sm">
-            <div class="flex justify-between items-center mb-3">
-              <h3 class="text-base font-semibold">Ongoing Quiz</h3>
-              <a href="#" class="text-sm text-blue-600">See all course</a>
+          <!-- ===== Ongoing Quiz (1 baris kartu seperti mockup) ===== -->
+          <div class="mt-8">
+            <h3 class="text-[22px] font-normal mb-3">Ongoing Quiz</h3>
+
+            <div class="bg-white rounded-[22px] border border-gray-200 shadow-sm p-4 flex items-center justify-between">
+              <div class="flex items-center gap-3">
+                <img :src="require('@/assets/Badge3.png')" class="w-10 h-10 rounded-full" />
+                <div>
+                  <p class="font-semibold text-[15px]">Design Thinking From Scratch</p>
+                  <p class="text-sm text-[#2563EB]">Sessions completed 4/20</p>
+                </div>
+              </div>
+
+              <!-- progress arc kecil (dummy 4%) -->
+              <div class="relative w-14 h-14">
+                <svg viewBox="0 0 36 36" class="w-14 h-14">
+                  <path class="text-gray-200" stroke="currentColor" stroke-width="4" fill="none" d="M18 2
+                       a 16 16 0 1 1 0 32
+                       a 16 16 0 1 1 0 -32" />
+                  <path class="text-red-500" stroke="currentColor" stroke-width="4" fill="none" stroke-linecap="round"
+                    :stroke-dasharray="dash" d="M18 2
+                       a 16 16 0 1 1 0 32
+                       a 16 16 0 1 1 0 -32" />
+                </svg>
+                <span class="absolute inset-0 grid place-items-center text-xs font-semibold">4%</span>
+              </div>
             </div>
-            <ul class="space-y-3 text-sm text-gray-700">
-              <li
-                v-for="quiz in ongoingQuizzes"
-                :key="quiz.title"
-                class="flex justify-between items-center"
-              >
-                <div class="flex items-center gap-3">
-                  <img :src="quiz.icon" class="w-7 h-7 rounded-full" />
-                  <div>
-                    <p class="font-semibold">{{ quiz.title }}</p>
-                    <p class="text-xs text-blue-500">
-                      Sessions {{ quiz.sessions }}
-                    </p>
-                  </div>
-                </div>
-                <div
-                  :class="quiz.progressClass"
-                  class="w-8 h-8 flex items-center justify-center text-[10px] font-semibold border-4 rounded-full"
-                >
-                  {{ quiz.progress }}
-                </div>
-              </li>
-            </ul>
           </div>
 
-          <!-- Add Friend (only desktop) -->
-          <div class="bg-white rounded-xl p-6 shadow-sm hidden lg:block">
-            <h3 class="text-sm font-semibold mb-4">Add Friend</h3>
-            <ul class="space-y-3">
-              <li
-                v-for="friend in friendOptions"
-                :key="friend.label"
-                class="flex justify-between items-center"
-              >
-                <div class="flex items-center gap-3">
-                  <div
-                    class="w-9 h-9 flex justify-center items-center border rounded-full text-gray-600"
-                  >
-                    <i :class="friend.icon" class="text-sm"></i>
-                  </div>
-                  <span class="text-sm">{{ friend.label }}</span>
+          <!-- ===== Quiz Performance ===== -->
+          <div class="mt-8">
+            <h3 class="text-[22px] font-normal mb-3">Quiz Performance</h3>
+
+            <div class="bg-white rounded-[22px] border border-gray-200 shadow-sm p-5">
+              <div class="flex items-start justify-between">
+                <div>
+                  <p class="text-[15px] text-gray-500">2023-10-01 • 60 mins</p>
+                  <h4 class="text-[20px] font-semibold mt-1">Mathematics</h4>
                 </div>
-                <i class="fas fa-chevron-right text-gray-400 text-xs"></i>
-              </li>
-            </ul>
+                <div class="text-right">
+                  <span class="text-[36px] font-semibold leading-none">60</span>
+                  <span class="text-gray-400">/100</span>
+                </div>
+              </div>
+
+              <div class="grid grid-cols-2 gap-4 mt-5">
+                <div class="rounded-2xl bg-[#F8FAFC] p-4">
+                  <p class="text-sm text-gray-500">Correct</p>
+                  <p class="text-[28px] font-semibold mt-1">83%</p>
+                </div>
+                <div class="rounded-2xl bg-[#F8FAFC] p-4">
+                  <p class="text-sm text-gray-500">Incorrect</p>
+                  <p class="text-[28px] font-semibold mt-1">76%</p>
+                </div>
+              </div>
+            </div>
           </div>
+
+          <div class="h-10"></div>
         </div>
-      </div>
+      </main>
     </div>
   </div>
 </template>
@@ -192,69 +148,29 @@
 <script setup>
 import SidebarComponent from "@/components/base/SidebarComponent.vue";
 import HeaderComponent from "@/components/base/HeaderComponent.vue";
+import { computed } from "vue";
+import { useRouter } from "vue-router";
 
-const performanceData = [
-  {
-    title: "Mathematics",
-    date: "2023-10-01",
-    score: 60,
-    correct: 17,
-    incorrect: 3,
-    time: "60 mins",
-  },
-  {
-    title: "Biology",
-    date: "2023-10-01",
-    score: 85,
-    correct: 17,
-    incorrect: 3,
-    time: "45 mins",
-  },
-  {
-    title: "Chemistry",
-    date: "2023-09-25",
-    score: 90,
-    correct: 18,
-    incorrect: 2,
-    time: "40 mins",
-  },
-  {
-    title: "Physics",
-    date: "2023-10-05",
-    score: 78,
-    correct: 15,
-    incorrect: 5,
-    time: "50 mins",
-  },
-];
+const router = useRouter();
+const heroSrc = require("@/assets/Avatar.png"); // ganti ke bannermu
 
-const ongoingQuizzes = [
-  {
-    title: "Design Thinking From Scratch",
-    sessions: "4/20",
-    progress: "4%",
-    icon: "../assets/reward3.png",
-    progressClass: "border-red-500 text-red-500",
-  },
-  {
-    title: "Application of AI in UI/UX design",
-    sessions: "12/17",
-    progress: "85%",
-    icon: "../assets/reward3.png",
-    progressClass: "border-yellow-400 text-yellow-500",
-  },
-  {
-    title: "Figma: Create Better Design System For Your Team",
-    sessions: "21/21",
-    progress: "100%",
-    icon: "../assets/reward3.png",
-    progressClass: "border-green-500 text-green-500",
-  },
-];
+function goBack() {
+  router.back();
+}
+function share() {
+  if (navigator.share) {
+    navigator.share({ title: "Report", url: location.href }).catch(() => { });
+  }
+}
+function editProfile() {
+  router.push("/edit-profile");
+}
 
-const friendOptions = [
-  { label: "Find Friend", icon: "fas fa-search" },
-  { label: "Share Friend", icon: "fas fa-share-alt" },
-  { label: "Invite Friend", icon: "fas fa-paper-plane" },
-];
+/* kecilkan dasharray supaya 4% terlihat tipis */
+const percent = 4;
+const dash = computed(() => {
+  const total = 100;         // “keliling” virtual
+  const p = Math.max(0, Math.min(100, percent));
+  return `${(p / 100) * total}, ${total}`;
+});
 </script>

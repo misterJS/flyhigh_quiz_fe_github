@@ -10,9 +10,7 @@
 
       <main class="flex-1 p-4 sm:p-6 lg:p-8 pb-24">
         <!-- Banner -->
-        <section
-          class="bg-[#BFDBFE] rounded-2xl p-4 sm:p-6 text-center mb-6 sm:mb-8 relative"
-        >
+        <section class="bg-[#BFDBFE] rounded-2xl p-4 sm:p-6 text-center mb-6 sm:mb-8 relative">
           <h2 class="text-lg sm:text-xl font-semibold text-[#111827]">
             What’s the lesson for today?
           </h2>
@@ -22,11 +20,9 @@
               placeholder="Search Topics"
               class="w-full py-2 px-4 pl-10 rounded-full text-sm border border-transparent focus:outline-none focus:ring-2 focus:ring-[#2563EB]"
             />
+            <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
             <i
-              class="fas fa-search absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"
-            ></i>
-            <i
-              class="fas fa-sliders-h absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 cursor-pointer"
+              class="fas fa-sliders-h absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 cursor-pointer"
               @click="handleFilterModalOpen"
             ></i>
           </div>
@@ -45,14 +41,8 @@
               :key="subject.name"
               class="flex flex-col items-center text-center"
             >
-              <div
-                class="bg-gray-100 w-14 h-14 rounded-full shadow-sm flex items-center justify-center"
-              >
-                <img
-                  :src="`/subjects/${subject.SubjectName}.png`"
-                  alt=""
-                  class="w-[52px] h-[52px] object-contain"
-                />
+              <div class="bg-gray-100 w-14 h-14 rounded-full shadow-sm flex items-center justify-center">
+                <img :src="`/subjects/${subject.SubjectName}.png`" alt="" class="w-[52px] h-[52px] object-contain" />
               </div>
               <p class="text-sm mt-2 text-gray-800">
                 {{ subject.SubjectName }}
@@ -62,9 +52,7 @@
         </div>
 
         <!-- Quiz Cards -->
-        <section
-          class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6"
-        >
+        <section class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
           <QuizCard
             v-for="(quiz, index) in quizzes"
             :key="index"
@@ -76,9 +64,7 @@
             :duration="quiz.totalHour"
             :id="quiz.id"
           />
-          <div v-if="loading" class="text-center py-4 text-gray-600">
-            Loading more quizzes...
-          </div>
+          <div v-if="loading" class="text-center py-4 text-gray-600">Loading more quizzes...</div>
         </section>
       </main>
     </div>
@@ -86,84 +72,126 @@
     <!-- Bottom Nav Mobile -->
     <BottomBarNavigation class="lg:hidden" />
 
-    <!-- Filter Modal -->
+    <!-- =============== Filter Modal (new look) =============== -->
     <div
       v-if="filterModalOpen"
       class="fixed inset-0 z-50 bg-black/30 flex justify-center items-end lg:items-center"
     >
-      <div class="bg-white w-full max-w-md rounded-t-2xl lg:rounded-2xl p-6">
-        <div
-          class="w-16 h-1.5 bg-gray-300 rounded-full mx-auto mb-4 lg:hidden"
-        ></div>
-        <div class="flex justify-between items-center mb-4">
-          <h3 class="font-semibold">Filter</h3>
-          <button
-            class="text-sm text-blue-600 font-medium"
-            @click="resetFilter()"
-          >
-            Reset
-          </button>
+      <div class="bg-white w-full max-w-md rounded-t-2xl lg:rounded-2xl p-0 overflow-hidden">
+        <!-- grabber -->
+        <div class="lg:hidden pt-3">
+          <div class="w-16 h-1.5 bg-gray-300 rounded-full mx-auto"></div>
         </div>
+
+        <!-- Header -->
+        <div class="px-6 pt-4 pb-2 flex items-center justify-between">
+          <h3 class="font-semibold text-[15px]">Filters</h3>
+          <button class="text-sm text-[#2563EB] font-medium" @click="resetFilter()">Reset</button>
+        </div>
+
+        <hr class="border-gray-100" />
 
         <!-- Progress -->
-        <div class="mb-6">
-          <h4 class="text-sm font-semibold mb-2">Progres</h4>
+        <div class="px-6 py-4">
+          <div class="flex items-center gap-2 mb-3">
+            <i class="fas fa-chart-bar text-gray-500"></i>
+            <h4 class="text-sm font-semibold">Progres</h4>
+          </div>
           <div class="flex flex-wrap gap-2">
-            <FilterPill
-              label="All"
-              :active="progress === 'All'"
-              @click="progress = 'All'"
-            />
-            <FilterPill
-              label="Ongoing"
-              :active="progress === 'Ongoing'"
-              @click="progress = 'Ongoing'"
-            />
-            <FilterPill
-              label="Completed"
-              :active="progress === 'Completed'"
-              @click="progress = 'Completed'"
-            />
+            <button
+              v-for="opt in progressOptions"
+              :key="opt"
+              @click="progress = opt"
+              :class="[
+                'chip',
+                progress === opt ? 'chip-active' : 'chip-idle'
+              ]"
+            >
+              <span>{{ opt }}</span>
+              <span v-if="progress === opt" class="chip-x">×</span>
+            </button>
           </div>
         </div>
 
-        <div class="mb-6">
-          <h4 class="text-sm font-semibold mb-2">
-            Category ({{ categories.length || 0 }})
-          </h4>
+        <hr class="border-gray-100" />
+
+        <!-- Category -->
+        <div class="px-6 py-4">
+          <div class="flex items-center justify-between mb-3">
+            <div class="flex items-center gap-2">
+              <i class="fas fa-cubes text-gray-500"></i>
+              <h4 class="text-sm font-semibold">
+                Category ({{ categories.length || 0 }})
+              </h4>
+            </div>
+          </div>
+
           <div class="flex flex-wrap gap-2">
-            <FilterPill
+            <button
               v-for="cat in categories"
               :key="cat.id"
-              :label="cat.name"
-              :active="selectedCategories.includes(cat.id)"
               @click="toggleCategory(cat.id)"
-            />
+              :class="[
+                'chip',
+                selectedCategories.includes(cat.id) ? 'chip-active' : 'chip-idle'
+              ]"
+            >
+              <span>{{ cat.name }}</span>
+              <span v-if="selectedCategories.includes(cat.id)" class="chip-x">×</span>
+            </button>
           </div>
         </div>
 
+        <hr class="border-gray-100" />
+
         <!-- Grade -->
-        <div class="mb-6">
-          <h4 class="text-sm font-semibold mb-2">Grade</h4>
-          <select
-            class="w-full border rounded-lg px-4 py-2 text-sm"
-            v-model="grade"
-          >
-            <option disabled value="">Select grade</option>
-            <option v-for="grade in grades" :key="grade?.Id" :value="grade?.Id">
-              {{ grade?.GradeName }}
-            </option>
-          </select>
+        <div class="px-6 pt-4 pb-6">
+          <div class="flex items-center gap-2 mb-3">
+            <i class="fas fa-book text-gray-500"></i>
+            <h4 class="text-sm font-semibold">Grade</h4>
+          </div>
+
+          <!-- Custom dropdown -->
+          <div class="relative" ref="gradeMenuRef">
+            <button
+              class="w-full h-11 px-4 text-sm rounded-xl border transition
+                     flex items-center justify-between
+                     focus:outline-none focus:ring-2 focus:ring-[#2563EB] border-[#CBD5E1]"
+              @click="gradeOpen = !gradeOpen"
+            >
+              <span class="text-gray-500" v-if="!selectedGradeText">Select grade</span>
+              <span v-else class="text-gray-900">{{ selectedGradeText }}</span>
+              <i :class="['fas', 'fa-chevron-' + (gradeOpen ? 'up' : 'down'), 'text-gray-400']"></i>
+            </button>
+
+            <!-- options -->
+            <div
+              v-if="gradeOpen"
+              class="absolute z-10 mt-2 w-full bg-white border rounded-xl shadow-sm max-h-64 overflow-auto"
+            >
+              <button
+                v-for="g in grades"
+                :key="g?.Id"
+                class="w-full text-left px-4 py-2 text-sm hover:bg-gray-50"
+                @click="selectGrade(g?.Id)"
+              >
+                {{ g?.GradeName }}
+              </button>
+            </div>
+          </div>
         </div>
 
-        <button
-          class="w-full bg-blue-600 text-white py-3 rounded-full text-sm font-semibold"
-          @click="applyFilter()"
-        >
-          Continue
-        </button>
+        <div class="px-6 pb-6">
+          <button
+            class="w-full bg-[#2563EB] hover:bg-[#1E40AF] text-white h-11 rounded-full text-sm font-semibold"
+            @click="applyFilter()"
+          >
+            Continue
+          </button>
+        </div>
       </div>
     </div>
+    <!-- =============== /Filter Modal =============== -->
   </div>
 </template>
 
@@ -173,9 +201,8 @@ import SidebarComponent from "@/components/base/SidebarComponent.vue";
 import HeaderComponent from "@/components/base/HeaderComponent.vue";
 import QuizCard from "@/components/base/QuizCardComponent.vue";
 import BottomBarNavigation from "@/components/base/BottomBarNavigation.vue";
-import FilterPill from "@/components/base/FilterPill.vue";
 import { useAuthStore } from "@/stores/authStore";
-import { ref, onMounted, onBeforeUnmount } from "vue";
+import { ref, onMounted, onBeforeUnmount, computed } from "vue";
 import { QuizListSubject } from "@/api/subjectApi";
 import { AllQuizList, QuizCategories } from "@/api/quizApi";
 
@@ -184,9 +211,24 @@ const allSubjects = ref([]);
 const categories = ref([]);
 const subjects = ref([]);
 const filterModalOpen = ref(false);
+
+// progress
 const progress = ref("All");
+const progressOptions = ["All", "Ongoing", "Completed"];
+
+// categories
 const selectedCategories = ref([]);
+
+// grade dropdown
 const grade = ref("");
+const gradeOpen = ref(false);
+const gradeMenuRef = ref(null);
+const selectedGradeText = computed(() => {
+  const g = grades.value?.find((x) => x?.Id === grade.value);
+  return g?.GradeName || "";
+});
+
+// stores
 const quizStore = useQuizGradeAll();
 const auth = useAuthStore();
 const grades = ref([{ id: 1, GradeName: "Loading..." }]);
@@ -218,10 +260,11 @@ const getAllQuiz = async (isLoadMore = false) => {
 
     const data = await AllQuizList(params);
 
+    const list = data.data.filter((quiz) => quiz.totalQuiz > 0);
     if (!isLoadMore) {
-      quizzes.value = data.data.filter((quiz) => quiz.totalQuiz > 0);
+      quizzes.value = list;
     } else {
-      quizzes.value.push(...data.data.filter((quiz) => quiz.totalQuiz > 0));
+      quizzes.value.push(...list);
     }
 
     totalPages.value = data.totalPages;
@@ -256,10 +299,17 @@ onMounted(() => {
   getCategories();
   getAllSubject();
   window.addEventListener("scroll", handleScroll);
+  document.addEventListener("click", onClickAway);
 });
 onBeforeUnmount(() => {
   window.removeEventListener("scroll", handleScroll);
+  document.removeEventListener("click", onClickAway);
 });
+
+const onClickAway = (e) => {
+  if (!gradeMenuRef.value) return;
+  if (!gradeMenuRef.value.contains(e.target)) gradeOpen.value = false;
+};
 
 const getCategories = async () => {
   try {
@@ -286,14 +336,16 @@ function toggleCategory(catId) {
   handling = true;
 
   if (selectedCategories.value.includes(catId)) {
-    selectedCategories.value = selectedCategories.value.filter(
-      (id) => id !== catId
-    );
+    selectedCategories.value = selectedCategories.value.filter((id) => id !== catId);
   } else {
     selectedCategories.value.push(catId);
   }
-
   setTimeout(() => (handling = false), 0);
+}
+
+function selectGrade(id) {
+  grade.value = id;
+  gradeOpen.value = false;
 }
 
 function resetFilter() {
@@ -311,3 +363,19 @@ function applyFilter() {
   filterModalOpen.value = false;
 }
 </script>
+
+<style scoped>
+/* Pills */
+.chip {
+  @apply inline-flex items-center gap-2 px-3 h-8 rounded-full text-sm transition border;
+}
+.chip-idle {
+  @apply bg-white border-gray-200 text-gray-700 hover:bg-gray-50;
+}
+.chip-active {
+  @apply bg-[#2563EB] border-[#2563EB] text-white;
+}
+.chip-x {
+  @apply inline-flex items-center justify-center rounded-full bg-transparent px-1 leading-none;
+}
+</style>
