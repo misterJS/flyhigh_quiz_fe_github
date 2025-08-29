@@ -63,7 +63,6 @@
 
         <MenuRow icon="far fa-life-ring" label="Help & Support" @click="goToUrl('/help-support')" />
         <MenuRow icon="far fa-circle-question" label="About" @click="goToUrl('/about-mobile')" />
-        <MenuRow icon="fas fa-sign-out-alt" label="Sign Out" @click="signOut()" />
       </div>
     </div>
   </div>
@@ -81,7 +80,6 @@ import { useRouter } from "vue-router";
 const router = useRouter();
 const auth = useAuthStore();
 
-const loginError = ref("");
 const profile = ref({});
 
 /* ✅ Definisikan MenuRow via render function (tidak butuh runtime template compiler) */
@@ -126,15 +124,6 @@ const handleGetProfile = async () => {
     profile.value = response || {};
   } catch (error) {
     console.error(error);
-  }
-};
-
-const signOut = async () => {
-  try {
-    await auth.logout();
-    router.push("/login");
-  } catch (err) {
-    loginError.value = err?.message || "Failed to sign out";
   }
 };
 
