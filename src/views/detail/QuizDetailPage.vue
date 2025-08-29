@@ -11,7 +11,6 @@
           <div class="flex-1">
             <!-- Custom Header -->
             <div class="flex justify-between items-center mb-4">
-              <!-- Left: Back + subject -->
               <div class="flex gap-1 items-center">
                 <router-link to="/quiz" class="p-2" aria-label="Back">
                   <i class="fas fa-arrow-left text-lg text-gray-800"></i>
@@ -21,7 +20,6 @@
                 </h2>
               </div>
 
-              <!-- Right: Share + Bookmark -->
               <div class="flex items-center gap-3">
                 <button class="p-2" @click="shareQuiz" :disabled="sharing" title="Share">
                   <i class="fas fa-share-square text-lg text-gray-800"></i>
@@ -52,6 +50,29 @@
               }}
             </p>
 
+            <!-- UPGRADE PRO BANNER (conditional dari backend) -->
+            <div
+              v-if="showUpgradeBanner"
+              class="rounded-2xl bg-[#0B63F6] px-5 py-5 mb-6 text-white flex items-center justify-between gap-4"
+            >
+              <div class="flex items-center gap-4">
+                <img src="@/assets/crown-premium.png" class="w-10 h-10" alt="crown" />
+                <div>
+                  <p class="text-lg font-semibold leading-5">Upgrade pro</p>
+                  <p class="text-sm opacity-90 mt-1">
+                    Upgrade to remove ads, unlimited play and access all game
+                  </p>
+                </div>
+              </div>
+
+              <button
+                @click="goSubscribe"
+                class="shrink-0 bg-[#F59E0B] hover:bg-[#EA8A00] text-white px-5 py-2 rounded-full font-semibold text-sm"
+              >
+                Upgrade
+              </button>
+            </div>
+
             <!-- Tabs -->
             <div class="mb-6">
               <SwitchButtonGroup
@@ -68,7 +89,6 @@
                 <h2 class="text-base font-semibold text-[#111827] mb-4">Outcome</h2>
 
                 <div class="grid grid-cols-2 gap-4 mb-8">
-                  <!-- Skill level -->
                   <div class="bg-gray-100 rounded-xl p-4 flex items-center justify-between">
                     <div>
                       <p class="text-sm text-gray-500">Skill level:</p>
@@ -79,7 +99,6 @@
                     <img src="@/assets/star.png" alt="star" class="w-8 h-8" />
                   </div>
 
-                  <!-- Quizzes -->
                   <div class="bg-gray-100 rounded-xl p-4 flex items-center justify-between">
                     <div>
                       <p class="text-sm text-gray-500">Quizzes</p>
@@ -90,7 +109,6 @@
                     <img src="@/assets/note.png" alt="note" class="w-8 h-8" />
                   </div>
 
-                  <!-- Language -->
                   <div class="bg-gray-100 rounded-xl p-4 flex items-center justify-between">
                     <div>
                       <p class="text-sm text-gray-500">Language :</p>
@@ -101,7 +119,6 @@
                     <img src="@/assets/language-circle.png" alt="lang" class="w-8 h-8" />
                   </div>
 
-                  <!-- Video Quiz -->
                   <div class="bg-gray-100 rounded-xl p-4 flex items-center justify-between">
                     <div>
                       <p class="text-sm text-gray-500">Video Quiz :</p>
@@ -114,7 +131,6 @@
                 </div>
               </div>
 
-              <!-- Hidden buttons (desktop CTA) -->
               <div class="hidden lg:flex gap-4 mt-8">
                 <router-link
                   :to="{
@@ -160,7 +176,6 @@
 
           <!-- KANAN -->
           <div v-if="selectedMenu === 'Detail'" class="w-full lg:w-[500px] space-y-6">
-            <!-- Leaderboard -->
             <div class="bg-white rounded-2xl shadow-sm p-5">
               <div class="flex justify-between items-center mb-2">
                 <p class="text-base font-semibold text-gray-900">Leaderboard</p>
@@ -185,7 +200,6 @@
               </div>
             </div>
 
-            <!-- Achievement -->
             <div class="bg-white rounded-xl p-5 shadow-sm mb-32 lg:mb-0">
               <p class="text-sm font-semibold text-[#111827] mb-4">Achievement</p>
               <div class="grid grid-cols-2 gap-4 text-sm">
@@ -230,8 +244,9 @@
 </template>
 
 <script setup>
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import { onMounted, ref, onBeforeUnmount, reactive } from "vue";
+import axios from "axios";
 import SidebarComponent from "@/components/base/SidebarComponent.vue";
 import HeaderComponent from "@/components/base/HeaderComponent.vue";
 import SwitchButtonGroup from "@/components/base/SwitchButton.vue";
@@ -241,6 +256,7 @@ import { useAuthStore } from "@/stores/authStore";
 import { AllTimeLeaderboard, LeaderboardByUserId } from "@/api/leaderboardApi";
 
 const auth = useAuthStore();
+const router = useRouter();
 
 const quiz = ref(null);
 const selectedMenu = ref("Detail");
@@ -249,7 +265,7 @@ const quizId = route.params.id;
 
 const params = { guid: quizId };
 
-/* ===== Share & Save (Bookmark) ===== */
+/* ===== Share & Save ===== */
 const sharing = ref(false);
 const isSaved = ref(false);
 const savedKey = "savedQuizzes";
@@ -278,9 +294,6 @@ async function toggleSaved() {
   isSaved.value = !isSaved.value;
   persistSaved(isSaved.value);
   showToast(isSaved.value ? "Saved to bookmarks" : "Removed from bookmarks");
-
-  // OPTIONAL: call backend favorite endpoint here.
-  // await SaveQuizFavorite({ userId: auth.userId, quizId, saved: isSaved.value });
 }
 async function shareQuiz() {
   try {
@@ -296,14 +309,40 @@ async function shareQuiz() {
       await navigator.clipboard.writeText(url);
       showToast("Link copied");
     }
-  } catch (e) {
-    // user cancelled share → ignore
-    if (e?.name !== "AbortError") showToast("Share canceled");
   } finally {
     sharing.value = false;
   }
 }
-// Toast helper
+
+/* ===== Upgrade Banner (limit harian dari backend) ===== */
+const showUpgradeBanner = ref(true);
+const limitInfo = ref(null);
+
+// GANTI endpoint di bawah sesuai backend-mu
+const API_BASE =
+  import.meta?.env?.VITE_API_BASE ||
+  "https://quiz.flyhigh.my/flyhigh_be/api";
+
+async function checkDailyLimit() {
+  try {
+    const { data } = await axios.get(
+      `${API_BASE}/kiddo/subscription/checkDailyLimit`,
+      { params: { userId: auth.userId } }
+    );
+    // ekspektasi data: { limitReached: boolean, answeredToday: number, limit: number }
+    showUpgradeBanner.value = !!data?.limitReached;
+    limitInfo.value = data;
+  } catch (e) {
+    // kalau gagal, biarkan banner tidak muncul
+    console.warn("checkDailyLimit failed:", e?.message || e);
+    showUpgradeBanner.value = true;
+  }
+}
+function goSubscribe() {
+  router.push("/subscribe");
+}
+
+/* ===== Toast helper ===== */
 const toast = reactive({ show: false, message: "" });
 let toastTimer;
 function showToast(message) {
@@ -315,7 +354,7 @@ function showToast(message) {
 
 /* ===== Fetch Quiz Detail ===== */
 onMounted(async () => {
-  initSaved(); // set saved state first
+  initSaved();
 
   try {
     const response = await QuizPreview(params);
@@ -324,6 +363,9 @@ onMounted(async () => {
   } catch (err) {
     console.error("Gagal ambil quiz:", err.message);
   }
+
+  // Banner premium – tampil bila limit harian terpenuhi (dari backend)
+  checkDailyLimit();
 
   // Leaderboard
   fetchLeaderboard();
