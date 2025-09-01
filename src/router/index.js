@@ -29,6 +29,10 @@ import NotificationMobile from "@/components/notification/NotificationMobile.vue
 import ForgetPasswordPage from "@/views/ForgetPasswordPage.vue";
 import QuizGenerate from "@/components/dashboard/QuizGenerates/QuizGenerate.vue";
 import SubscribePage from "@/views/SubscribePage.vue";
+import ForgotVerifyMobile from "@/components/forgot-password/ForgotVerifyMobile.vue";
+import ForgotResetMobile from "@/components/forgot-password/ForgotResetMobile.vue";
+import PaymentMethodMobile from "@/components/setting/MobileSetting/PaymentMethodMobile.vue";
+import PaymentMethodAddMobile from "@/components/setting/MobileSetting/PaymentMethodAddMobile.vue";
 
 const isMobile = window.innerWidth <= 768;
 
@@ -48,10 +52,22 @@ const allRoutes = [
     meta: { title: "Register" },
   },
   {
-    path: "/forget-password",
-    name: "Forget passowrd",
+    path: "/forgot-password",
+    name: "ForgetPassword",
     component: ForgetPasswordPage,
-    meta: { title: "Forget password" },
+    meta: { title: "Forget Password" },
+  },
+  {
+    path: "/forgot/verify",
+    name: "ForgetPasswordVerify",
+    component: ForgotVerifyMobile,
+    meta: { title: "Forget Password Verify" },
+  },
+  {
+    path: "/forgot/reset",
+    name: "Forget password Reset",
+    component: ForgotResetMobile,
+    meta: { title: "Forget Password Reset" },
   },
   {
     path: "/profile",
@@ -113,6 +129,18 @@ const allRoutes = [
     name: "Subscribe",
     component: SubscribePage,
     meta: { title: "Subscribe"},
+  },
+  {
+    path: "/payment-method",
+    name: "PaymentMethod",
+    component: PaymentMethodMobile,
+    meta: { title: "Payment Method"},
+  },
+  {
+    path: "/payment/add",
+    name: "PaymentMethodAdd",
+    component: PaymentMethodAddMobile,
+    meta: { title: "Payment Method Add"},
   },
   {
     path: "/edit-profile",
