@@ -33,6 +33,8 @@ import ForgotVerifyMobile from "@/components/forgot-password/ForgotVerifyMobile.
 import ForgotResetMobile from "@/components/forgot-password/ForgotResetMobile.vue";
 import PaymentMethodMobile from "@/components/setting/MobileSetting/PaymentMethodMobile.vue";
 import PaymentMethodAddMobile from "@/components/setting/MobileSetting/PaymentMethodAddMobile.vue";
+import SelectLocationMobile from "@/components/setting/MobileSetting/SelectLocationMobile.vue";
+import SubjectPage from "@/views/SubjectPage.vue";
 
 const isMobile = window.innerWidth <= 768;
 
@@ -149,6 +151,12 @@ const allRoutes = [
     meta: { title: "Edit Profile", device: "mobile" },
   },
   {
+    path: "/select-location",
+    name: "SelectLocation",
+    component: SelectLocationMobile,
+    meta: { title: "Select Location", device: "mobile" },
+  },
+  {
     path: "/change-password",
     name: "ChangePassword",
     component: ChangePasswordMobile,
@@ -177,6 +185,12 @@ const allRoutes = [
     name: "NotificationMobile",
     component: NotificationMobile,
     meta: { title: "Notification Mobile", device: "mobile" },
+  },
+   {
+    path: "/subjects",
+    name: "SubjectMobile",
+    component: SubjectPage,
+    meta: { title: "Subject Mobile", device: "mobile" },
   },
   {
     path: "/language-setting-m",
