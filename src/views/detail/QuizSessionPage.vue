@@ -101,7 +101,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, computed } from "vue";
+import { ref, onMounted, onUnmounted, computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import axios from "axios";
 import { useAuthStore } from "@/stores/authStore";
@@ -115,30 +115,36 @@ const route = useRoute();
 const router = useRouter();
 const quizId = route.params.id;
 
+// ---------- storage keys per-quiz ----------
+const ANSWERS_KEY = `quiz:${quizId}:answers`;
+const TIMER_KEY   = `quiz:${quizId}:timer`;
+
+const DEFAULT_SECONDS = 600;
+
+// ---------- state ----------
 const questions = ref([]);
 const selectedAnswers = ref([]);
 const batchSize = 5;
 const batchIndex = ref(0);
-const timer = ref(parseInt(localStorage.getItem("quiz_timer")) || 600);
+const timer = ref(parseInt(localStorage.getItem(TIMER_KEY)) || DEFAULT_SECONDS);
 
 let timerInterval = null;
 
+// ---------- computed ----------
 const batchStartIndex = computed(() => batchIndex.value * batchSize);
 const paginatedQuestions = computed(() =>
-  questions.value.slice(
-    batchStartIndex.value,
-    batchStartIndex.value + batchSize
-  )
+  questions.value.slice(batchStartIndex.value, batchStartIndex.value + batchSize)
 );
-const isLastBatch = computed(
-  () => (batchIndex.value + 1) * batchSize >= questions.value.length
+const isLastBatch = computed(() =>
+  (batchIndex.value + 1) * batchSize >= questions.value.length
 );
 const totalAnswered = computed(
-  () =>
-    selectedAnswers.value.filter((a) => a !== null && a !== undefined).length
+  () => selectedAnswers.value.filter((a) => a != null).length
 );
 const progress = computed(() =>
-  Math.round((totalAnswered.value / questions.value.length) * 100)
+  questions.value.length
+    ? Math.round((totalAnswered.value / questions.value.length) * 100)
+    : 0
 );
 const canProceed = computed(
   () => !isLastBatch.value || totalAnswered.value === questions.value.length
@@ -149,51 +155,76 @@ const formattedTimer = computed(() => {
   return `${String(min).padStart(2, "0")}:${String(sec).padStart(2, "0")}`;
 });
 
-function selectAnswer(index, choiceIndex) {
-  const question = questions.value[index];
-  const selectedChoice = question.answer[choiceIndex];
+// ---------- helpers ----------
+function loadSavedAnswers(list) {
+  // always start fresh array
+  const fresh = Array(list.length).fill(null);
 
-  if (question && selectedChoice) {
-    selectedAnswers.value[index] = {
-      QuestionId: question.questionId,
-      Choice: selectedChoice.Value,
-      Answer: selectedChoice.Answers,
-    };
-
-    localStorage.setItem(
-      "selected_answers",
-      JSON.stringify(selectedAnswers.value)
-    );
+  // pull saved only for *this* quiz
+  let saved;
+  try {
+    saved = JSON.parse(localStorage.getItem(ANSWERS_KEY) || "[]");
+  } catch {
+    saved = [];
   }
+
+  if (Array.isArray(saved) && saved.length) {
+    // copy only indices that still match current questions
+    for (let i = 0; i < Math.min(saved.length, list.length); i++) {
+      const item = saved[i];
+      // extra safety: ensure question id matches same index
+      if (item && item.QuestionId === list[i].questionId) {
+        fresh[i] = item;
+      }
+    }
+  }
+  selectedAnswers.value = fresh;
+}
+
+function persistAnswers() {
+  localStorage.setItem(ANSWERS_KEY, JSON.stringify(selectedAnswers.value));
+}
+
+function clearStorageForThisQuiz() {
+  localStorage.removeItem(ANSWERS_KEY);
+  localStorage.removeItem(TIMER_KEY);
+}
+
+// ---------- actions ----------
+function selectAnswer(index, choiceIndex) {
+  const q = questions.value[index];
+  const choice = q?.answer?.[choiceIndex];
+  if (!q || !choice) return;
+
+  selectedAnswers.value[index] = {
+    QuestionId: q.questionId,
+    Choice: choice.Value,
+    Answer: choice.Answers,
+  };
+  persistAnswers();
 }
 
 async function goNextBatch() {
   if (!isLastBatch.value) {
     batchIndex.value++;
+    return;
+  }
+
+  // finish
+  clearInterval(timerInterval);
+
+  const payload = JSON.parse(localStorage.getItem(ANSWERS_KEY) || "[]");
+  const result = await submitAnswer(quizId, auth.userId, payload);
+
+  if (result) {
+    snackbar.trigger("Quiz Done!", "success");
+    clearStorageForThisQuiz();
+    router.push({
+      path: "/quiz-finish",
+      query: { score: result.Score, grade: result.Grade, exp: result.Exp },
+    });
   } else {
-    const result = await submitAnswer(
-      quizId,
-      auth.userId,
-      JSON.parse(localStorage.getItem("selected_answers"))
-    );
-
-    clearInterval(timerInterval);
-
-    if (result) {
-      snackbar.trigger("Quiz Done!", "success");
-      router.push({
-        path: "/quiz-finish",
-        query: {
-          score: result.Score,
-          grade: result.Grade,
-          exp: result.Exp,
-        },
-      });
-      localStorage.removeItem("quiz_timer");
-      localStorage.removeItem("selected_answers");
-    } else {
-      snackbar.trigger("Quiz isn't done!", "error");
-    }
+    snackbar.trigger("Quiz isn't done!", "error");
   }
 }
 
@@ -201,38 +232,40 @@ function goBack() {
   router.back();
 }
 
+// ---------- lifecycle ----------
 onMounted(async () => {
   try {
-    const res = await axios.get(
+    const { data } = await axios.get(
       `https://quiz.flyhigh.my/flyhigh_be/api/kiddo/read/GetQuizQuestion/${quizId}`
     );
-    questions.value = res.data;
-    selectedAnswers.value =
-      JSON.parse(localStorage.getItem("selected_answers")) ||
-      Array(res.data.length).fill(null);
+    questions.value = data;
+    loadSavedAnswers(data);
   } catch (err) {
     console.error("Gagal mengambil soal:", err);
   }
 
+  // timer
   timerInterval = setInterval(() => {
     if (timer.value > 0) {
       timer.value--;
-      localStorage.setItem("quiz_timer", timer.value.toString());
+      localStorage.setItem(TIMER_KEY, String(timer.value));
     } else {
-      clearInterval(timerInterval); 
+      clearInterval(timerInterval);
       snackbar.trigger("Time is up!", "error");
 
       submitAnswer(
         quizId,
         auth.userId,
-        JSON.parse(localStorage.getItem("selected_answers"))
+        JSON.parse(localStorage.getItem(ANSWERS_KEY) || "[]")
       );
 
-      localStorage.removeItem("quiz_timer");
-      localStorage.removeItem("selected_answers");
-
+      clearStorageForThisQuiz();
       router.push("/quiz-finish");
     }
   }, 1000);
+});
+
+onUnmounted(() => {
+  clearInterval(timerInterval);
 });
 </script>
