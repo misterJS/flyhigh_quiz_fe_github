@@ -1,34 +1,45 @@
 <template>
   <div class="min-h-screen bg-[#f9fafb] px-4 pb-20 pt-5">
     <!-- Header -->
-    <div class="flex items-center justify-between mb-6 rounded-[22px] p-5 bg-white shadow-sm">
-      <!-- Left: avatar + greeting + name -->
-      <div class="flex items-center gap-4">
-        <!-- avatar dalam lingkaran hijau -->
-        <div class="w-12 h-12 rounded-full bg-[#E6F6E9] flex items-center justify-center">
-          <img src="@/assets/Avatar.png" class="w-9 h-9 rounded-full" alt="avatar" />
+    <div class="mb-6">
+      <div class="flex items-center justify-between rounded-[22px] p-5 bg-white shadow-sm">
+        <!-- Kiri: avatar + greeting + nama -->
+        <div class="flex items-center gap-3">
+          <div class="flex items-center gap-4">
+            <!-- avatar dalam lingkaran hijau -->
+            <div class="w-12 h-12 rounded-full bg-[#E6F6E9] grid place-items-center">
+              <img src="@/assets/Avatar.png" class="w-9 h-9 rounded-full" alt="avatar" />
+            </div>
+
+            <div class="leading-tight">
+              <p class="text-xs text-[#9AA3AF]">Good morning</p>
+              <p class="text-lg font-normal text-[#1C103B]">
+                {{ profile.name || '—' }}
+              </p>
+            </div>
+          </div>
+
+          <!-- Kanan: pill XP + bell -->
+          <div class="flex items-center gap-3">
+            <!-- XP pill -->
+            <div class="flex items-center gap-2 bg-[#F0ECFE] px-4 py-2 rounded-full">
+              <!-- diamond icon -->
+              <svg viewBox="0 0 24 24" class="w-5 h-5 text-[#7C5CFF]" fill="currentColor" aria-hidden="true">
+                <path d="M7.5 3.5h9l4 5-9 12-9-12 4-5zM9 5.5l-2.5 3L12 18l5.5-9.5-2.5-3H9z" />
+              </svg>
+              <span class="text-base font-semibold text-[#7C5CFF]">
+                {{ leaderboardScore?.[0]?.XP ?? 0 }}
+              </span>
+            </div>
+          </div>
         </div>
 
-        <div class="leading-snug">
-          <p class="text-xs text-[#9AA3AF]">Good morning</p>
-          <p class="text-base font-normal text-[#1C103B]">
-            {{ profile.name || '—' }}
-          </p>
-        </div>
-      </div>
-
-      <!-- Right: XP badge -->
-      <div class="flex items-center gap-2 bg-[#EEE8FF] px-4 py-2 rounded-full">
-        <!-- diamond icon -->
-        <svg viewBox="0 0 24 24" class="w-5 h-5 text-[#7C5CFF]" fill="currentColor" aria-hidden="true">
-          <polygon points="12,2 20,8 20,16 12,22 4,16 4,8"></polygon>
-        </svg>
-        <span class="text-base font-semibold text-[#7C5CFF]">
-          {{ leaderboardScore[0]?.XP ?? 0 }}
-        </span>
+        <!-- bell -->
+        <button class="text-[#1C103B]" aria-label="Notifications">
+          <i class="far fa-bell text-xl"></i>
+        </button>
       </div>
     </div>
-
 
     <!-- Congratulations Card -->
     <div class="bg-white rounded-xl p-4 border relative overflow-hidden mb-6">
@@ -37,9 +48,13 @@
           Congratulations!
         </p>
         <p class="text-sm text-gray-500">You’re Close to a Reward</p>
-        <p class="text-base text-[#1E1E1F] mt-2">
-          {{ leaderboardScore[0]?.XP ?? 0 }} / 500 <span class="absolute bottom-[45%] left-[81px]">🎯</span>
-        </p>
+        <div class="flex gap-2 items-center mt-2">
+          <p class="text-base text-[#1E1E1F]">
+            {{ leaderboardScore[0]?.XP ?? 0 }} / 500
+          </p>
+          <span class="-mt-1">🎯</span>
+        </div>
+
         <p class="text-[10px] text-gray-400 mb-2">
           {{
             leaderboardScore[0]?.XP != null
@@ -57,7 +72,7 @@
       <!-- Title Row -->
       <div class="flex justify-between items-center mb-4">
         <h3 class="text-base font-semibold text-gray-900">Subjects</h3>
-        <a href="/quiz" class="text-sm text-blue-600 font-medium">View All</a>
+        <a href="/subjects" class="text-sm text-blue-600 font-medium">View All</a>
       </div>
 
       <!-- Subject Icons -->
