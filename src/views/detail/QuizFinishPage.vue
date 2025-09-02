@@ -38,7 +38,7 @@
       >
         <div class="text-3xl mb-2">🥇</div>
         <div class="text-sm font-medium text-white md:text-[#007bff]">
-          {{ score }}%
+          {{ scorePct }}%
         </div>
       </div>
       <div
@@ -46,7 +46,7 @@
       >
         <div class="text-3xl mb-2">☀️</div>
         <div class="text-sm font-medium text-white md:text-[#007bff]">
-          {{ exp }} Points
+          {{ expStr }} Points
         </div>
       </div>
     </div>
@@ -62,19 +62,31 @@
 </template>
 
 <script setup>
+import { computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
 
 const router = useRouter();
 const route = useRoute();
 
-const score = route.query.score || 0;
-const grade = route.query.grade || "Try Again";
-const exp = route.query.exp || 0;
+// raw query → number
+const rawScore = Number(route.query.score ?? 0);
+const rawExp   = Number(route.query.exp ?? 0);
+const grade    = route.query.grade || "Try Again";
 
-function goHome() {
-  router.push("/home");
-}
-function goBack() {
-  router.back();
-}
+// Format: persen max 1 desimal, exp integer
+const scorePct = computed(() =>
+  Number.isFinite(rawScore)
+    ? new Intl.NumberFormat(undefined, { maximumFractionDigits: 1 }).format(rawScore)
+    : "0"
+);
+
+const expStr = computed(() =>
+  Number.isFinite(rawExp)
+    ? new Intl.NumberFormat(undefined, { maximumFractionDigits: 0 }).format(rawExp)
+    : "0"
+);
+
+function goHome() { router.push("/home"); }
+function goBack() { router.back(); }
 </script>
+
