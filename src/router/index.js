@@ -187,7 +187,7 @@ const allRoutes = [
     meta: { title: "Notification Mobile", device: "mobile" },
   },
    {
-    path: "/subjects",
+    path: "/subject-all",
     name: "SubjectMobile",
     component: SubjectPage,
     meta: { title: "Subject Mobile", device: "mobile" },

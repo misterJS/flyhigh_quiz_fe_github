@@ -18,75 +18,58 @@
     <!-- Progress Bar -->
     <div class="px-4">
       <div class="w-full bg-gray-200 h-2 rounded-full">
-        <div
-          class="h-2 bg-blue-500 rounded-full"
-          :style="{ width: progress + '%' }"
-        ></div>
+        <div class="h-2 bg-blue-500 rounded-full" :style="{ width: progress + '%' }"></div>
       </div>
     </div>
 
-    <!-- Soal Batch -->
+    <!-- Questions (paged by batch) -->
     <div class="px-4 mt-6 flex flex-col gap-6">
       <div
         v-for="(question, qIndex) in paginatedQuestions"
         :key="question.questionId"
         class="bg-white rounded-xl shadow p-6"
       >
-        <div
-          class="text-[16px] text-gray-900 leading-relaxed mb-4"
-          v-html="question.question"
-        ></div>
+        <div class="text-[16px] text-gray-900 leading-relaxed mb-4" v-html="question.question" />
         <div v-if="question.questionImagePath" class="flex justify-center mb-4">
-          <img
-            :src="question.questionImagePath"
-            alt="question image"
-            class="max-h-48"
-          />
+          <img :src="question.questionImagePath" alt="question image" class="max-h-48" />
         </div>
 
-        <!-- Pilihan Jawaban -->
+        <!-- Options -->
         <div class="flex flex-col gap-3">
           <button
             v-for="(opt, i) in question.answer"
             :key="i"
             @click="selectAnswer(batchStartIndex + qIndex, i)"
             :class="[
-              'w-full text-left px-4 py-3 rounded-lg border transition font-medium',
+              'w-full text-left px-4 py-3 rounded-lg border transition font-medium flex items-center gap-3',
               selectedAnswers[batchStartIndex + qIndex]?.Answer === opt.Answers
                 ? 'border-blue-500 text-blue-600 bg-blue-50'
                 : 'border-gray-300 bg-white text-gray-800',
             ]"
           >
-            <div class="flex items-center gap-3">
-              <div
-                :class="[
-                  'w-5 h-5 rounded-full flex justify-center items-center border',
-                  selectedAnswers[batchStartIndex + qIndex]?.Answer ===
-                  opt.Answers
-                    ? 'border-blue-600 bg-blue-600 text-white'
-                    : 'border-gray-400 bg-white',
-                ]"
-              >
-                <i
-                  v-if="
-                    selectedAnswers[batchStartIndex + qIndex]?.Answer ===
-                    opt.Answers
-                  "
-                  class="fas fa-check text-xs"
-                ></i>
-              </div>
-              {{ opt.Answers }}
-            </div>
+            <!-- PERFECT-CIRCLE BULLET -->
+            <span
+              class="answer-bullet border"
+              :class="selectedAnswers[batchStartIndex + qIndex]?.Answer === opt.Answers
+                        ? 'answer-bullet--on border-blue-600'
+                        : 'border-gray-400 bg-white'"
+            >
+              <i
+                v-if="selectedAnswers[batchStartIndex + qIndex]?.Answer === opt.Answers"
+                class="fas fa-check text-[10px]"
+              ></i>
+            </span>
+
+            <span class="block">{{ opt.Answers }}</span>
           </button>
         </div>
       </div>
     </div>
 
-    <!-- Bottom Section -->
+    <!-- Bottom -->
     <div class="px-4 py-6 border-t mt-6 flex justify-between items-center">
       <div class="text-blue-600 text-sm font-medium flex items-center gap-1">
-        <i class="fas fa-check-circle"></i> {{ totalAnswered }} of
-        {{ questions.length }} answered
+        <i class="fas fa-check-circle"></i> {{ totalAnswered }} of {{ questions.length }} answered
       </div>
       <button
         class="bg-blue-600 text-white rounded-full px-8 py-3 text-sm font-semibold"
@@ -94,7 +77,7 @@
         :class="{ 'opacity-50 cursor-not-allowed': !canProceed }"
         @click="goNextBatch"
       >
-        {{ isLastBatch ? "Finish" : "Next" }}
+        {{ isLastBatch ? 'Finish' : 'Next' }}
       </button>
     </div>
   </div>
@@ -115,28 +98,26 @@ const route = useRoute();
 const router = useRouter();
 const quizId = route.params.id;
 
-// ---------- storage keys per-quiz ----------
+/* ---------- localStorage keys isolated per quiz ---------- */
 const ANSWERS_KEY = `quiz:${quizId}:answers`;
-const TIMER_KEY   = `quiz:${quizId}:timer`;
-
+const TIMER_KEY = `quiz:${quizId}:timer`;
 const DEFAULT_SECONDS = 600;
 
-// ---------- state ----------
+/* ---------- state ---------- */
 const questions = ref([]);
 const selectedAnswers = ref([]);
 const batchSize = 5;
 const batchIndex = ref(0);
 const timer = ref(parseInt(localStorage.getItem(TIMER_KEY)) || DEFAULT_SECONDS);
-
 let timerInterval = null;
 
-// ---------- computed ----------
+/* ---------- computed ---------- */
 const batchStartIndex = computed(() => batchIndex.value * batchSize);
 const paginatedQuestions = computed(() =>
   questions.value.slice(batchStartIndex.value, batchStartIndex.value + batchSize)
 );
-const isLastBatch = computed(() =>
-  (batchIndex.value + 1) * batchSize >= questions.value.length
+const isLastBatch = computed(
+  () => (batchIndex.value + 1) * batchSize >= questions.value.length
 );
 const totalAnswered = computed(
   () => selectedAnswers.value.filter((a) => a != null).length
@@ -155,42 +136,32 @@ const formattedTimer = computed(() => {
   return `${String(min).padStart(2, "0")}:${String(sec).padStart(2, "0")}`;
 });
 
-// ---------- helpers ----------
+/* ---------- helpers ---------- */
 function loadSavedAnswers(list) {
-  // always start fresh array
   const fresh = Array(list.length).fill(null);
-
-  // pull saved only for *this* quiz
   let saved;
   try {
     saved = JSON.parse(localStorage.getItem(ANSWERS_KEY) || "[]");
   } catch {
     saved = [];
   }
-
   if (Array.isArray(saved) && saved.length) {
-    // copy only indices that still match current questions
     for (let i = 0; i < Math.min(saved.length, list.length); i++) {
       const item = saved[i];
-      // extra safety: ensure question id matches same index
-      if (item && item.QuestionId === list[i].questionId) {
-        fresh[i] = item;
-      }
+      if (item && item.QuestionId === list[i].questionId) fresh[i] = item;
     }
   }
   selectedAnswers.value = fresh;
 }
-
 function persistAnswers() {
   localStorage.setItem(ANSWERS_KEY, JSON.stringify(selectedAnswers.value));
 }
-
 function clearStorageForThisQuiz() {
   localStorage.removeItem(ANSWERS_KEY);
   localStorage.removeItem(TIMER_KEY);
 }
 
-// ---------- actions ----------
+/* ---------- actions ---------- */
 function selectAnswer(index, choiceIndex) {
   const q = questions.value[index];
   const choice = q?.answer?.[choiceIndex];
@@ -209,8 +180,6 @@ async function goNextBatch() {
     batchIndex.value++;
     return;
   }
-
-  // finish
   clearInterval(timerInterval);
 
   const payload = JSON.parse(localStorage.getItem(ANSWERS_KEY) || "[]");
@@ -232,7 +201,7 @@ function goBack() {
   router.back();
 }
 
-// ---------- lifecycle ----------
+/* ---------- lifecycle ---------- */
 onMounted(async () => {
   try {
     const { data } = await axios.get(
@@ -244,7 +213,6 @@ onMounted(async () => {
     console.error("Gagal mengambil soal:", err);
   }
 
-  // timer
   timerInterval = setInterval(() => {
     if (timer.value > 0) {
       timer.value--;
@@ -269,3 +237,23 @@ onUnmounted(() => {
   clearInterval(timerInterval);
 });
 </script>
+
+<style scoped>
+/* Keep the bullet perfectly round, independent of parent line-height or flex sizing */
+.answer-bullet {
+  width: 20px;
+  height: 20px;
+  border-radius: 9999px;
+  display: inline-grid;
+  place-items: center;
+  flex: 0 0 auto;          /* never stretch */
+  aspect-ratio: 1 / 1;     /* extra guard; width/height already enforce square */
+  line-height: 0;          /* prevent inheriting line-height from text */
+  -webkit-tap-highlight-color: transparent;
+  background: #fff;
+}
+.answer-bullet--on {
+  background: #2563eb;
+  color: #fff;
+}
+</style>
