@@ -62,7 +62,9 @@
               : "0%"
           }}
         </p>
-        <BaseButton class="rounded-xl">View All Rewards</BaseButton>
+        <BaseButton class="rounded-xl" @click="goToUrl('/rewards')">
+          View All Rewards
+        </BaseButton>
       </div>
       <img src="@/assets/cup-confetti.png" class="absolute right-2 bottom-2 w-42" />
     </div>
@@ -72,7 +74,7 @@
       <!-- Title Row -->
       <div class="flex justify-between items-center mb-4">
         <h3 class="text-base font-semibold text-gray-900">Subjects</h3>
-        <a href="/subjects" class="text-sm text-blue-600 font-medium">View All</a>
+        <a href="/subject-all" class="text-sm text-blue-600 font-medium">View All</a>
       </div>
 
       <!-- Subject Icons -->

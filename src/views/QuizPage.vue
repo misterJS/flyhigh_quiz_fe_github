@@ -32,7 +32,7 @@
         <div class="bg-white rounded-2xl p-4 shadow-sm mb-6 lg:hidden">
           <div class="flex justify-between items-center mb-4">
             <h3 class="text-base font-semibold text-gray-900">Subjects</h3>
-            <a href="/subjects" class="text-sm text-blue-600 font-medium">View All</a>
+            <a href="/subject-all" class="text-sm text-blue-600 font-medium">View All</a>
           </div>
 
           <div class="flex justify-between">
