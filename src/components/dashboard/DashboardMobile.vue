@@ -6,9 +6,14 @@
         <!-- Kiri: avatar + greeting + nama -->
         <div class="flex items-center gap-3">
           <div class="flex items-center gap-4">
-            <!-- avatar dalam lingkaran hijau -->
+            <!-- avatar dalam lingkaran hijau (✅ pakai fallback) -->
             <div class="w-12 h-12 rounded-full bg-[#E6F6E9] grid place-items-center">
-              <img src="@/assets/Avatar.png" class="w-9 h-9 rounded-full" alt="avatar" />
+              <img
+                :src="avatarSrc"
+                @error="onAvatarError"
+                class="w-9 h-9 rounded-full object-cover"
+                alt="avatar"
+              />
             </div>
 
             <div class="leading-tight">
@@ -34,8 +39,8 @@
           </div>
         </div>
 
-        <!-- bell -->
-        <button class="text-[#1C103B]" aria-label="Notifications">
+        <!-- bell (✅ route ke /notification) -->
+        <button class="text-[#1C103B]" aria-label="Notifications" @click="goToUrl('/notification')">
           <i class="far fa-bell text-xl"></i>
         </button>
       </div>
@@ -57,8 +62,8 @@
 
         <p class="text-[10px] text-gray-400 mb-2">
           {{
-            leaderboardScore[0]?.XP != null
-              ? (500 / leaderboardScore[0].XP / 100).toFixed(2) + "%"
+            leaderboardScore[0]?.XP != null && leaderboardScore[0].XP > 0
+              ? ((leaderboardScore[0].XP / 500) * 100).toFixed(2) + "%"
               : "0%"
           }}
         </p>
@@ -71,17 +76,14 @@
 
     <!-- Subjects -->
     <div class="bg-white rounded-2xl shadow-custom p-4 mb-4">
-      <!-- Title Row -->
       <div class="flex justify-between items-center mb-4">
         <h3 class="text-base font-semibold text-gray-900">Subjects</h3>
         <a href="/subject-all" class="text-sm text-blue-600 font-medium">View All</a>
       </div>
 
-      <!-- Subject Icons -->
       <div class="flex justify-between">
         <div v-for="subject in subjects" :key="subject.name" class="flex flex-col items-center text-center">
           <img :src="subject.icon" alt="" class="w-[52px] h-[52px] object-contain" />
-
           <p class="text-sm mt-2 text-gray-800">{{ subject.name }}</p>
         </div>
       </div>
@@ -104,8 +106,11 @@
         <a href="/ranking" class="text-sm text-blue-600 font-medium">View All</a>
       </div>
       <div class="space-y-2">
-        <div v-for="(user, index) in leaderboard" :key="index"
-          class="flex justify-between items-center bg-white p-3 border-b">
+        <div
+          v-for="(user, index) in leaderboard"
+          :key="index"
+          class="flex justify-between items-center bg-white p-3 border-b"
+        >
           <div class="flex items-center gap-3">
             <img :src="user.avatar" class="w-10 h-10 rounded-full" />
             <div>
@@ -132,9 +137,12 @@ import BaseButton from "../base/BaseButton.vue";
 import BottomBarNavigation from "../base/BottomBarNavigation.vue";
 import liveSessionComponent from "../base/LiveSessionComponent.vue";
 import { useAuthStore } from "@/stores/authStore";
-import { onMounted, ref } from "vue";
+import { onMounted, ref, watchEffect } from "vue";
 import { GetProfile } from "@/api/settingApi";
 import { AllTimeLeaderboard, LeaderboardByUserId } from "@/api/leaderboardApi";
+/* ✅ default avatar */
+import DefaultAvatar from "@/assets/Avatar.png";
+
 const router = useRouter();
 const auth = useAuthStore();
 
@@ -143,14 +151,45 @@ function goToUrl(dir) {
 }
 
 const profile = ref({});
+/* ✅ avatarSrc + fallback */
+const avatarSrc = ref(DefaultAvatar);
+
+function resolveAvatarSrc(filePath) {
+  if (!filePath || typeof filePath !== "string") return DefaultAvatar;
+
+  try {
+    if (/^https?:\/\//i.test(filePath)) return filePath; // absolut
+    const base =
+      import.meta.env.VITE_ASSET_BASE_URL ||
+      import.meta.env.VITE_API_BASE_URL ||
+      "";
+    if (!base) return DefaultAvatar;
+    const cleanBase = String(base).replace(/\/+$/, "");
+    const cleanPath = String(filePath).replace(/^\/+/, "");
+    return `${cleanBase}/${cleanPath}`;
+  } catch {
+    return DefaultAvatar;
+  }
+}
+
+function onAvatarError(e) {
+  const img = e?.target;
+  if (img && img.src !== DefaultAvatar) img.src = DefaultAvatar;
+}
+
+/* sinkron saat profile berubah */
+watchEffect(() => {
+  avatarSrc.value = resolveAvatarSrc(profile.value?.filePath);
+});
 
 const handleGetProfile = async () => {
   try {
     const userId = auth.userId;
     const response = await GetProfile(userId);
-    profile.value = response;
+    profile.value = response || {};
   } catch (error) {
     console.error(error);
+    profile.value = {};
   }
 };
 
@@ -159,7 +198,6 @@ const leaderboard = ref([]);
 const fetchLeaderboard = async () => {
   try {
     const data = await AllTimeLeaderboard();
-
     leaderboard.value = data.map((user, index) => ({
       name: user.Name,
       xp: user.XP,
@@ -176,7 +214,6 @@ const leaderboardScore = ref("");
 const fetchLeaderboardById = async () => {
   try {
     const data = await LeaderboardByUserId(auth.userId);
-
     leaderboardScore.value = data;
   } catch (error) {
     console.error("Error fetching leaderboard:", error);
@@ -197,21 +234,9 @@ onMounted(() => {
 });
 
 const subjects = [
-  {
-    name: "Biology",
-    icon: require("@/assets/biology.png"),
-  },
-  {
-    name: "History",
-    icon: require("@/assets/history.png"),
-  },
-  {
-    name: "Geography",
-    icon: require("@/assets/geography.png"),
-  },
-  {
-    name: "Economics",
-    icon: require("@/assets/economics.png"),
-  },
+  { name: "Biology", icon: require("@/assets/biology.png") },
+  { name: "History", icon: require("@/assets/history.png") },
+  { name: "Geography", icon: require("@/assets/geography.png") },
+  { name: "Economics", icon: require("@/assets/economics.png") },
 ];
 </script>
