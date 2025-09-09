@@ -58,7 +58,7 @@
             :key="index"
             :image="quiz.image"
             :title="quiz.title"
-            :students="quiz.TotalStudent"
+            :students="quiz.submittedCount"
             :points="quiz.CreditAmount"
             :modules="quiz.totalQuiz"
             :duration="quiz.totalHour"

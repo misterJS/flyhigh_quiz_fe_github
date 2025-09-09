@@ -8,7 +8,8 @@
     <!-- Profile Row -->
     <div class="flex items-center justify-between mb-6">
       <div class="flex items-center gap-3">
-        <img src="@/assets/Avatar.png" class="w-12 h-12 rounded-full" alt="avatar" />
+        <!-- ✅ Avatar dengan fallback -->
+        <img :src="avatarSrc" @error="onAvatarError" class="w-12 h-12 rounded-full object-cover" alt="avatar" />
         <div>
           <p class="font-semibold text-sm text-gray-900 leading-tight">
             {{ profile.name || '—' }}
@@ -43,9 +44,9 @@
         <MenuRow icon="far fa-bookmark" label="Saved" @click="goToUrl('/history-quiz')" />
         <MenuRow icon="far fa-bell" label="Notifications" @click="goToUrl('/notification-mobile')" />
 
-        <!-- Languages (punya value di kanan) -->
+        <!-- Languages -->
         <div class="flex items-center justify-between py-3 border-b border-gray-100 cursor-pointer"
-             @click="goToUrl('/language-setting-m')">
+          @click="goToUrl('/language-setting-m')">
           <div class="flex items-center gap-3">
             <i class="fas fa-globe text-lg text-gray-700 w-6 text-center"></i>
             <span class="text-sm font-medium text-gray-900">Languages</span>
@@ -74,15 +75,55 @@
 import BottomBarNavigation from "../base/BottomBarNavigation.vue";
 import { useAuthStore } from "@/stores/authStore";
 import { GetProfile } from "@/api/settingApi";
-import { onMounted, ref, defineComponent, h } from "vue";
+import { onMounted, ref, watchEffect, defineComponent, h } from "vue";
 import { useRouter } from "vue-router";
+/* ✅ import avatar default untuk fallback */
+import DefaultAvatar from "@/assets/Avatar.png";
 
 const router = useRouter();
 const auth = useAuthStore();
 
 const profile = ref({});
+/* ✅ src yang dipakai <img>, default ke avatar bawaan */
+const avatarSrc = ref(DefaultAvatar);
 
-/* ✅ Definisikan MenuRow via render function (tidak butuh runtime template compiler) */
+/* ✅ builder URL aman untuk filePath relatif/absolut */
+function resolveAvatarSrc(filePath) {
+  if (!filePath || typeof filePath !== "string") return DefaultAvatar;
+
+  try {
+    // Jika sudah absolut (http/https)
+    if (/^https?:\/\//i.test(filePath)) return filePath;
+
+    // Jika relatif, pakai base URL dari env (pilih yang tersedia)
+    const base =
+      import.meta.env.VITE_ASSET_BASE_URL ||
+      import.meta.env.VITE_API_BASE_URL ||
+      "";
+
+    if (!base) return DefaultAvatar;
+
+    const cleanBase = String(base).replace(/\/+$/, "");
+    const cleanPath = String(filePath).replace(/^\/+/, "");
+    return `${cleanBase}/${cleanPath}`;
+  } catch {
+    return DefaultAvatar;
+  }
+}
+
+/* ✅ handler error img: fallback ke default hanya sekali */
+function onAvatarError(e) {
+  const img = e?.target;
+  if (img && img.src !== DefaultAvatar) {
+    img.src = DefaultAvatar;
+  }
+}
+
+watchEffect(() => {
+  const fp = profile.value?.filePath; // ← gunakan profile.filePath
+  avatarSrc.value = resolveAvatarSrc(fp);
+});
+
 const MenuRow = defineComponent({
   name: "MenuRow",
   props: {
@@ -116,7 +157,6 @@ const MenuRow = defineComponent({
   },
 });
 
-// fetch profile
 const handleGetProfile = async () => {
   try {
     const userId = auth.userId;
@@ -124,6 +164,7 @@ const handleGetProfile = async () => {
     profile.value = response || {};
   } catch (error) {
     console.error(error);
+    profile.value = {};
   }
 };
 
@@ -134,6 +175,7 @@ onMounted(() => {
 function goToUrl(dir) {
   router.push(dir);
 }
+
 </script>
 
 <style scoped>

@@ -164,11 +164,9 @@ onMounted(async () => {
   }
 });
 
-/* --- computed untuk tampilan --- */
 const displayName  = computed(() => profile.value?.name  || "—");
 const displayEmail = computed(() => profile.value?.email || "—");
 
-/* ambil kemungkinan nama field tanggal dari backend */
 function pickJoinDate(p) {
   return (
     p?.joinDate ||
@@ -192,9 +190,8 @@ const joinedText = computed(() => {
   return `Joined on ${pretty}`;
 });
 
-/* hero image: pakai cover/avatar dari profile kalau ada */
 const heroImage = computed(() => {
-  return profile.value?.coverImage || profile.value?.avatarUrl || heroFallback;
+  return profile.value?.filePath || profile.value?.avatarUrl || heroFallback;
 });
 
 /* UI helpers */

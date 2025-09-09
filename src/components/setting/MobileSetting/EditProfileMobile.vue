@@ -188,7 +188,7 @@ const loadProfile = async () => {
     const profile = await GetProfile(userId);
     name.value = profile.name || "";
     email.value = profile.email || "";
-    photoPreview.value = profile.photoURL || null;
+    photoPreview.value = profile.filePath || null;
   } catch (error) {
     console.error("Failed to load profile:", error);
   }

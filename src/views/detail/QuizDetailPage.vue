@@ -160,7 +160,7 @@
                   :key="index"
                   :image="item.image"
                   :title="item.title"
-                  :students="item.TotalStudent"
+                  :students="item.submittedCount"
                   :points="item.CreditAmount"
                   :modules="item.totalQuiz"
                   :duration="item.totalHour"
