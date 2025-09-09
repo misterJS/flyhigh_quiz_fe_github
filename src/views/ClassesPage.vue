@@ -11,7 +11,7 @@ import CalendarWidgetComponent from "@/components/base/CalendarWidgetComponent.v
       <HeaderComponent />
 
       <main class="p-6 pt-4 space-y-6 overflow-y-auto flex-1">
-        <!-- Search and Banner -->
+        
         <div class="grid xl:grid-cols-[3fr_1fr] gap-6 items-start">
           <div class="space-y-4">
             <div class="relative">
@@ -34,15 +34,15 @@ import CalendarWidgetComponent from "@/components/base/CalendarWidgetComponent.v
             </div>
           </div>
 
-          <!-- Right Side Calendar -->
+          
           <div class="w-full xl:w-72 shrink-0">
             <CalendarWidgetComponent class="h-full" />
           </div>
         </div>
 
-        <!-- Main Content -->
+        
         <div class="grid xl:grid-cols-[3fr_1fr] gap-6">
-          <!-- Left Section: All Courses -->
+          
           <div class="space-y-4">
             <div class="flex items-center justify-between">
               <h3 class="text-base font-semibold text-gray-900">All Courses</h3>
@@ -89,7 +89,7 @@ import CalendarWidgetComponent from "@/components/base/CalendarWidgetComponent.v
             </div>
           </div>
 
-          <!-- Right Section: Continue Quiz -->
+          
           <div class="space-y-4">
             <div class="bg-white rounded-2xl p-5 shadow-sm space-y-5">
               <h3 class="text-base font-semibold text-gray-900">Continue Quizz</h3>

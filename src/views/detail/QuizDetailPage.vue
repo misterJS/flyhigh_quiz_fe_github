@@ -7,9 +7,9 @@
 
       <main class="flex-1 p-4 sm:p-6 lg:p-8 pb-24">
         <div class="flex flex-col lg:flex-row mx-auto max-w-6xl">
-          <!-- KIRI -->
+          
           <div class="flex-1">
-            <!-- Custom Header -->
+            
             <div class="flex justify-between items-center mb-4">
               <div class="flex gap-1 items-center">
                 <router-link to="/quiz" class="p-2" aria-label="Back">
@@ -30,7 +30,7 @@
               </div>
             </div>
 
-            <!-- Cover -->
+            
             <div class="rounded-xl overflow-hidden mb-6">
               <img
                 :src="quiz?.image || require('@/assets/quiz.png')"
@@ -39,7 +39,7 @@
               />
             </div>
 
-            <!-- Title & Desc -->
+            
             <h1 class="text-xl sm:text-2xl font-semibold text-[#111827] mb-3">
               {{ quiz?.title }}
             </h1>
@@ -50,7 +50,7 @@
               }}
             </p>
 
-            <!-- UPGRADE PRO BANNER (conditional dari backend) -->
+            
             <div
               v-if="showUpgradeBanner"
               class="rounded-2xl bg-[#0B63F6] px-5 py-5 mb-6 text-white flex items-center justify-between gap-4"
@@ -73,7 +73,7 @@
               </button>
             </div>
 
-            <!-- Tabs -->
+            
             <div class="mb-6">
               <SwitchButtonGroup
                 v-model="selectedMenu"
@@ -83,7 +83,7 @@
               />
             </div>
 
-            <!-- TAB: DETAIL -->
+            
             <div v-if="selectedMenu === 'Detail'">
               <div class="bg-white rounded-xl p-5 shadow-sm">
                 <h2 class="text-base font-semibold text-[#111827] mb-4">Outcome</h2>
@@ -150,7 +150,7 @@
               </div>
             </div>
 
-            <!-- TAB: QUIZ -->
+            
             <div v-else>
               <h2 class="text-sm font-semibold text-[#111827] mb-3">Quizzes</h2>
 
@@ -174,7 +174,7 @@
             </div>
           </div>
 
-          <!-- KANAN -->
+          
           <div v-if="selectedMenu === 'Detail'" class="w-full lg:w-[500px] space-y-6">
             <div class="bg-white rounded-2xl shadow-sm p-5">
               <div class="flex justify-between items-center mb-2">
@@ -217,7 +217,7 @@
         </div>
       </main>
 
-      <!-- CTA Mobile -->
+      
       <div class="fixed bottom-0 left-0 right-0 lg:hidden bg-transparent border-none p-4 z-50">
         <router-link
           :to="{
@@ -232,7 +232,7 @@
     </div>
   </div>
 
-  <!-- Toast -->
+  
   <transition name="fade">
     <div
       v-if="toast.show"
@@ -265,7 +265,7 @@ const quizId = route.params.id;
 
 const params = { guid: quizId };
 
-/* ===== Share & Save ===== */
+
 const sharing = ref(false);
 const isSaved = ref(false);
 const savedKey = "savedQuizzes";
@@ -314,11 +314,11 @@ async function shareQuiz() {
   }
 }
 
-/* ===== Upgrade Banner (limit harian dari backend) ===== */
+
 const showUpgradeBanner = ref(true);
 const limitInfo = ref(null);
 
-// GANTI endpoint di bawah sesuai backend-mu
+
 const API_BASE =
   import.meta?.env?.VITE_API_BASE ||
   "https://quiz.flyhigh.my/flyhigh_be/api";
@@ -329,11 +329,11 @@ async function checkDailyLimit() {
       `${API_BASE}/kiddo/subscription/checkDailyLimit`,
       { params: { userId: auth.userId } }
     );
-    // ekspektasi data: { limitReached: boolean, answeredToday: number, limit: number }
+    
     showUpgradeBanner.value = !!data?.limitReached;
     limitInfo.value = data;
   } catch (e) {
-    // kalau gagal, biarkan banner tidak muncul
+    
     console.warn("checkDailyLimit failed:", e?.message || e);
     showUpgradeBanner.value = true;
   }
@@ -342,7 +342,7 @@ function goSubscribe() {
   router.push("/subscribe");
 }
 
-/* ===== Toast helper ===== */
+
 const toast = reactive({ show: false, message: "" });
 let toastTimer;
 function showToast(message) {
@@ -352,7 +352,7 @@ function showToast(message) {
   toastTimer = setTimeout(() => (toast.show = false), 1800);
 }
 
-/* ===== Fetch Quiz Detail ===== */
+
 onMounted(async () => {
   initSaved();
 
@@ -364,21 +364,21 @@ onMounted(async () => {
     console.error("Gagal ambil quiz:", err.message);
   }
 
-  // Banner premium – tampil bila limit harian terpenuhi (dari backend)
+  
   checkDailyLimit();
 
-  // Leaderboard
+  
   fetchLeaderboard();
   fetchLeaderboardById();
 });
 
-/* ===== Achievements (static images) ===== */
+
 const badges = [
   { label: "Math Champion", img: require("@/assets/Badge1.png") },
   { label: "Science Star", img: require("@/assets/Badge2.png") },
 ];
 
-/* ===== Quiz List (child quizzes) ===== */
+
 const quizList = ref([]);
 const quizPage = ref(1);
 const quizPageSize = ref(10);
@@ -406,7 +406,7 @@ const fetchQuizList = async () => {
   }
 };
 
-// Infinite scroll hanya saat tab "Quiz"
+
 const handleScroll = () => {
   const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
   if (scrollTop + clientHeight >= scrollHeight - 50 && selectedMenu.value === "Quiz") {
@@ -416,7 +416,7 @@ const handleScroll = () => {
 onMounted(() => window.addEventListener("scroll", handleScroll));
 onBeforeUnmount(() => window.removeEventListener("scroll", handleScroll));
 
-/* ===== Leaderboard (API) ===== */
+
 const leaderboard = ref([]);
 const leaderboardScore = ref([]);
 

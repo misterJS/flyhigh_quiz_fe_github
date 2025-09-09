@@ -12,9 +12,9 @@
             <i class="fas fa-arrow-left"></i> Back
           </router-link>
 
-          <!-- Top Section -->
+          
           <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <!-- XP Box -->
+            
             <div class="bg-white rounded-2xl p-6 shadow-sm col-span-1">
               <p class="text-sm text-gray-600 font-medium mb-2">Total Point</p>
               <div class="flex items-center justify-between">
@@ -38,7 +38,7 @@
               </div>
             </div>
 
-            <!-- Banner -->
+            
             <div
               class="lg:col-span-2 bg-[#2563EB] text-white rounded-2xl p-6 flex items-center justify-between"
             >
@@ -64,7 +64,7 @@
             </div>
           </div>
 
-          <!-- Rewards Grid -->
+          
           <div class="mt-4">
             <h2 class="text-base font-semibold text-[#111827] mb-4">
               Rewards to Get

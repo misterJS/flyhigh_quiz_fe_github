@@ -1,15 +1,15 @@
 <template>
   <div class="flex flex-col lg:flex-row min-h-screen bg-[#f9fafb]">
-    <!-- Sidebar desktop -->
+    
     <SidebarComponent class="hidden lg:block" />
 
-    <!-- Main Content -->
+    
     <div class="flex-1 flex flex-col w-full">
-      <!-- Header desktop -->
+      
       <HeaderComponent class="hidden lg:flex" />
 
       <main class="flex-1 p-4 sm:p-6 lg:p-8 pb-24">
-        <!-- Banner -->
+        
         <section class="bg-[#BFDBFE] rounded-2xl p-4 sm:p-6 text-center mb-6 sm:mb-8 relative">
           <h2 class="text-lg sm:text-xl font-semibold text-[#111827]">
             What’s the lesson for today?
@@ -28,7 +28,7 @@
           </div>
         </section>
 
-        <!-- Subjects (only mobile) -->
+        
         <div class="bg-white rounded-2xl p-4 shadow-sm mb-6 lg:hidden">
           <div class="flex justify-between items-center mb-4">
             <h3 class="text-base font-semibold text-gray-900">Subjects</h3>
@@ -51,7 +51,7 @@
           </div>
         </div>
 
-        <!-- Quiz Cards -->
+        
         <section class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
           <QuizCard
             v-for="(quiz, index) in quizzes"
@@ -69,21 +69,21 @@
       </main>
     </div>
 
-    <!-- Bottom Nav Mobile -->
+    
     <BottomBarNavigation class="lg:hidden" />
 
-    <!-- =============== Filter Modal (new look) =============== -->
+    
     <div
       v-if="filterModalOpen"
       class="fixed inset-0 z-50 bg-black/30 flex justify-center items-end lg:items-center"
     >
       <div class="bg-white w-full max-w-md rounded-t-2xl lg:rounded-2xl p-0 overflow-hidden">
-        <!-- grabber -->
+        
         <div class="lg:hidden pt-3">
           <div class="w-16 h-1.5 bg-gray-300 rounded-full mx-auto"></div>
         </div>
 
-        <!-- Header -->
+        
         <div class="px-6 pt-4 pb-2 flex items-center justify-between">
           <h3 class="font-semibold text-[15px]">Filters</h3>
           <button class="text-sm text-[#2563EB] font-medium" @click="resetFilter()">Reset</button>
@@ -91,7 +91,7 @@
 
         <hr class="border-gray-100" />
 
-        <!-- Progress -->
+        
         <div class="px-6 py-4">
           <div class="flex items-center gap-2 mb-3">
             <i class="fas fa-chart-bar text-gray-500"></i>
@@ -115,7 +115,7 @@
 
         <hr class="border-gray-100" />
 
-        <!-- Category -->
+        
         <div class="px-6 py-4">
           <div class="flex items-center justify-between mb-3">
             <div class="flex items-center gap-2">
@@ -144,14 +144,14 @@
 
         <hr class="border-gray-100" />
 
-        <!-- Grade -->
+        
         <div class="px-6 pt-4 pb-6">
           <div class="flex items-center gap-2 mb-3">
             <i class="fas fa-book text-gray-500"></i>
             <h4 class="text-sm font-semibold">Grade</h4>
           </div>
 
-          <!-- Custom dropdown -->
+          
           <div class="relative" ref="gradeMenuRef">
             <button
               class="w-full h-11 px-4 text-sm rounded-xl border transition
@@ -164,7 +164,7 @@
               <i :class="['fas', 'fa-chevron-' + (gradeOpen ? 'up' : 'down'), 'text-gray-400']"></i>
             </button>
 
-            <!-- options -->
+            
             <div
               v-if="gradeOpen"
               class="absolute z-10 mt-2 w-full bg-white border rounded-xl shadow-sm max-h-64 overflow-auto"
@@ -191,7 +191,7 @@
         </div>
       </div>
     </div>
-    <!-- =============== /Filter Modal =============== -->
+    
   </div>
 </template>
 
@@ -212,14 +212,14 @@ const categories = ref([]);
 const subjects = ref([]);
 const filterModalOpen = ref(false);
 
-// progress
+
 const progress = ref("All");
 const progressOptions = ["All", "Ongoing", "Completed"];
 
-// categories
+
 const selectedCategories = ref([]);
 
-// grade dropdown
+
 const grade = ref("");
 const gradeOpen = ref(false);
 const gradeMenuRef = ref(null);
@@ -228,12 +228,12 @@ const selectedGradeText = computed(() => {
   return g?.GradeName || "";
 });
 
-// stores
+
 const quizStore = useQuizGradeAll();
 const auth = useAuthStore();
 const grades = ref([{ id: 1, GradeName: "Loading..." }]);
 
-// Pagination
+
 const page = ref(1);
 const pageSize = ref(10);
 const totalPages = ref(1);
@@ -286,7 +286,7 @@ const getAllSubject = async () => {
   }
 };
 
-// Infinite Scroll
+
 const handleScroll = () => {
   const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
   if (scrollTop + clientHeight >= scrollHeight - 50) {
@@ -365,7 +365,7 @@ function applyFilter() {
 </script>
 
 <style scoped>
-/* Pills */
+
 .chip {
   @apply inline-flex items-center gap-2 px-3 h-8 rounded-full text-sm transition border;
 }
