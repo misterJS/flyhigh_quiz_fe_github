@@ -16,7 +16,7 @@
             Rewards History
           </h1>
 
-          <!-- Tabs & Actions -->
+          
           <div class="flex justify-between items-center mb-4 flex-wrap gap-4">
             <div class="flex items-center gap-6">
               <button
@@ -59,7 +59,7 @@
             </div>
           </div>
 
-          <!-- Rewards List -->
+          
           <div class="space-y-4">
             <div
               v-for="(item, index) in rewards"
@@ -131,7 +131,7 @@
             </div>
           </div>
 
-          <!-- Pagination Footer -->
+          
           <div
             class="flex justify-between items-center mt-8 text-sm text-gray-500"
           >

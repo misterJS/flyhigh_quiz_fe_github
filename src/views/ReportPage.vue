@@ -1,4 +1,4 @@
-<!-- src/views/ReportPage.vue -->
+
 <template>
   <div class="min-h-screen bg-[#F9FAFB] flex flex-col lg:flex-row">
     <SidebarComponent class="hidden lg:block" />
@@ -6,7 +6,7 @@
     <div class="flex-1 flex flex-col">
       <HeaderComponent class="hidden lg:flex" />
 
-      <!-- HERO -->
+      
       <section class="relative">
         <img :src="heroImage" class="w-full h-[260px] object-cover" alt="profile hero" />
         <div class="absolute inset-x-0 top-0 flex items-center justify-between px-4 pt-4">
@@ -30,17 +30,17 @@
         </button>
       </section>
 
-      <!-- BODY -->
+      
       <main class="px-4 lg:px-8 pt-8">
         <div class="max-w-5xl mx-auto">
-          <!-- ▶ diambil dari GetProfile -->
+          
           <h1 class="text-[24px] leading-7 font-normal text-[#0F172A]">
             {{ displayName }}
           </h1>
           <p class="text-[15px] text-gray-500 mt-2">{{ displayEmail }}</p>
           <p v-if="joinedText" class="text-[15px] text-gray-400 mt-1">{{ joinedText }}</p>
 
-          <!-- Add Friend -->
+          
           <div class="mt-7">
             <h3 class="text-[22px] font-normal mb-3">Add Friend</h3>
             <div class="grid grid-cols-3 gap-4">
@@ -56,7 +56,7 @@
             </div>
           </div>
 
-          <!-- Congratulations -->
+          
           <div class="mt-8 bg-white rounded-[22px] border border-gray-200 shadow-sm p-5 relative overflow-hidden">
             <h4 class="text-[20px] font-normal">Congratulations!</h4>
             <p class="text-[15px] text-gray-500 mt-1">You’re Close to a Reward</p>
@@ -76,7 +76,7 @@
             <img :src="require('@/assets/cup-confetti.png')" class="absolute right-2 bottom-2 w-36" />
           </div>
 
-          <!-- Ongoing Quiz (dummy sama seperti sebelumnya) -->
+          
           <div class="mt-8">
             <h3 class="text-[22px] font-normal mb-3">Ongoing Quiz</h3>
 
@@ -101,7 +101,7 @@
             </div>
           </div>
 
-          <!-- Quiz Performance (dummy) -->
+          
           <div class="mt-8">
             <h3 class="text-[22px] font-normal mb-3">Quiz Performance</h3>
             <div class="bg-white rounded-[22px] border border-gray-200 shadow-sm p-5">
@@ -141,18 +141,18 @@ import HeaderComponent from "@/components/base/HeaderComponent.vue";
 import { ref, computed, onMounted } from "vue";
 import { useRouter } from "vue-router";
 
-/* ▶ ambil profil dari store & API yang sama seperti Setting */
+
 import { useAuthStore } from "@/stores/authStore";
 import { GetProfile } from "@/api/settingApi";
 
 const router = useRouter();
 const auth = useAuthStore();
 
-const profile = ref({});      // hasil GetProfile
+const profile = ref({});      
 const loading = ref(true);
 const heroFallback = require("@/assets/Avatar.png");
 
-/* --- fetch profil --- */
+
 onMounted(async () => {
   try {
     const res = await GetProfile(auth.userId);
@@ -194,14 +194,14 @@ const heroImage = computed(() => {
   return profile.value?.filePath || profile.value?.avatarUrl || heroFallback;
 });
 
-/* UI helpers */
+
 function goBack() { router.back(); }
 function share() {
   if (navigator.share) navigator.share({ title: "Report", url: location.href }).catch(() => {});
 }
 function editProfile() { router.push("/edit-profile"); }
 
-/* kecilkan dasharray supaya 4% terlihat tipis */
+
 const percent = 4;
 const dash = computed(() => {
   const total = 100;
