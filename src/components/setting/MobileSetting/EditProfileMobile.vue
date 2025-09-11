@@ -68,7 +68,11 @@
         class="w-full flex items-center justify-between border border-gray-200 rounded-[12px] px-4 py-3 bg-white"
         @click="openLocation"
       >
-        <span class="text-sm text-gray-500">Select location</span>
+        <span
+          :class="['text-sm', selectedCountryCode ? 'text-gray-900' : 'text-gray-500']"
+        >
+          {{ selectedLocationLabel }}
+        </span>
         <i class="fas fa-chevron-right text-gray-400 text-sm"></i>
       </button>
     </div>
@@ -100,6 +104,8 @@
         Save
       </button>
     </div>
+
+    <!-- Country Picker Modal removed: selection occurs on /select-location page -->
 
     <!-- ===== Modal Confirm Logout ===== -->
     <transition name="fade">
@@ -144,16 +150,17 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, computed } from "vue";
 import { useAuthStore } from "@/stores/authStore";
 import { updateProfileWithPhoto } from "@/api/profileApi";
 import { GetProfile } from "@/api/settingApi";
+import { useRoute } from "vue-router";
 import { useRouter } from "vue-router";
 import { useSnackbarStore } from "@/stores/snackbarStore";
 
 const router = useRouter();
 const goBack = () => router.back();
-const openLocation = () => router.push("/select-location");
+const route = useRoute();
 
 const snackbar = useSnackbarStore();
 const auth = useAuthStore();
@@ -182,6 +189,14 @@ const confirmLogout = async () => {
   }
 };
 
+const selectedCountry = ref(null); // { id, countryName }
+const selectedCountryCode = computed(() => selectedCountry.value?.id ?? null);
+const selectedLocationLabel = computed(() => selectedCountry.value?.countryName || 'Select location');
+
+function openLocation() {
+  router.push({ path: "/select-location", query: { selectedId: selectedCountry.value?.id || '' } });
+}
+
 const loadProfile = async () => {
   try {
     const userId = auth.userId;
@@ -189,6 +204,21 @@ const loadProfile = async () => {
     name.value = profile.name || "";
     email.value = profile.email || "";
     photoPreview.value = profile.filePath || null;
+
+    // Fill from profile only when not coming back with a selection
+    if (!selectedCountry.value) {
+      const profCountryId = profile?.countryId ?? profile?.CountryId ?? null;
+      const profCountryName = profile?.countryName ?? profile?.CountryName ?? null;
+      if (profCountryId && profCountryName) {
+        selectedCountry.value = { id: Number(profCountryId), countryName: String(profCountryName) };
+      } else if (profCountryId) {
+        // Minimal mapping for known IDs
+        const map = { 13: 'Malaysia', 19: 'Singapore', 9: 'Indonesia' };
+        if (map[Number(profCountryId)]) {
+          selectedCountry.value = { id: Number(profCountryId), countryName: map[Number(profCountryId)] };
+        }
+      }
+    }
   } catch (error) {
     console.error("Failed to load profile:", error);
   }
@@ -209,6 +239,7 @@ const saveProfile = async () => {
     formData.append("DisplayName", name.value.trim());
     formData.append("Email", email.value.trim());
     if (selectedPhoto.value) formData.append("Photo", selectedPhoto.value);
+    if (selectedCountry.value?.id) formData.append("CountryId", String(selectedCountry.value.id));
 
     await updateProfileWithPhoto(formData);
     snackbar.trigger("Profile successfully changed", "success");
@@ -219,7 +250,15 @@ const saveProfile = async () => {
   }
 };
 
-onMounted(loadProfile);
+onMounted(async () => {
+  // Apply selection from route query if present
+  const qId = route.query.countryId;
+  const qName = route.query.countryName;
+  if (qId && qName) {
+    selectedCountry.value = { id: Number(qId), countryName: String(qName) };
+  }
+  await loadProfile();
+});
 </script>
 
 <style scoped>

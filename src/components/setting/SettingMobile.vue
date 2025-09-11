@@ -41,7 +41,7 @@
 
         <MenuRow icon="fas fa-flag" label="Report Quiz" @click="goToUrl('/reports')" />
         <MenuRow icon="fas fa-credit-card" label="Payment Method" @click="goToUrl('/payment-method')" />
-        <MenuRow icon="far fa-bookmark" label="Saved" @click="goToUrl('/history-quiz')" />
+        <MenuRow icon="far fa-bookmark" label="Saved" @click="goToUrl('/saved-quiz')" />
         <MenuRow icon="far fa-bell" label="Notifications" @click="goToUrl('/notification-mobile')" />
 
         <!-- Languages -->

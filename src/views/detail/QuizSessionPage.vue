@@ -1,6 +1,6 @@
 <template>
   <div class="min-h-screen bg-[#f9fafb] flex flex-col justify-between">
-    
+    <!-- Header -->
     <div class="flex justify-between items-center p-4">
       <button @click="goBack" class="text-gray-700 text-xl">
         <i class="fas fa-arrow-left"></i>
@@ -10,19 +10,19 @@
       </div>
     </div>
 
-    
+    <!-- Timer -->
     <div class="px-4 text-sm text-gray-600 mb-2 text-right">
       ⏱ {{ formattedTimer }}
     </div>
 
-    
+    <!-- Progress Bar -->
     <div class="px-4">
       <div class="w-full bg-gray-200 h-2 rounded-full">
         <div class="h-2 bg-blue-500 rounded-full" :style="{ width: progress + '%' }"></div>
       </div>
     </div>
 
-    
+    <!-- Questions (paged by batch) -->
     <div class="px-4 mt-6 flex flex-col gap-6">
       <div
         v-for="(question, qIndex) in paginatedQuestions"
@@ -34,7 +34,7 @@
           <img :src="question.questionImagePath" alt="question image" class="max-h-48" />
         </div>
 
-        
+        <!-- Options -->
         <div class="flex flex-col gap-3">
           <button
             v-for="(opt, i) in question.answer"
@@ -47,7 +47,7 @@
                 : 'border-gray-300 bg-white text-gray-800',
             ]"
           >
-            
+            <!-- PERFECT-CIRCLE BULLET -->
             <span
               class="answer-bullet border"
               :class="selectedAnswers[batchStartIndex + qIndex]?.Answer === opt.Answers
@@ -66,7 +66,7 @@
       </div>
     </div>
 
-    
+    <!-- Bottom -->
     <div class="px-4 py-6 border-t mt-6 flex justify-between items-center">
       <div class="text-blue-600 text-sm font-medium flex items-center gap-1">
         <i class="fas fa-check-circle"></i> {{ totalAnswered }} of {{ questions.length }} answered
@@ -98,12 +98,12 @@ const route = useRoute();
 const router = useRouter();
 const quizId = route.params.id;
 
-
+/* ---------- localStorage keys isolated per quiz ---------- */
 const ANSWERS_KEY = `quiz:${quizId}:answers`;
 const TIMER_KEY = `quiz:${quizId}:timer`;
 const DEFAULT_SECONDS = 600;
 
-
+/* ---------- state ---------- */
 const questions = ref([]);
 const selectedAnswers = ref([]);
 const batchSize = 5;
@@ -111,7 +111,7 @@ const batchIndex = ref(0);
 const timer = ref(parseInt(localStorage.getItem(TIMER_KEY)) || DEFAULT_SECONDS);
 let timerInterval = null;
 
-
+/* ---------- computed ---------- */
 const batchStartIndex = computed(() => batchIndex.value * batchSize);
 const paginatedQuestions = computed(() =>
   questions.value.slice(batchStartIndex.value, batchStartIndex.value + batchSize)
@@ -136,7 +136,7 @@ const formattedTimer = computed(() => {
   return `${String(min).padStart(2, "0")}:${String(sec).padStart(2, "0")}`;
 });
 
-
+/* ---------- helpers ---------- */
 function loadSavedAnswers(list) {
   const fresh = Array(list.length).fill(null);
   let saved;
@@ -161,7 +161,7 @@ function clearStorageForThisQuiz() {
   localStorage.removeItem(TIMER_KEY);
 }
 
-
+/* ---------- actions ---------- */
 function selectAnswer(index, choiceIndex) {
   const q = questions.value[index];
   const choice = q?.answer?.[choiceIndex];
@@ -201,7 +201,7 @@ function goBack() {
   router.back();
 }
 
-
+/* ---------- lifecycle ---------- */
 onMounted(async () => {
   try {
     const { data } = await axios.get(
@@ -239,16 +239,16 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
-
+/* Keep the bullet perfectly round, independent of parent line-height or flex sizing */
 .answer-bullet {
   width: 20px;
   height: 20px;
   border-radius: 9999px;
   display: inline-grid;
   place-items: center;
-  flex: 0 0 auto;          
-  aspect-ratio: 1 / 1;     
-  line-height: 0;          
+  flex: 0 0 auto;          /* never stretch */
+  aspect-ratio: 1 / 1;     /* extra guard; width/height already enforce square */
+  line-height: 0;          /* prevent inheriting line-height from text */
   -webkit-tap-highlight-color: transparent;
   background: #fff;
 }

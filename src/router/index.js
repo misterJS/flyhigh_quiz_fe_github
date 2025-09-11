@@ -18,6 +18,7 @@ import ProfilePage from "@/views/ProfilePage.vue";
 import EditProfileMobile from "@/components/setting/MobileSetting/EditProfileMobile.vue";
 import ChangePasswordMobile from "@/components/setting/MobileSetting/ChangePasswordMobile.vue";
 import HistoryMobile from "@/components/setting/MobileSetting/HistoryMobile.vue";
+import SavedMobile from "@/components/setting/MobileSetting/SavedMobile.vue";
 import HelpSupportMobile from "@/components/setting/MobileSetting/HelpSupportMobile.vue";
 import NotificationSettingMobile from "@/components/setting/MobileSetting/NotificationSettingMobile.vue";
 import LanguageSettingMobile from "@/components/setting/MobileSetting/LanguageSettingMobile.vue";
@@ -167,6 +168,12 @@ const allRoutes = [
     name: "HistoryQuiz",
     component: HistoryMobile,
     meta: { title: "History Quiz", device: "mobile" },
+  },
+  {
+    path: "/saved-quiz",
+    name: "SavedQuiz",
+    component: SavedMobile,
+    meta: { title: "Quiz Saved", device: "mobile" },
   },
   {
     path: "/help-support",
