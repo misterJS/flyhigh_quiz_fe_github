@@ -8,88 +8,79 @@
       <h1 class="font-semibold text-lg">Country</h1>
     </div>
 
-    <!-- Card -->
-    <div class="bg-white rounded-3xl p-4 shadow divide-y divide-gray-100">
-      <!-- Malaysia -->
+    <!-- Card with fetched countries -->
+    <div class="bg-white rounded-3xl p-2 shadow divide-y divide-gray-100">
       <button
-        class="w-full flex items-center justify-between py-4"
-        @click="setCountry('MY')"
+        v-for="c in countries"
+        :key="c.id"
+        class="w-full flex items-center justify-between py-4 px-2"
+        @click="choose(c)"
       >
         <div class="flex items-center gap-3">
-          <img
-            :src="flags.MY"
-            alt="Malaysia Flag"
-            class="w-8 h-6 rounded-md object-cover"
-          />
-          <span class="text-base text-gray-900">Malaysia</span>
+          <span class="text-base text-gray-900">{{ c.countryName }}</span>
         </div>
-        <span
-          class="w-6 h-6 rounded-full grid place-items-center border-2"
-          :class="selectedCode === 'MY' ? 'border-blue-500' : 'border-gray-300'"
-          aria-hidden="true"
-        >
-          <span
-            v-if="selectedCode === 'MY'"
-            class="w-3 h-3 rounded-full bg-blue-500"
-          ></span>
+        <span class="w-6 h-6 rounded-full grid place-items-center border-2" :class="selectedId === c.id ? 'border-blue-500' : 'border-gray-300'">
+          <span v-if="selectedId === c.id" class="w-3 h-3 rounded-full bg-blue-500"></span>
         </span>
       </button>
-
-      <!-- Singapore -->
-      <button
-        class="w-full flex items-center justify-between py-4"
-        @click="setCountry('SG')"
-      >
-        <div class="flex items-center gap-3">
-          <img
-            :src="flags.SG"
-            alt="Singapore Flag"
-            class="w-8 h-6 rounded-md object-cover"
-          />
-          <span class="text-base text-gray-900">Singapore</span>
-        </div>
-        <span
-          class="w-6 h-6 rounded-full grid place-items-center border-2"
-          :class="selectedCode === 'SG' ? 'border-blue-500' : 'border-gray-300'"
-          aria-hidden="true"
-        >
-          <span
-            v-if="selectedCode === 'SG'"
-            class="w-3 h-3 rounded-full bg-blue-500"
-          ></span>
-        </span>
-      </button>
+      <div v-if="loading" class="text-center text-gray-500 py-4">Loading...</div>
     </div>
   </div>
+  
 </template>
 
 <script setup>
 import { ref, onMounted } from "vue";
-import { useRouter } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
+import { GetDataCountry } from "@/api/settingApi";
 
 const router = useRouter();
+const route = useRoute();
 
-const flags = {
-  MY: require("@/assets/flag-malaysia.png"),
-  SG: require("@/assets/flag-singapore.png"),
-};
+const countries = ref([]);
+const selectedId = ref(null);
+const loading = ref(false);
 
-const selectedCode = ref("MY");
-
-onMounted(() => {
-  // load saved country if available
-  const saved = localStorage.getItem("app_country");
-  if (saved) selectedCode.value = saved;
+onMounted(async () => {
+  // preselect from query if provided
+  if (route.query.selectedId) selectedId.value = Number(route.query.selectedId);
+  await fetchCountries();
 });
 
 function goBack() {
   router.back();
 }
 
-function setCountry(code) {
-  selectedCode.value = code;
-  localStorage.setItem("app_country", code);
-  // balik ke page sebelumnya setelah memilih
-  setTimeout(() => router.back(), 150);
+async function fetchCountries() {
+  loading.value = true;
+  try {
+    const res = await GetDataCountry("", 1, 24);
+    const all = Array.isArray(res?.data) ? res.data : [];
+    // Only MY, SG, ID by name, Malaysia first
+    const wanted = ["MALAYSIA", "SINGAPORE", "INDONESIA"];
+    const filtered = all
+      .map((c) => ({ id: c.id, countryName: String(c.countryName || "").trim() }))
+      .filter((c) => wanted.includes(c.countryName.toUpperCase()));
+    const pretty = filtered.map((c) => ({ id: c.id, countryName: c.countryName.charAt(0) + c.countryName.slice(1).toLowerCase() }));
+    countries.value = pretty.sort((a, b) => {
+      if (a.countryName.toUpperCase() === 'MALAYSIA') return -1;
+      if (b.countryName.toUpperCase() === 'MALAYSIA') return 1;
+      return a.countryName.localeCompare(b.countryName);
+    });
+  } catch (e) {
+    console.error("GetDataCountry failed:", e?.message || e);
+    countries.value = [
+      { id: 13, countryName: "Malaysia" },
+      { id: 19, countryName: "Singapore" },
+      { id: 9, countryName: "Indonesia" },
+    ];
+  } finally {
+    loading.value = false;
+  }
+}
+
+function choose(c) {
+  selectedId.value = c.id;
+  router.replace({ path: "/edit-profile", query: { countryId: c.id, countryName: c.countryName } });
 }
 </script>

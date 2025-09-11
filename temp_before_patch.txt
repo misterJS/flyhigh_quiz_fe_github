@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="min-h-screen bg-[#0B6CF0] text-white relative flex flex-col">
     <!-- Lingkaran besar background -->
     <div class="absolute inset-0 flex top-[15%] justify-center pointer-events-none">
@@ -56,7 +56,7 @@
           class="w-full h-14 rounded-[22px] bg-white text-[#0B6CF0] text-[16px] font-semibold shadow
                  hover:bg-white/95 transition"
         >
-          Let's Go
+          Letâ€™s Go
         </button>
         <button
           @click="changeMind"
@@ -68,85 +68,21 @@
       </div>
     </div>
   </div>
-
-  <!-- Upgrade Modal (match logout modal position & style) -->
-  <div
-    v-if="showUpgrade"
-    class="fixed inset-0 z-50 bg-black/40 flex items-end sm:items-center justify-center p-4"
-  >
-    <div class="w-full max-w-sm bg-white rounded-[20px] shadow-lg p-6 relative text-center">
-      <!-- Crown icon with confetti -->
-      <div class="relative mx-auto mb-3 w-20 h-20 grid place-items-center">
-        <div class="w-16 h-16 rounded-full bg-[#0B6CF0]/10 text-[#0B6CF0] grid place-items-center">
-          <i class="fas fa-crown text-xl"></i>
-        </div>
-        <span class="absolute -top-1 left-2 w-2 h-2 bg-[#F59E0B] rounded-full"></span>
-        <span class="absolute -top-2 right-4 w-2 h-2 bg-[#8B5CF6] rounded-full"></span>
-        <span class="absolute bottom-0 left-1 w-2 h-2 bg-[#EF4444] rounded-full"></span>
-        <span class="absolute -right-1 bottom-2 w-2 h-2 bg-[#22C55E] rounded-full"></span>
-      </div>
-
-      <h3 class="text-[17px] font-semibold text-[#111827]">It's time for Upgrade!</h3>
-      <p class="text-sm text-gray-600 mt-1">
-        Upgrade to remove ads, unlimited play and access all game only with $2/month
-      </p>
-
-      <div class="mt-5">
-        <button
-          class="w-full h-11 rounded-[14px] bg-[#0B6CF0] text-white font-semibold"
-          @click="goUpgrade"
-        >
-          Upgrade pro first
-        </button>
-      </div>
-    </div>
-  </div>
 </template>
 
 <script setup>
 import { useRoute, useRouter } from "vue-router";
-import { ref, computed } from "vue";
-import { useAuthStore } from "@/stores/authStore";
-import { CheckDailyLimitByStudent } from "@/api/quizApi";
 
 const router = useRouter();
 const route = useRoute();
 const quizId = route.params.id;
-const auth = useAuthStore();
-
-const showUpgrade = ref(false);
-const savedAuthUser = (() => {
-  try { return JSON.parse(localStorage.getItem('auth_user') || 'null'); } catch { return null; }
-})();
-const studentId = computed(() =>
-  auth?.userId || auth?.user?.userId || auth?.user?.data?.userId ||
-  savedAuthUser?.data?.userId || savedAuthUser?.userId || null
-);
 
 function changeMind() {
+  // sesuaikan behaviour-mu
   router.push("/quiz");
 }
-async function startQuiz() {
-  try {
-    if (!studentId.value) {
-      router.push(`/quiz-session/${quizId}`);
-      return;
-    }
-    const data = await CheckDailyLimitByStudent(studentId.value);
-    if (data?.limitReached) {
-      showUpgrade.value = true;
-    } else {
-      router.push(`/quiz-session/${quizId}`);
-    }
-  } catch (e) {
-    console.warn("checkDailyLimit failed:", e?.message || e);
-    router.push(`/quiz-session/${quizId}`);
-  }
-}
-
-function goUpgrade(){
-  router.push('/subscribe');
+function startQuiz() {
+  router.push(`/quiz-session/${quizId}`);
 }
 </script>
-
 

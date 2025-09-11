@@ -5,6 +5,7 @@
       <img
         :src="image"
         alt="Quiz image"
+        loading="lazy"
         class="w-16 h-16 rounded-xl object-cover shrink-0"
       />
 
