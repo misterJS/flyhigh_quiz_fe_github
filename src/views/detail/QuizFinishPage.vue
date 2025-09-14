@@ -51,13 +51,22 @@
       </div>
     </div>
 
-    <!-- Home Button -->
-    <button
-      class="w-full max-w-sm bg-white md:bg-[#007bff] md:text-white text-[#007bff] text-sm font-semibold px-8 py-3 rounded-full shadow-sm"
-      @click="goHome"
-    >
-      Home
-    </button>
+    <div class="flex justify-between gap-2 w-full">
+      <!-- Home Button -->
+      <button
+        class="w-full max-w-sm border border-white bg-[#007bff] text-white text-sm font-semibold px-8 py-3 rounded-full shadow-sm"
+        @click="goReview"
+      >
+        Review Quiz
+      </button>
+      <!-- Home Button -->
+      <button
+        class="w-full max-w-sm bg-white md:bg-[#007bff] md:text-white text-[#007bff] text-sm font-semibold px-8 py-3 rounded-full shadow-sm"
+        @click="goHome"
+      >
+        Home
+      </button>
+    </div>
   </div>
 </template>
 
@@ -70,23 +79,34 @@ const route = useRoute();
 
 // raw query → number
 const rawScore = Number(route.query.score ?? 0);
-const rawExp   = Number(route.query.exp ?? 0);
-const grade    = route.query.grade || "Try Again";
+const rawExp = Number(route.query.exp ?? 0);
+const grade = route.query.grade || "Try Again";
+const startId = route.query.startId || 0;
 
 // Format: persen max 1 desimal, exp integer
 const scorePct = computed(() =>
   Number.isFinite(rawScore)
-    ? new Intl.NumberFormat(undefined, { maximumFractionDigits: 1 }).format(rawScore)
+    ? new Intl.NumberFormat(undefined, { maximumFractionDigits: 1 }).format(
+        rawScore
+      )
     : "0"
 );
 
 const expStr = computed(() =>
   Number.isFinite(rawExp)
-    ? new Intl.NumberFormat(undefined, { maximumFractionDigits: 0 }).format(rawExp)
+    ? new Intl.NumberFormat(undefined, { maximumFractionDigits: 0 }).format(
+        rawExp
+      )
     : "0"
 );
 
-function goHome() { router.push("/home"); }
-function goBack() { router.back(); }
+function goHome() {
+  router.push("/home");
+}
+function goReview() {
+  router.push(`/quiz-review/${startId}`);
+}
+function goBack() {
+  router.back();
+}
 </script>
-

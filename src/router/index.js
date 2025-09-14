@@ -36,6 +36,7 @@ import PaymentMethodMobile from "@/components/setting/MobileSetting/PaymentMetho
 import PaymentMethodAddMobile from "@/components/setting/MobileSetting/PaymentMethodAddMobile.vue";
 import SelectLocationMobile from "@/components/setting/MobileSetting/SelectLocationMobile.vue";
 import SubjectPage from "@/views/SubjectPage.vue";
+import QuizReviewPage from "@/views/detail/QuizReviewPage.vue";
 
 const isMobile = window.innerWidth <= 768;
 
@@ -247,6 +248,12 @@ const allRoutes = [
     name: "QuizSessionPage",
     component: QuizSessionPage,
     meta: { title: "Quiz Session" },
+  },
+  {
+    path: "/quiz-review/:startId",
+    name: "QuizReviewPage",
+    component: QuizReviewPage,
+    meta: { title: "Quiz Review" },
   },
   {
     path: "/quiz-finish",

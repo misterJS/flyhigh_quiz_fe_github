@@ -1,10 +1,18 @@
 <template>
   <div class="min-h-screen bg-[#f9fafb] flex flex-col justify-between">
     <!-- Header -->
-    <div class="flex justify-between items-center p-4">
+    <div class="flex gap-2 items-center p-4">
       <button @click="goBack" class="text-gray-700 text-xl">
         <i class="fas fa-arrow-left"></i>
       </button>
+      <div class="w-full">
+        <div class="w-full bg-gray-200 h-2 rounded-full">
+          <div
+            class="h-2 bg-blue-500 rounded-full"
+            :style="{ width: progress + '%' }"
+          ></div>
+        </div>
+      </div>
       <div class="flex items-center text-red-500 font-semibold">
         <i class="fas fa-heart mr-1"></i> <span>5</span>
       </div>
@@ -15,13 +23,6 @@
       ⏱ {{ formattedTimer }}
     </div>
 
-    <!-- Progress Bar -->
-    <div class="px-4">
-      <div class="w-full bg-gray-200 h-2 rounded-full">
-        <div class="h-2 bg-blue-500 rounded-full" :style="{ width: progress + '%' }"></div>
-      </div>
-    </div>
-
     <!-- Questions (paged by batch) -->
     <div class="px-4 mt-6 flex flex-col gap-6">
       <div
@@ -29,9 +30,16 @@
         :key="question.questionId"
         class="bg-white rounded-xl shadow p-6"
       >
-        <div class="text-[16px] text-gray-900 leading-relaxed mb-4" v-html="question.question" />
+        <div
+          class="text-[16px] text-gray-900 leading-relaxed mb-4"
+          v-html="question.question"
+        />
         <div v-if="question.questionImagePath" class="flex justify-center mb-4">
-          <img :src="question.questionImagePath" alt="question image" class="max-h-48" />
+          <img
+            :src="question.questionImagePath"
+            alt="question image"
+            class="max-h-48"
+          />
         </div>
 
         <!-- Options -->
@@ -50,12 +58,18 @@
             <!-- PERFECT-CIRCLE BULLET -->
             <span
               class="answer-bullet border"
-              :class="selectedAnswers[batchStartIndex + qIndex]?.Answer === opt.Answers
-                        ? 'answer-bullet--on border-blue-600'
-                        : 'border-gray-400 bg-white'"
+              :class="
+                selectedAnswers[batchStartIndex + qIndex]?.Answer ===
+                opt.Answers
+                  ? 'answer-bullet--on border-blue-600'
+                  : 'border-gray-400 bg-white'
+              "
             >
               <i
-                v-if="selectedAnswers[batchStartIndex + qIndex]?.Answer === opt.Answers"
+                v-if="
+                  selectedAnswers[batchStartIndex + qIndex]?.Answer ===
+                  opt.Answers
+                "
                 class="fas fa-check text-[10px]"
               ></i>
             </span>
@@ -69,7 +83,8 @@
     <!-- Bottom -->
     <div class="px-4 py-6 border-t mt-6 flex justify-between items-center">
       <div class="text-blue-600 text-sm font-medium flex items-center gap-1">
-        <i class="fas fa-check-circle"></i> {{ totalAnswered }} of {{ questions.length }} answered
+        <i class="fas fa-check-circle"></i> {{ totalAnswered }} of
+        {{ questions.length }} answered
       </div>
       <button
         class="bg-blue-600 text-white rounded-full px-8 py-3 text-sm font-semibold"
@@ -77,7 +92,7 @@
         :class="{ 'opacity-50 cursor-not-allowed': !canProceed }"
         @click="goNextBatch"
       >
-        {{ isLastBatch ? 'Finish' : 'Next' }}
+        {{ isLastBatch ? "Finish" : "Next" }}
       </button>
     </div>
   </div>
@@ -114,7 +129,10 @@ let timerInterval = null;
 /* ---------- computed ---------- */
 const batchStartIndex = computed(() => batchIndex.value * batchSize);
 const paginatedQuestions = computed(() =>
-  questions.value.slice(batchStartIndex.value, batchStartIndex.value + batchSize)
+  questions.value.slice(
+    batchStartIndex.value,
+    batchStartIndex.value + batchSize
+  )
 );
 const isLastBatch = computed(
   () => (batchIndex.value + 1) * batchSize >= questions.value.length
@@ -188,10 +206,21 @@ async function goNextBatch() {
   if (result) {
     snackbar.trigger("Quiz Done!", "success");
     clearStorageForThisQuiz();
-    router.push({
-      path: "/quiz-finish",
-      query: { score: result.Score, grade: result.Grade, exp: result.Exp },
-    });
+
+    const sid = result.startId ?? result.StartId;
+    if (sid) {
+      router.push({
+        path: `/quiz-finish`,
+        query: {
+          score: result.Score,
+          grade: result.Grade,
+          exp: result.Exp,
+          startId: sid,
+        },
+      });
+    } else {
+      router.push("/quiz-finish");
+    }
   } else {
     snackbar.trigger("Quiz isn't done!", "error");
   }
@@ -201,7 +230,6 @@ function goBack() {
   router.back();
 }
 
-/* ---------- lifecycle ---------- */
 onMounted(async () => {
   try {
     const { data } = await axios.get(
@@ -213,7 +241,7 @@ onMounted(async () => {
     console.error("Gagal mengambil soal:", err);
   }
 
-  timerInterval = setInterval(() => {
+  timerInterval = setInterval(async () => {
     if (timer.value > 0) {
       timer.value--;
       localStorage.setItem(TIMER_KEY, String(timer.value));
@@ -221,14 +249,25 @@ onMounted(async () => {
       clearInterval(timerInterval);
       snackbar.trigger("Time is up!", "error");
 
-      submitAnswer(
-        quizId,
-        auth.userId,
-        JSON.parse(localStorage.getItem(ANSWERS_KEY) || "[]")
-      );
+      const payload = JSON.parse(localStorage.getItem(ANSWERS_KEY) || "[]");
+      const result = await submitAnswer(quizId, auth.userId, payload);
 
       clearStorageForThisQuiz();
-      router.push("/quiz-finish");
+
+      const sid = result?.startId ?? result?.StartId;
+      if (sid) {
+        router.push({
+          path: `/quiz-finish`,
+          query: {
+            score: result?.Score,
+            grade: result?.Grade,
+            exp: result?.Exp,
+            startId: sid,
+          },
+        });
+      } else {
+        router.push("/quiz-finish");
+      }
     }
   }, 1000);
 });
@@ -246,9 +285,9 @@ onUnmounted(() => {
   border-radius: 9999px;
   display: inline-grid;
   place-items: center;
-  flex: 0 0 auto;          /* never stretch */
-  aspect-ratio: 1 / 1;     /* extra guard; width/height already enforce square */
-  line-height: 0;          /* prevent inheriting line-height from text */
+  flex: 0 0 auto; /* never stretch */
+  aspect-ratio: 1 / 1; /* extra guard; width/height already enforce square */
+  line-height: 0; /* prevent inheriting line-height from text */
   -webkit-tap-highlight-color: transparent;
   background: #fff;
 }

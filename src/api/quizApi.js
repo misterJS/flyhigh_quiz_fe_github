@@ -66,3 +66,13 @@ export const CheckDailyLimitByStudent = async (studentId) => {
   const response = await API.get("/read/checkDailyLimitByStudent", { params: { studentId } });
   return response.data; // expected { limitReached: boolean, answeredToday: number, limit: number }
 };
+
+export const GetQuizReview = async ({ startId, wrongOnly = false, Key } = {}) => {
+  if (!startId) throw new Error("startId is required");
+  const params = { startId, wrongOnly };
+  if (Key) params.Key = Key; // opsional kalau perlu API key
+
+  const response = await API.get("/read/GetQuizReview", { params });
+  return response.data; // shape sama seperti contoh kamu (questions, totalQuestions, dll)
+};
+
