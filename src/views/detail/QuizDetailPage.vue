@@ -253,7 +253,7 @@ import SwitchButtonGroup from "@/components/base/SwitchButton.vue";
 import QuizCard from "@/components/base/QuizCardComponent.vue";
 import { QuizPreview, AllQuizList, SaveQuizToggle, CheckDailyLimitByStudent } from "@/api/quizApi";
 import { useAuthStore } from "@/stores/authStore";
-import { AllTimeLeaderboard, LeaderboardByUserId } from "@/api/leaderboardApi";
+import { GlobalAllTimeLeaderboard, LeaderboardByUserId } from "@/api/leaderboardApi";
 
 const auth = useAuthStore();
 const router = useRouter();
@@ -450,7 +450,7 @@ function getBadge(rank) {
 }
 const fetchLeaderboard = async () => {
   try {
-    const data = await AllTimeLeaderboard();
+    const data = await GlobalAllTimeLeaderboard(10);
     leaderboard.value = data.map((user, index) => ({
       name: user.Name,
       xp: user.XP,
@@ -459,6 +459,7 @@ const fetchLeaderboard = async () => {
     }));
   } catch (error) {
     console.error("Error fetching leaderboard:", error);
+    leaderboard.value = []; // Set empty array on error
   }
 };
 const fetchLeaderboardById = async () => {

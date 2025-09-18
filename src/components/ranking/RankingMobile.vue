@@ -160,7 +160,7 @@ import badge3 from "../../assets/Badge3.png";
 import top1 from "../../assets/top1.png";
 import top2 from "../../assets/top2.png";
 import top3 from "../../assets/top3.png";
-import { AllTimeLeaderboard, WeeklyLeaderboard } from "@/api/leaderboardApi";
+import { GlobalAllTimeLeaderboard, WeeklyLeaderboard } from "@/api/leaderboardApi";
 const backgroundImage = "/Background-Image.png";
 const activeTab = ref("weekly");
 
@@ -171,12 +171,15 @@ const fetchLeaderboard = async () => {
   isLoading.value = true;
   try {
     if (activeTab.value === "weekly") {
-      leaderboardData.value = await WeeklyLeaderboard();
+      leaderboardData.value = await WeeklyLeaderboard(10);
     } else {
-      leaderboardData.value = await AllTimeLeaderboard();
+      // Use the new global leaderboard function
+      leaderboardData.value = await GlobalAllTimeLeaderboard(10);
     }
   } catch (err) {
     console.error("Error fetching leaderboard:", err);
+    // Set empty array on error to prevent UI issues
+    leaderboardData.value = [];
   } finally {
     isLoading.value = false;
   }
