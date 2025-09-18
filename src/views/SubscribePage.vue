@@ -1,6 +1,7 @@
 <script setup>
 import ResponsiveView from "@/components/helper/ResponsiveView.vue";
 import SubscribeMobile from "@/components/subscribe/SubscribeMobile.vue";
+import SubscribeDesktop from "@/components/subscribe/SubscribeDesktop.vue";
 </script>
 
 <template>
@@ -8,6 +9,6 @@ import SubscribeMobile from "@/components/subscribe/SubscribeMobile.vue";
     <SubscribeMobile />
   </ResponsiveView>
   <ResponsiveView desktop-only>
-    <div>Desktop</div>
+    <SubscribeDesktop />
   </ResponsiveView>
 </template>
