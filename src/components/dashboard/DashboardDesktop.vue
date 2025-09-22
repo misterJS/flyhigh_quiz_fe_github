@@ -70,7 +70,7 @@ function setSort(key) {
           src="@/assets/hero-dashboard.png"
           alt="Logo"
           class="w-full mb-6 mx-auto rounded-xl"
-        />
+        >
 
         <div class="grid grid-cols-1 xl:grid-cols-[2fr_1fr] gap-4">
           <div>
@@ -122,7 +122,10 @@ function setSort(key) {
                           sortAsc ? "⬆️" : "⬇️"
                         }}</span>
                       </th>
-                      <th class="py-2 cursor-pointer" @click="setSort('point')">
+                      <th
+                        class="py-2 cursor-pointer"
+                        @click="setSort('point')"
+                      >
                         Point
                         <span v-if="sortKey === 'point'">{{
                           sortAsc ? "⬆️" : "⬇️"
@@ -132,16 +135,22 @@ function setSort(key) {
                   </thead>
                   <tbody class="text-gray-700">
                     <tr
-                      class="border-b"
                       v-for="(user, index) in sortedLeaderboard"
                       :key="index"
+                      class="border-b"
                     >
-                      <td class="py-5 pr-4">{{ user.rank }}</td>
+                      <td class="py-5 pr-4">
+                        {{ user.rank }}
+                      </td>
                       <td class="py-5 pr-4 font-semibold text-blue-600">
                         {{ user.name }}
                       </td>
-                      <td class="py-5 pr-4">{{ user.email }}</td>
-                      <td class="py-5 pr-4">{{ user.course }}</td>
+                      <td class="py-5 pr-4">
+                        {{ user.email }}
+                      </td>
+                      <td class="py-5 pr-4">
+                        {{ user.course }}
+                      </td>
                       <td class="py-5 font-bold text-orange-500">
                         {{ user.point }}
                       </td>
@@ -160,9 +169,10 @@ function setSort(key) {
                 <h3 class="text-base font-semibold text-gray-900">
                   Live Sessions
                 </h3>
-                <a href="#" class="text-sm text-blue-600 font-medium"
-                  >See all</a
-                >
+                <a
+                  href="#"
+                  class="text-sm text-blue-600 font-medium"
+                >See all</a>
               </div>
 
               <div class="space-y-4">
@@ -172,7 +182,7 @@ function setSort(key) {
                     src="/path/to/avatar1.jpg"
                     alt="Speaker"
                     class="w-14 h-14 rounded-lg object-cover"
-                  />
+                  >
                   <div class="flex-1">
                     <p class="font-medium text-sm text-gray-900 mb-2">
                       QnA: Design Thinking From Scratch
@@ -218,7 +228,7 @@ function setSort(key) {
                     src="/path/to/avatar2.jpg"
                     alt="Speaker"
                     class="w-14 h-14 rounded-lg object-cover"
-                  />
+                  >
                   <div class="flex-1">
                     <p class="font-medium text-sm text-gray-900 mb-2">
                       QnA: Application of AI in UI/UX Design

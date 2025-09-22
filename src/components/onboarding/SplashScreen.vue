@@ -9,12 +9,15 @@ import logo from "@/assets/LOGO-FLY-HIGH2.png";
       src="@/assets/Pattern(1).png"
       alt="Background"
       class="absolute inset-0 w-full h-full object-cover -z-10"
-    />
+    >
 
     <div
       class="rounded-full flex justify-center items-center mx-auto w-[80px] h-[80px] bg-white"
     >
-      <img :src="logo" class="w-[60px] h-[34px]" />
+      <img
+        :src="logo"
+        class="w-[60px] h-[34px]"
+      >
     </div>
   </div>
 </template>

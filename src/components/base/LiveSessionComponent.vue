@@ -1,8 +1,13 @@
 <template>
   <div class="pt-4 px-4 bg-white rounded-xl shadow mb-3">
     <div class="flex justify-between items-center mb-3">
-      <h2 class="font-semibold text-lg">Live Sessions</h2>
-      <a href="#" class="text-blue-600 text-sm font-medium">View All</a>
+      <h2 class="font-semibold text-lg">
+        Live/Recorded Sessions
+      </h2>
+      <a
+        href="#"
+        class="text-blue-600 text-sm font-medium"
+      >View All</a>
     </div>
 
     <Swiper
@@ -25,8 +30,7 @@
           <div class="flex justify-between items-center mb-3">
             <span
               class="bg-orange-400 text-white text-xs px-3 py-1 rounded-full"
-              >Tech</span
-            >
+            >Tech</span>
             <svg
               class="w-5 h-5 text-white opacity-70"
               fill="none"
@@ -48,18 +52,21 @@
 
           <div class="flex items-center justify-between text-sm mb-3 space-x-4 opacity-90">
             <div class="flex items-center space-x-1">
-              <i class="fas fa-calendar-alt"></i>
+              <i class="fas fa-calendar-alt" />
               <span>{{ session.date }}</span>
             </div>
             <div class="flex items-center space-x-1">
-              <i class="fas fa-clock"></i>
+              <i class="fas fa-clock" />
               <span>{{ session.time }}</span>
             </div>
           </div>
 
           <div class="border-t border-white justify-items-center border-opacity-30 pt-3">
             <button class="flex items-center text-center space-x-2">
-              <svg class="w-4 h-4 fill-white" viewBox="0 0 24 24">
+              <svg
+                class="w-4 h-4 fill-white"
+                viewBox="0 0 24 24"
+              >
                 <path d="M8 5v14l11-7z" />
               </svg>
               <span class="text-white text-base font-semibold">Watch</span>

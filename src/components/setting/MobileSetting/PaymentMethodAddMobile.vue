@@ -2,14 +2,23 @@
   <div class="min-h-screen bg-[#F6F7F9] p-4 pb-28">
     <!-- Header -->
     <div class="flex items-center gap-3 mb-5">
-      <button @click="goBack" class="text-gray-800 text-lg" aria-label="Back">
-        <i class="fas fa-arrow-left"></i>
+      <button
+        class="text-gray-800 text-lg"
+        aria-label="Back"
+        @click="goBack"
+      >
+        <i class="fas fa-arrow-left" />
       </button>
-      <h1 class="text-lg font-semibold">Add New Card</h1>
+      <h1 class="text-lg font-semibold">
+        Add New Card
+      </h1>
     </div>
 
     <!-- Form -->
-    <form class="space-y-5" @submit.prevent="connectCard">
+    <form
+      class="space-y-5"
+      @submit.prevent="connectCard"
+    >
       <!-- Holder -->
       <div>
         <label class="block text-sm text-gray-700 mb-2">Card Holder Name</label>
@@ -19,7 +28,7 @@
           autocomplete="cc-name"
           placeholder="Siti Tirta Dinar"
           class="w-full rounded-2xl border border-gray-200 bg-white px-4 py-3 text-[15px] focus:ring-2 focus:ring-[#2563EB] outline-none"
-        />
+        >
       </div>
 
       <!-- Brand picker -->
@@ -31,10 +40,13 @@
           @click="openPicker = true"
         >
           <span class="flex items-center gap-3">
-            <img :src="selected.logo" class="w-7 h-5 object-contain" />
+            <img
+              :src="selected.logo"
+              class="w-7 h-5 object-contain"
+            >
             <span class="text-[15px]">{{ selected.label }}</span>
           </span>
-          <i class="fas fa-chevron-down text-gray-400"></i>
+          <i class="fas fa-chevron-down text-gray-400" />
         </button>
       </div>
 
@@ -43,13 +55,16 @@
         <label class="block text-sm text-gray-700 mb-2">Card Number</label>
         <input
           :value="cardNumber"
-          @input="onCardNumberInput(($event.target && $event.target.value) || '')"
           inputmode="numeric"
           autocomplete="cc-number"
           placeholder="4032 8739 0081 6621"
           class="w-full rounded-2xl border border-gray-200 bg-white px-4 py-3 text-[15px] tracking-wider focus:ring-2 focus:ring-[#2563EB] outline-none"
-        />
-        <p v-if="cardNumberRaw && !isCardNumberValid" class="mt-1 text-xs text-red-600">
+          @input="onCardNumberInput(($event.target && $event.target.value) || '')"
+        >
+        <p
+          v-if="cardNumberRaw && !isCardNumberValid"
+          class="mt-1 text-xs text-red-600"
+        >
           Invalid card number.
         </p>
       </div>
@@ -60,13 +75,16 @@
           <label class="block text-sm text-gray-700 mb-2">Expired Date</label>
           <input
             :value="expiry"
-            @input="onExpiryInput(($event.target && $event.target.value) || '')"
             inputmode="numeric"
             autocomplete="cc-exp"
             placeholder="12/28"
             class="w-full rounded-2xl border border-gray-200 bg-white px-4 py-3 text-[15px] focus:ring-2 focus:ring-[#2563EB] outline-none"
-          />
-          <p v-if="expiry && !isExpiryValid" class="mt-1 text-xs text-red-600">
+            @input="onExpiryInput(($event.target && $event.target.value) || '')"
+          >
+          <p
+            v-if="expiry && !isExpiryValid"
+            class="mt-1 text-xs text-red-600"
+          >
             Invalid expiry (MM/YY).
           </p>
         </div>
@@ -75,14 +93,17 @@
           <label class="block text-sm text-gray-700 mb-2">CVV</label>
           <input
             :value="cvv"
-            @input="onCvvInput(($event.target && $event.target.value) || '')"
             :maxlength="selected.cvv"
             inputmode="numeric"
             autocomplete="cc-csc"
             :placeholder="selected.cvv === 4 ? '1234' : '342'"
             class="w-full rounded-2xl border border-gray-200 bg-white px-4 py-3 text-[15px] focus:ring-2 focus:ring-[#2563EB] outline-none"
-          />
-          <p v-if="cvv && !isCvvValid" class="mt-1 text-xs text-red-600">
+            @input="onCvvInput(($event.target && $event.target.value) || '')"
+          >
+          <p
+            v-if="cvv && !isCvvValid"
+            class="mt-1 text-xs text-red-600"
+          >
             CVV must be {{ selected.cvv }} digits.
           </p>
         </div>
@@ -95,10 +116,28 @@
         class="mt-2 w-full bg-[#2563EB] hover:bg-[#1E55D6] text-white font-semibold py-4 rounded-2xl disabled:bg-[#9CB9F5] disabled:cursor-not-allowed"
       >
         <span v-if="!loading">Connect Card</span>
-        <span v-else class="inline-flex items-center gap-2">
-          <svg class="animate-spin h-4 w-4" viewBox="0 0 24 24" fill="none">
-            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="white" stroke-width="4"/>
-            <path class="opacity-75" fill="white" d="M4 12a8 8 0 018-8v4A4 4 0 008 12H4z"/>
+        <span
+          v-else
+          class="inline-flex items-center gap-2"
+        >
+          <svg
+            class="animate-spin h-4 w-4"
+            viewBox="0 0 24 24"
+            fill="none"
+          >
+            <circle
+              class="opacity-25"
+              cx="12"
+              cy="12"
+              r="10"
+              stroke="white"
+              stroke-width="4"
+            />
+            <path
+              class="opacity-75"
+              fill="white"
+              d="M4 12a8 8 0 018-8v4A4 4 0 008 12H4z"
+            />
           </svg>
           Processing…
         </span>
@@ -107,9 +146,13 @@
 
     <!-- Bottom sheet -->
     <transition name="fade">
-      <div v-if="openPicker" class="fixed inset-0 z-50 bg-black/30" @click.self="openPicker = false">
+      <div
+        v-if="openPicker"
+        class="fixed inset-0 z-50 bg-black/30"
+        @click.self="openPicker = false"
+      >
         <div class="absolute left-0 right-0 bottom-0 bg-white rounded-t-2xl p-4 shadow-xl">
-          <div class="w-12 h-1.5 bg-gray-300 rounded-full mx-auto mb-4"></div>
+          <div class="w-12 h-1.5 bg-gray-300 rounded-full mx-auto mb-4" />
           <div
             v-for="b in brands"
             :key="b.id"
@@ -117,12 +160,21 @@
             @click="selectBrand(b)"
           >
             <div class="flex items-center gap-3">
-              <img :src="b.logo" class="w-8 h-6 object-contain" />
+              <img
+                :src="b.logo"
+                class="w-8 h-6 object-contain"
+              >
               <span class="text-[15px]">{{ b.label }}</span>
             </div>
-            <i v-if="b.id === brand" class="fas fa-check text-[#2563EB]"></i>
+            <i
+              v-if="b.id === brand"
+              class="fas fa-check text-[#2563EB]"
+            />
           </div>
-          <button class="mt-2 w-full text-center px-3 py-3 rounded-xl border border-gray-200" @click="openPicker = false">
+          <button
+            class="mt-2 w-full text-center px-3 py-3 rounded-xl border border-gray-200"
+            @click="openPicker = false"
+          >
             Cancel
           </button>
         </div>
@@ -131,7 +183,10 @@
 
     <!-- Toast -->
     <transition name="fade">
-      <div v-if="toast" class="fixed bottom-24 left-1/2 -translate-x-1/2 bg-black/80 text-white text-xs px-3 py-2 rounded-lg">
+      <div
+        v-if="toast"
+        class="fixed bottom-24 left-1/2 -translate-x-1/2 bg-black/80 text-white text-xs px-3 py-2 rounded-lg"
+      >
         {{ toast }}
       </div>
     </transition>

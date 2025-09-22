@@ -2,34 +2,46 @@
   <div class="min-h-screen bg-[#f9fafb] p-4 pb-24">
     <!-- Header -->
     <div class="flex items-center gap-3 mb-6">
-      <button @click="goBack" class="text-gray-700 text-lg">
-        <i class="fas fa-arrow-left"></i>
+      <button
+        class="text-gray-700 text-lg"
+        @click="goBack"
+      >
+        <i class="fas fa-arrow-left" />
       </button>
-      <h1 class="font-normal text-lg">Help and Support</h1>
+      <h1 class="font-normal text-lg">
+        Help and Support
+      </h1>
     </div>
 
     <!-- FAQ Card -->
     <div class="bg-white rounded-3xl p-5 shadow space-y-5">
       <div>
-        <p class="font-semibold text-sm text-gray-900 mb-1">FAQ</p>
+        <p class="font-semibold text-sm text-gray-900 mb-1">
+          FAQ
+        </p>
         <p class="text-xs text-gray-400">
           We have already answered most of your question.
         </p>
       </div>
 
       <!-- Accordion Items -->
-      <div v-for="(faq, index) in faqs" :key="index">
+      <div
+        v-for="(faq, index) in faqs"
+        :key="index"
+      >
         <div
           class="flex justify-between items-center py-3 cursor-pointer"
           @click="toggle(index)"
         >
-          <p class="font-medium text-sm text-gray-900">{{ faq.question }}</p>
+          <p class="font-medium text-sm text-gray-900">
+            {{ faq.question }}
+          </p>
           <i
             :class="
               openIndex === index ? 'fas fa-chevron-up' : 'fas fa-chevron-down'
             "
             class="text-xs text-gray-400"
-          ></i>
+          />
         </div>
 
         <transition name="fade">
@@ -41,7 +53,7 @@
           </div>
         </transition>
 
-        <div class="border-t border-gray-100"></div>
+        <div class="border-t border-gray-100" />
       </div>
     </div>
   </div>

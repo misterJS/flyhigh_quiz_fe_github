@@ -9,14 +9,14 @@
             to="/rewards"
             class="text-sm text-[#2563EB] flex items-center gap-1 mb-4"
           >
-            <i class="fas fa-arrow-left"></i> Back
+            <i class="fas fa-arrow-left" /> Back
           </router-link>
 
           <h1 class="text-2xl font-semibold text-[#111827] mb-6">
             Rewards History
           </h1>
 
-          
+          <!-- Tabs & Actions -->
           <div class="flex justify-between items-center mb-4 flex-wrap gap-4">
             <div class="flex items-center gap-6">
               <button
@@ -38,10 +38,10 @@
                   type="text"
                   placeholder="Search.."
                   class="w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-full text-sm bg-white placeholder:text-gray-400 shadow-sm"
-                />
+                >
                 <i
                   class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm"
-                ></i>
+                />
               </div>
               <div class="flex gap-3">
                 <select
@@ -53,13 +53,13 @@
                 <button
                   class="text-sm text-red-600 font-medium flex items-center gap-1"
                 >
-                  <i class="fas fa-trash"></i> Delete
+                  <i class="fas fa-trash" /> Delete
                 </button>
               </div>
             </div>
           </div>
 
-          
+          <!-- Rewards List -->
           <div class="space-y-4">
             <div
               v-for="(item, index) in rewards"
@@ -67,12 +67,15 @@
               class="bg-white rounded-2xl px-6 py-4 shadow-sm flex items-center justify-between"
             >
               <div class="flex items-center gap-4 w-[260px]">
-                <input type="checkbox" class="accent-[#2563EB]" />
+                <input
+                  type="checkbox"
+                  class="accent-[#2563EB]"
+                >
                 <img
                   :src="item.image"
                   class="w-12 h-12 rounded-lg object-cover"
                   alt="reward item"
-                />
+                >
                 <div>
                   <p class="text-[11px] text-gray-400 font-medium">
                     Reward Item
@@ -88,13 +91,17 @@
                   <p class="text-[11px] text-gray-400 font-medium">
                     Redemption Date
                   </p>
-                  <p class="font-medium text-[#111827]">{{ item.date }}</p>
+                  <p class="font-medium text-[#111827]">
+                    {{ item.date }}
+                  </p>
                 </div>
                 <div>
                   <p class="text-[11px] text-gray-400 font-medium">
                     Points Used
                   </p>
-                  <p class="font-medium text-[#111827]">{{ item.used }} XP</p>
+                  <p class="font-medium text-[#111827]">
+                    {{ item.used }} XP
+                  </p>
                 </div>
                 <div>
                   <p class="text-[11px] text-gray-400 font-medium">
@@ -108,10 +115,14 @@
                   <p class="text-[11px] text-gray-400 font-medium">
                     Source of Points
                   </p>
-                  <p class="font-medium text-[#111827]">{{ item.source }}</p>
+                  <p class="font-medium text-[#111827]">
+                    {{ item.source }}
+                  </p>
                 </div>
                 <div>
-                  <p class="text-[11px] text-gray-400 font-medium">Status</p>
+                  <p class="text-[11px] text-gray-400 font-medium">
+                    Status
+                  </p>
                   <span
                     class="text-xs font-semibold px-3 py-1 rounded-full"
                     :class="
@@ -126,12 +137,12 @@
               </div>
 
               <button class="text-gray-400 hover:text-gray-600">
-                <i class="fas fa-ellipsis-v"></i>
+                <i class="fas fa-ellipsis-v" />
               </button>
             </div>
           </div>
 
-          
+          <!-- Pagination Footer -->
           <div
             class="flex justify-between items-center mt-8 text-sm text-gray-500"
           >

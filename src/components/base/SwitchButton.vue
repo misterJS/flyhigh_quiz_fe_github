@@ -9,7 +9,6 @@
     <button
       v-for="(item, idx) in options"
       :key="idx"
-      @click="() => $emit('update:modelValue', item)"
       :class="[
         'w-full font-medium rounded-full focus:outline-none transition-all',
         sizePadding.button,
@@ -19,6 +18,7 @@
             : 'bg-blue-600 text-white shadow'
           : 'text-gray-700 hover:bg-gray-200',
       ]"
+      @click="() => $emit('update:modelValue', item)"
     >
       {{ item }}
     </button>

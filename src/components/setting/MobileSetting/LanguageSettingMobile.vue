@@ -2,27 +2,47 @@
   <div class="min-h-screen bg-[#F3F4F6] p-4 pb-24">
     <!-- Header -->
     <div class="flex items-center gap-3 mb-4">
-      <button @click="goBack" class="text-gray-800 text-lg" aria-label="Back">
-        <i class="fas fa-arrow-left"></i>
+      <button
+        class="text-gray-800 text-lg"
+        aria-label="Back"
+        @click="goBack"
+      >
+        <i class="fas fa-arrow-left" />
       </button>
-      <h1 class="font-normal text-lg">Language</h1>
+      <h1 class="font-normal text-lg">
+        Language
+      </h1>
     </div>
 
     <!-- Card -->
     <div class="bg-white rounded-3xl p-2 shadow-sm">
       <div class="divide-y divide-gray-100">
-        <button v-for="lang in languages" :key="lang.id" type="button"
+        <button
+          v-for="lang in languages"
+          :key="lang.id"
+          type="button"
           class="w-full flex items-center justify-between p-4 rounded-2xl hover:bg-gray-50"
-          @click="selectLanguage(lang)" role="radio" :aria-checked="selectedId === lang.id">
+          role="radio"
+          :aria-checked="selectedId === lang.id"
+          @click="selectLanguage(lang)"
+        >
           <div class="flex items-center gap-3">
-            <img :src="lang.flag || getFlag(lang.code)" class="w-8 h-6 rounded-md object-cover" />
+            <img
+              :src="lang.flag || getFlag(lang.code)"
+              class="w-8 h-6 rounded-md object-cover"
+            >
             <span class="text-sm font-medium text-gray-900">{{ lang.label }}</span>
           </div>
 
           <!-- custom radio -->
-          <span class="w-5 h-5 rounded-full border flex items-center justify-center"
-            :class="selectedId === lang.id ? 'border-[#2563EB]' : 'border-gray-300'">
-            <span v-if="selectedId === lang.id" class="w-3 h-3 bg-[#2563EB] rounded-full"></span>
+          <span
+            class="w-5 h-5 rounded-full border flex items-center justify-center"
+            :class="selectedId === lang.id ? 'border-[#2563EB]' : 'border-gray-300'"
+          >
+            <span
+              v-if="selectedId === lang.id"
+              class="w-3 h-3 bg-[#2563EB] rounded-full"
+            />
           </span>
         </button>
       </div>

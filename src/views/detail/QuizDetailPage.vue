@@ -7,13 +7,17 @@
 
       <main class="flex-1 p-4 sm:p-6 lg:p-8 pb-24">
         <div class="flex flex-col lg:flex-row mx-auto max-w-6xl">
-          
+          <!-- KIRI -->
           <div class="flex-1">
-            
+            <!-- Custom Header -->
             <div class="flex justify-between items-center mb-4">
               <div class="flex gap-1 items-center">
-                <router-link to="/quiz" class="p-2" aria-label="Back">
-                  <i class="fas fa-arrow-left text-lg text-gray-800"></i>
+                <router-link
+                  to="/quiz"
+                  class="p-2"
+                  aria-label="Back"
+                >
+                  <i class="fas fa-arrow-left text-lg text-gray-800" />
                 </router-link>
                 <h2 class="text-base font-semibold text-gray-900">
                   {{ quiz?.subjectName || 'Biology' }}
@@ -21,44 +25,61 @@
               </div>
 
               <div class="flex items-center gap-3">
-                <button class="p-2" @click="shareQuiz" :disabled="sharing" title="Share">
-                  <i class="fas fa-share-square text-lg text-gray-800"></i>
+                <button
+                  class="p-2"
+                  :disabled="sharing"
+                  title="Share"
+                  @click="shareQuiz"
+                >
+                  <i class="fas fa-share-square text-lg text-gray-800" />
                 </button>
-                <button class="p-2" @click="toggleSaved" :aria-pressed="isSaved" title="Save">
-                  <i :class="[isSaved ? 'fas fa-bookmark text-[#2563EB]' : 'far fa-bookmark text-gray-800', 'text-lg']"></i>
+                <button
+                  class="p-2"
+                  :aria-pressed="isSaved"
+                  title="Save"
+                  @click="toggleSaved"
+                >
+                  <i :class="[isSaved ? 'fas fa-bookmark text-[#2563EB]' : 'far fa-bookmark text-gray-800', 'text-lg']" />
                 </button>
               </div>
             </div>
 
-            
+            <!-- Cover -->
             <div class="rounded-xl overflow-hidden mb-6">
               <img
                 :src="quiz?.image || require('@/assets/quiz.png')"
                 alt="Quiz Image"
+                loading="lazy"
                 class="w-full h-[200px] object-cover"
-              />
+              >
             </div>
 
-            
+            <!-- Title & Desc -->
             <h1 class="text-xl sm:text-2xl font-semibold text-[#111827] mb-3">
               {{ quiz?.title }}
             </h1>
             <p class="text-sm text-gray-600 mb-6 leading-relaxed">
               {{
                 quiz?.description ??
-                "This module on Additional Mathematics is designed to deepen students understanding of advanced mathematical concepts.It covers topics such as algebra, calculus, and geometry. Read More"
+                  "This module on Additional Mathematics is designed to deepen students understanding of advanced mathematical concepts.It covers topics such as algebra, calculus, and geometry. Read More"
               }}
             </p>
 
-            
+            <!-- UPGRADE PRO BANNER (conditional dari backend) -->
             <div
               v-if="showUpgradeBanner"
               class="rounded-2xl bg-[#0B63F6] px-5 py-5 mb-6 text-white flex items-center justify-between gap-4"
             >
               <div class="flex items-center gap-4">
-                <img src="@/assets/crown-premium.png" class="w-10 h-10" alt="crown" />
+                <img
+                  src="@/assets/crown-premium.png"
+                  class="w-10 h-10"
+                  alt="crown"
+                >
                 <div>
-                  <p class="text-lg font-semibold leading-5">Upgrade pro</p>
+                  <p class="text-lg font-semibold leading-5">
+                    Upgrade pro
+                  </p>
                   <p class="text-sm opacity-90 mt-1">
                     Upgrade to remove ads, unlimited play and access all game
                   </p>
@@ -66,14 +87,14 @@
               </div>
 
               <button
-                @click="goSubscribe"
                 class="shrink-0 bg-[#F59E0B] hover:bg-[#EA8A00] text-white px-5 py-2 rounded-full font-semibold text-sm"
+                @click="goSubscribe"
               >
                 Upgrade
               </button>
             </div>
 
-            
+            <!-- Tabs -->
             <div class="mb-6">
               <SwitchButtonGroup
                 v-model="selectedMenu"
@@ -83,50 +104,76 @@
               />
             </div>
 
-            
+            <!-- TAB: DETAIL -->
             <div v-if="selectedMenu === 'Detail'">
               <div class="bg-white rounded-xl p-5 shadow-sm">
-                <h2 class="text-base font-semibold text-[#111827] mb-4">Outcome</h2>
+                <h2 class="text-base font-semibold text-[#111827] mb-4">
+                  Outcome
+                </h2>
 
                 <div class="grid grid-cols-2 gap-4 mb-8">
                   <div class="bg-gray-100 rounded-xl p-4 flex items-center justify-between">
                     <div>
-                      <p class="text-sm text-gray-500">Skill level:</p>
+                      <p class="text-sm text-gray-500">
+                        Skill level:
+                      </p>
                       <p class="text-sm font-semibold text-gray-900">
                         {{ quiz?.level || 'All levels' }}
                       </p>
                     </div>
-                    <img src="@/assets/star.png" alt="star" class="w-8 h-8" />
+                    <img
+                      src="@/assets/star.png"
+                      alt="star"
+                      class="w-8 h-8"
+                    >
                   </div>
 
                   <div class="bg-gray-100 rounded-xl p-4 flex items-center justify-between">
                     <div>
-                      <p class="text-sm text-gray-500">Quizzes</p>
+                      <p class="text-sm text-gray-500">
+                        Quizzes
+                      </p>
                       <p class="text-sm font-semibold text-gray-900">
                         {{ quiz?.totalQuiz || 0 }}
                       </p>
                     </div>
-                    <img src="@/assets/note.png" alt="note" class="w-8 h-8" />
+                    <img
+                      src="@/assets/note.png"
+                      alt="note"
+                      class="w-8 h-8"
+                    >
                   </div>
 
                   <div class="bg-gray-100 rounded-xl p-4 flex items-center justify-between">
                     <div>
-                      <p class="text-sm text-gray-500">Language :</p>
+                      <p class="text-sm text-gray-500">
+                        Language :
+                      </p>
                       <p class="text-sm font-semibold text-gray-900">
                         {{ quiz?.language || 'English' }}
                       </p>
                     </div>
-                    <img src="@/assets/language-circle.png" alt="lang" class="w-8 h-8" />
+                    <img
+                      src="@/assets/language-circle.png"
+                      alt="lang"
+                      class="w-8 h-8"
+                    >
                   </div>
 
                   <div class="bg-gray-100 rounded-xl p-4 flex items-center justify-between">
                     <div>
-                      <p class="text-sm text-gray-500">Video Quiz :</p>
+                      <p class="text-sm text-gray-500">
+                        Video Quiz :
+                      </p>
                       <p class="text-sm font-semibold text-gray-900">
                         {{ quiz?.video || '30 mins' }}
                       </p>
                     </div>
-                    <img src="@/assets/timer-start.png" alt="timer" class="w-8 h-8" />
+                    <img
+                      src="@/assets/timer-start.png"
+                      alt="timer"
+                      class="w-8 h-8"
+                    >
                   </div>
                 </div>
               </div>
@@ -150,13 +197,16 @@
               </div>
             </div>
 
-            
+            <!-- TAB: QUIZ -->
             <div v-else>
-              <h2 class="text-sm font-semibold text-[#111827] mb-3">Quizzes</h2>
+              <h2 class="text-sm font-semibold text-[#111827] mb-3">
+                Quizzes
+              </h2>
 
               <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
                 <QuizCard
                   v-for="(item, index) in quizList"
+                  :id="item.id"
                   :key="index"
                   :image="item.image"
                   :title="item.title"
@@ -164,22 +214,34 @@
                   :points="item.CreditAmount"
                   :modules="item.totalQuiz"
                   :duration="item.totalHour"
-                  :id="item.id"
                 />
               </div>
 
-              <div v-if="quizLoading" class="text-center py-4 text-gray-600">
+              <div
+                v-if="quizLoading"
+                class="text-center py-4 text-gray-600"
+              >
                 Loading more quizzes...
               </div>
             </div>
           </div>
 
-          
-          <div v-if="selectedMenu === 'Detail'" class="w-full lg:w-[500px] space-y-6">
+          <!-- KANAN -->
+          <div
+            v-if="selectedMenu === 'Detail'"
+            class="w-full lg:w-[500px] space-y-6"
+          >
             <div class="bg-white rounded-2xl shadow-sm p-5">
               <div class="flex justify-between items-center mb-2">
-                <p class="text-base font-semibold text-gray-900">Leaderboard</p>
-                <router-link to="/ranking" class="text-sm text-blue-600 font-medium">View All</router-link>
+                <p class="text-base font-semibold text-gray-900">
+                  Leaderboard
+                </p>
+                <router-link
+                  to="/ranking"
+                  class="text-sm text-blue-600 font-medium"
+                >
+                  View All
+                </router-link>
               </div>
 
               <div class="space-y-2">
@@ -189,26 +251,41 @@
                   class="flex justify-between items-center bg-white p-3 border-b last:border-0"
                 >
                   <div class="flex items-center gap-3">
-                    <img :src="user.avatar" class="w-10 h-10 rounded-full" />
+                    <img
+                      :src="user.avatar"
+                      class="w-10 h-10 rounded-full"
+                    >
                     <div>
-                      <p class="text-sm font-medium text-[#1E1E1F]">{{ user.name }}</p>
-                      <p class="text-xs text-gray-400">{{ user.xp }} XP</p>
+                      <p class="text-sm font-medium text-[#1E1E1F]">
+                        {{ user.name }}
+                      </p>
+                      <p class="text-xs text-gray-400">
+                        {{ user.xp }} XP
+                      </p>
                     </div>
                   </div>
-                  <img :src="user.badge" class="w-9 h-9 rounded-full" />
+                  <img
+                    :src="user.badge"
+                    class="w-9 h-9 rounded-full"
+                  >
                 </div>
               </div>
             </div>
 
             <div class="bg-white rounded-xl p-5 shadow-sm mb-32 lg:mb-0">
-              <p class="text-sm font-semibold text-[#111827] mb-4">Achievement</p>
+              <p class="text-sm font-semibold text-[#111827] mb-4">
+                Achievement
+              </p>
               <div class="grid grid-cols-2 gap-4 text-sm">
                 <div
                   v-for="badge in badges"
                   :key="badge.label"
                   class="flex flex-col items-start gap-1 bg-[#f9fafb] p-4 rounded-xl"
                 >
-                  <img :src="badge.img" class="w-9 mb-2" />
+                  <img
+                    :src="badge.img"
+                    class="w-9 mb-2"
+                  >
                   {{ badge.label }}
                 </div>
               </div>
@@ -217,7 +294,7 @@
         </div>
       </main>
 
-      
+      <!-- CTA Mobile -->
       <div class="fixed bottom-0 left-0 right-0 lg:hidden bg-transparent border-none p-4 z-50">
         <router-link
           :to="{
@@ -232,7 +309,7 @@
     </div>
   </div>
 
-  
+  <!-- Toast -->
   <transition name="fade">
     <div
       v-if="toast.show"
@@ -245,13 +322,12 @@
 
 <script setup>
 import { useRoute, useRouter } from "vue-router";
-import { onMounted, ref, onBeforeUnmount, reactive } from "vue";
-import axios from "axios";
+import { onMounted, ref, onBeforeUnmount, reactive, computed } from "vue";
 import SidebarComponent from "@/components/base/SidebarComponent.vue";
 import HeaderComponent from "@/components/base/HeaderComponent.vue";
 import SwitchButtonGroup from "@/components/base/SwitchButton.vue";
 import QuizCard from "@/components/base/QuizCardComponent.vue";
-import { QuizPreview, AllQuizList } from "@/api/quizApi";
+import { QuizPreview, AllQuizList, SaveQuizToggle, CheckDailyLimitByStudent } from "@/api/quizApi";
 import { useAuthStore } from "@/stores/authStore";
 import { AllTimeLeaderboard, LeaderboardByUserId } from "@/api/leaderboardApi";
 
@@ -265,7 +341,7 @@ const quizId = route.params.id;
 
 const params = { guid: quizId };
 
-
+/* ===== Share & Save ===== */
 const sharing = ref(false);
 const isSaved = ref(false);
 const savedKey = "savedQuizzes";
@@ -291,9 +367,27 @@ function persistSaved(val) {
   localStorage.setItem(savedKey, JSON.stringify([...set]));
 }
 async function toggleSaved() {
-  isSaved.value = !isSaved.value;
-  persistSaved(isSaved.value);
-  showToast(isSaved.value ? "Saved to bookmarks" : "Removed from bookmarks");
+  const next = !isSaved.value;
+  // Optimistic update + local fallback
+  isSaved.value = next;
+  persistSaved(next);
+
+  // If not logged in, keep it local only
+  if (!auth?.isLoggedIn || !auth?.userId) {
+    showToast(next ? "Saved locally" : "Removed locally");
+    return;
+  }
+
+  try {
+    await SaveQuizToggle({ guid: quizId, studentId: auth.userId, isSaved: next });
+    showToast(next ? "Saved" : "Removed");
+  } catch (e) {
+    // Revert on failure
+    isSaved.value = !next;
+    persistSaved(isSaved.value);
+    console.error("SaveQuiz toggle failed:", e?.message || e);
+    showToast("Failed to update. Please try again");
+  }
 }
 async function shareQuiz() {
   try {
@@ -314,35 +408,34 @@ async function shareQuiz() {
   }
 }
 
-
-const showUpgradeBanner = ref(true);
+/* ===== Upgrade Banner (limit harian dari backend) ===== */
+const showUpgradeBanner = ref(false);
 const limitInfo = ref(null);
-
-
-const API_BASE =
-  import.meta?.env?.VITE_API_BASE ||
-  "https://quiz.flyhigh.my/flyhigh_be/api";
+const savedAuthUser = (() => {
+  try { return JSON.parse(localStorage.getItem('auth_user') || 'null'); } catch { return null; }
+})();
+const studentId = computed(() =>
+  auth?.userId || auth?.user?.userId || auth?.user?.data?.userId ||
+  savedAuthUser?.data?.userId || savedAuthUser?.userId || null
+);
 
 async function checkDailyLimit() {
   try {
-    const { data } = await axios.get(
-      `${API_BASE}/kiddo/subscription/checkDailyLimit`,
-      { params: { userId: auth.userId } }
-    );
-    
+    if (!studentId.value) { showUpgradeBanner.value = false; return; }
+    const data = await CheckDailyLimitByStudent(studentId.value);
     showUpgradeBanner.value = !!data?.limitReached;
-    limitInfo.value = data;
+    limitInfo.value = data || null;
   } catch (e) {
-    
+    // jika gagal, jangan tampilkan banner
     console.warn("checkDailyLimit failed:", e?.message || e);
-    showUpgradeBanner.value = true;
+    showUpgradeBanner.value = false;
   }
 }
 function goSubscribe() {
   router.push("/subscribe");
 }
 
-
+/* ===== Toast helper ===== */
 const toast = reactive({ show: false, message: "" });
 let toastTimer;
 function showToast(message) {
@@ -352,33 +445,38 @@ function showToast(message) {
   toastTimer = setTimeout(() => (toast.show = false), 1800);
 }
 
-
+/* ===== Fetch Quiz Detail ===== */
 onMounted(async () => {
   initSaved();
 
   try {
     const response = await QuizPreview(params);
     quiz.value = response;
+    // If backend returns saved state, sync it
+    if (typeof response?.isSaved !== "undefined") {
+      isSaved.value = !!response.isSaved;
+      persistSaved(isSaved.value);
+    }
     await fetchQuizList();
   } catch (err) {
     console.error("Gagal ambil quiz:", err.message);
   }
 
-  
+  // Banner premium – tampil bila limit harian terpenuhi (dari backend)
   checkDailyLimit();
 
-  
+  // Leaderboard
   fetchLeaderboard();
   fetchLeaderboardById();
 });
 
-
+/* ===== Achievements (static images) ===== */
 const badges = [
   { label: "Math Champion", img: require("@/assets/Badge1.png") },
   { label: "Science Star", img: require("@/assets/Badge2.png") },
 ];
 
-
+/* ===== Quiz List (child quizzes) ===== */
 const quizList = ref([]);
 const quizPage = ref(1);
 const quizPageSize = ref(10);
@@ -406,7 +504,7 @@ const fetchQuizList = async () => {
   }
 };
 
-
+// Infinite scroll hanya saat tab "Quiz"
 const handleScroll = () => {
   const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
   if (scrollTop + clientHeight >= scrollHeight - 50 && selectedMenu.value === "Quiz") {
@@ -416,7 +514,7 @@ const handleScroll = () => {
 onMounted(() => window.addEventListener("scroll", handleScroll));
 onBeforeUnmount(() => window.removeEventListener("scroll", handleScroll));
 
-
+/* ===== Leaderboard (API) ===== */
 const leaderboard = ref([]);
 const leaderboardScore = ref([]);
 

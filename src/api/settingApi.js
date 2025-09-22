@@ -19,6 +19,13 @@ export const GetProfile = async (id) => {
   return response.data;
 };
 
+export const GetDataCountry = async (search = "", page = 1, pageSize = 24) => {
+  const response = await API.get("/read/GetDataCountry", {
+    params: { search, page, pageSize },
+  });
+  return response.data;
+};
+
 export const submitAnswer = async (guid, studentId, answers) => {
   try {
     const formData = new FormData();

@@ -9,6 +9,7 @@ import ClassesPage from "@/views/ClassesPage.vue";
 import SettingPage from "@/views/SettingPage.vue";
 import HelpPage from "@/views/HelpPage.vue";
 import QuizPage from "@/views/QuizPage.vue";
+import QuizSearchPage from "@/views/QuizSearchPage.vue";
 import QuizDetailPage from "@/views/detail/QuizDetailPage.vue";
 import RewardHistoryPage from "@/views/history/RewardHistoryPage.vue";
 import QuizConfirmationPage from "@/views/detail/QuizConfirmationPage.vue";
@@ -18,6 +19,7 @@ import ProfilePage from "@/views/ProfilePage.vue";
 import EditProfileMobile from "@/components/setting/MobileSetting/EditProfileMobile.vue";
 import ChangePasswordMobile from "@/components/setting/MobileSetting/ChangePasswordMobile.vue";
 import HistoryMobile from "@/components/setting/MobileSetting/HistoryMobile.vue";
+import SavedMobile from "@/components/setting/MobileSetting/SavedMobile.vue";
 import HelpSupportMobile from "@/components/setting/MobileSetting/HelpSupportMobile.vue";
 import NotificationSettingMobile from "@/components/setting/MobileSetting/NotificationSettingMobile.vue";
 import LanguageSettingMobile from "@/components/setting/MobileSetting/LanguageSettingMobile.vue";
@@ -35,6 +37,7 @@ import PaymentMethodMobile from "@/components/setting/MobileSetting/PaymentMetho
 import PaymentMethodAddMobile from "@/components/setting/MobileSetting/PaymentMethodAddMobile.vue";
 import SelectLocationMobile from "@/components/setting/MobileSetting/SelectLocationMobile.vue";
 import SubjectPage from "@/views/SubjectPage.vue";
+import QuizReviewPage from "@/views/detail/QuizReviewPage.vue";
 
 const isMobile = window.innerWidth <= 768;
 
@@ -169,6 +172,12 @@ const allRoutes = [
     meta: { title: "History Quiz", device: "mobile" },
   },
   {
+    path: "/saved-quiz",
+    name: "SavedQuiz",
+    component: SavedMobile,
+    meta: { title: "Quiz Saved", device: "mobile" },
+  },
+  {
     path: "/help-support",
     name: "HelpSupport",
     component: HelpSupportMobile,
@@ -224,6 +233,12 @@ const allRoutes = [
     meta: { title: "Quiz List" },
   },
   {
+    path: "/quiz/search",
+    name: "QuizSearch",
+    component: QuizSearchPage,
+    meta: { title: "Search Topics", device: "mobile" },
+  },
+  {
     path: "/quiz/:id",
     name: "QuizDetail",
     component: QuizDetailPage,
@@ -240,6 +255,12 @@ const allRoutes = [
     name: "QuizSessionPage",
     component: QuizSessionPage,
     meta: { title: "Quiz Session" },
+  },
+  {
+    path: "/quiz-review/:startId",
+    name: "QuizReviewPage",
+    component: QuizReviewPage,
+    meta: { title: "Quiz Review" },
   },
   {
     path: "/quiz-finish",
@@ -271,3 +292,5 @@ router.beforeEach((to, from, next) => {
 });
 
 export default router;
+
+

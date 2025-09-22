@@ -2,12 +2,18 @@
   <div class="min-h-screen bg-[#FAFAFA] px-4 pt-6 pb-24">
     <!-- Progress Header -->
     <div class="flex items-center justify-between mb-6">
-      <button @click="prevPage" class="text-gray-700 text-xl disabled:opacity-40" :disabled="isFirstPage">
-        <i class="fas fa-arrow-left"></i>
+      <button
+        class="text-gray-700 text-xl"
+        @click="prevPage"
+      >
+        <i class="fas fa-arrow-left" />
       </button>
 
       <div class="flex-1 mx-4 h-2 bg-gray-200/80 rounded-full overflow-hidden">
-        <div class="h-2 bg-[#2563EB] rounded-full transition-all" :style="{ width: ((page + 1) / totalPages) * 100 + '%' }"></div>
+        <div
+          class="h-2 bg-[#2563EB] rounded-full transition-all"
+          :style="{ width: ((page + 1) / totalPages) * 100 + '%' }"
+        />
       </div>
 
       <span class="text-sm text-gray-500">{{ page + 1 }}/{{ totalPages }}</span>
@@ -15,8 +21,12 @@
 
     <!-- Select Subject (Step 1) -->
     <div v-if="page === 0">
-      <h2 class="text-lg font-semibold text-gray-900 mb-1">Select Subject</h2>
-      <p class="text-sm text-gray-500 mb-4">Are you a qualified section 708 investor</p>
+      <h2 class="text-lg font-semibold text-gray-900 mb-1">
+        Select Subject
+      </h2>
+      <p class="text-sm text-gray-500 mb-4">
+        Are you a qualified section 708 investor
+      </p>
 
       <div class="relative mb-6">
         <input
@@ -24,25 +34,31 @@
           type="text"
           placeholder="Search Subject"
           class="w-full px-4 py-3 pl-11 rounded-full border border-gray-200 bg-white shadow-sm focus:ring-2 focus:ring-[#2563EB] focus:border-transparent"
-        />
-        <i class="fas fa-search absolute left-3.5 top-3.5 text-gray-400"></i>
-        <i class="fas fa-sliders-h absolute right-3.5 top-3.5 text-gray-500"></i>
+        >
+        <i class="fas fa-search absolute left-3.5 top-3.5 text-gray-400" />
+        <i class="fas fa-sliders-h absolute right-3.5 top-3.5 text-gray-500" />
       </div>
 
       <div class="grid grid-cols-2 gap-4 mb-28">
         <div
           v-for="(subject, i) in filteredSubjects"
           :key="i"
-          @click="selectSubject(subject)"
           :class="[
             'p-4 rounded-2xl cursor-pointer transition text-center border',
             form.subjectId === subject.SubjectId
               ? 'bg-blue-50/70 border-[#2563EB] shadow'
               : 'bg-white border-gray-100 shadow-sm hover:shadow'
           ]"
+          @click="selectSubject(subject)"
         >
-          <img :src="`/subjects/${subject.SubjectName}.png`" alt="" class="w-[60px] h-[60px] mx-auto mb-2" />
-          <h3 class="text-base font-semibold text-gray-900">{{ subject.SubjectName }}</h3>
+          <img
+            :src="`/subjects/${subject.SubjectName}.png`"
+            alt=""
+            class="w-[60px] h-[60px] mx-auto mb-2"
+          >
+          <h3 class="text-base font-semibold text-gray-900">
+            {{ subject.SubjectName }}
+          </h3>
           <p class="text-sm text-gray-500 mt-1">
             {{ subject.Description !== '' ? subject.Description : 'Personal class with a tutor' }}
           </p>
@@ -57,14 +73,14 @@
         <div>
           <label class="text-base font-semibold text-gray-900">Timer</label>
           <input
-            type="range"
             v-model="form.timerIndex"
+            type="range"
             min="0"
             max="2"
             step="1"
             class="range mt-3"
             :style="{'--percent': timerPercent + '%'}"
-          />
+          >
           <div class="flex justify-between items-center text-base mt-1 text-gray-500 px-0.5">
             <span>1m</span>
             <span class="text-gray-900 font-semibold">{{ timerOptions[form.timerIndex] }}m</span>
@@ -80,11 +96,20 @@
               v-model="form.chapter"
               class="w-full mt-2 pl-4 pr-10 py-3 rounded-2xl border border-gray-200 bg-white shadow-sm appearance-none focus:ring-2 focus:ring-[#2563EB] focus:border-transparent"
             >
-              <option disabled value="">Select chapter</option>
-              <option value="1,2,3,4,5,6,7,8,9">1,2,3,4,5,6,7,8,9</option>
-              <option value="1,2,3,4,5,6,7,8,9">All Chapters</option>
+              <option
+                disabled
+                value=""
+              >
+                Select chapter
+              </option>
+              <option value="1,2,3,4,5,6,7,8,9">
+                1,2,3,4,5,6,7,8,9
+              </option>
+              <option value="1,2,3,4,5,6,7,8,9">
+                All Chapters
+              </option>
             </select>
-            <i class="fas fa-chevron-down absolute right-3 top-[60%] -translate-y-1/2 text-gray-400"></i>
+            <i class="fas fa-chevron-down absolute right-3 top-[60%] -translate-y-1/2 text-gray-400" />
           </div>
         </div>
 
@@ -96,12 +121,21 @@
               v-model="form.gradeId"
               class="w-full mt-2 pl-4 pr-10 py-3 rounded-2xl border border-gray-200 bg-white shadow-sm appearance-none focus:ring-2 focus:ring-[#2563EB] focus:border-transparent"
             >
-              <option disabled value="">Select Grade</option>
-              <option v-for="grade in allGrade" :key="grade.Id" :value="grade.Id">
+              <option
+                disabled
+                value=""
+              >
+                Select Grade
+              </option>
+              <option
+                v-for="grade in allGrade"
+                :key="grade.Id"
+                :value="grade.Id"
+              >
                 {{ grade.GradeName }}
               </option>
             </select>
-            <i class="fas fa-chevron-down absolute right-3 top-[60%] -translate-y-1/2 text-gray-400"></i>
+            <i class="fas fa-chevron-down absolute right-3 top-[60%] -translate-y-1/2 text-gray-400" />
           </div>
         </div>
 
@@ -109,14 +143,14 @@
         <div>
           <label class="text-base font-semibold text-gray-900">Level</label>
           <input
-            type="range"
             v-model="form.level"
+            type="range"
             min="0"
             max="4"
             step="1"
             class="range mt-3"
             :style="{'--percent': levelPercent + '%'}"
-          />
+          >
           <div class="flex justify-between text-base text-gray-500 mt-1">
             <span>Easy</span>
             <span>Difficult</span>
@@ -137,7 +171,7 @@
               <option>40</option>
               <option>50</option>
             </select>
-            <i class="fas fa-chevron-down absolute right-3 top-[60%] -translate-y-1/2 text-gray-400"></i>
+            <i class="fas fa-chevron-down absolute right-3 top-[60%] -translate-y-1/2 text-gray-400" />
           </div>
         </div>
       </div>
@@ -146,7 +180,9 @@
     <!-- Cover (Step 3) -->
     <div v-else-if="page === 2">
       <div class="mt-6 bg-white p-4 rounded-2xl shadow">
-        <h2 class="text-base font-semibold text-gray-900 mb-4">Quiz Cover Image</h2>
+        <h2 class="text-base font-semibold text-gray-900 mb-4">
+          Quiz Cover Image
+        </h2>
 
         <div class="grid grid-cols-3 gap-3 mb-6">
           <div
@@ -155,17 +191,31 @@
             class="relative rounded-xl overflow-hidden cursor-pointer"
             @click="form.coverImage = img"
           >
-            <img :src="img" class="w-full h-24 object-cover" :class="form.coverImage === img ? 'ring-2 ring-blue-500' : ''" />
-            <div v-if="form.coverImage === img" class="absolute inset-0 bg-black/30 flex items-center justify-center">
-              <div class="w-6 h-6 bg-blue-600 rounded-full flex items-center justify-center text-white text-xs">✓</div>
+            <img
+              :src="img"
+              class="w-full h-24 object-cover"
+              :class="form.coverImage === img ? 'ring-2 ring-blue-500' : ''"
+            >
+            <div
+              v-if="form.coverImage === img"
+              class="absolute inset-0 bg-black/30 flex items-center justify-center"
+            >
+              <div class="w-6 h-6 bg-blue-600 rounded-full flex items-center justify-center text-white text-xs">
+                ✓
+              </div>
             </div>
           </div>
         </div>
 
         <label class="w-full flex items-center justify-center gap-2 border border-blue-600 text-blue-600 py-3 rounded-full font-medium text-sm cursor-pointer">
-          <i class="fas fa-folder-open"></i>
+          <i class="fas fa-folder-open" />
           Find From Your Device
-          <input type="file" accept="image/*" class="hidden" @change="handleFileUpload" />
+          <input
+            type="file"
+            accept="image/*"
+            class="hidden"
+            @change="handleFileUpload"
+          >
         </label>
       </div>
     </div>
@@ -173,8 +223,12 @@
     <!-- Privacy (Step 4) -->
     <div v-else-if="page === 3">
       <div class="mb-28 mt-5 bg-white rounded-2xl p-4 shadow">
-        <h2 class="text-md font-semibold text-gray-900 mb-4">Who can view this quiz?</h2>
-        <p class="text-sm text-gray-500 mb-4">Sebelum anda menekan "Create", sila pilih jenis privasi kuiz anda:</p>
+        <h2 class="text-md font-semibold text-gray-900 mb-4">
+          Who can view this quiz?
+        </h2>
+        <p class="text-sm text-gray-500 mb-4">
+          Sebelum anda menekan "Create", sila pilih jenis privasi kuiz anda:
+        </p>
 
         <div class="space-y-4">
           <!-- Private -->
@@ -182,8 +236,13 @@
             class="flex items-start gap-3 p-3 rounded-2xl border cursor-pointer transition"
             :class="form.privacy === 'private' ? 'border-blue-500 bg-blue-50' : 'border-gray-200 bg-white'"
           >
-            <input type="radio" v-model="form.privacy" value="private" class="hidden" />
-            <div class="mt-1 text-xl"><i class="fas fa-lock"></i></div>
+            <input
+              v-model="form.privacy"
+              type="radio"
+              value="private"
+              class="hidden"
+            >
+            <div class="mt-1 text-xl"><i class="fas fa-lock" /></div>
             <div class="flex-1">
               <div class="font-semibold text-gray-900">
                 Private <span class="text-xs text-gray-400 ml-1">Default</span>
@@ -191,21 +250,31 @@
               <p class="text-sm text-gray-500">Kuiz ini hanya boleh dilihat dan digunakan oleh anda sahaja.</p>
             </div>
             <div class="mt-1">
-              <span class="w-5 h-5 inline-block rounded-full border-2 flex items-center justify-center"
-                    :class="form.privacy === 'private' ? 'border-blue-500' : 'border-gray-300'">
-                <span class="w-2.5 h-2.5 rounded-full" :class="form.privacy === 'private' ? 'bg-blue-500' : ''"></span>
+              <span
+                class="w-5 h-5 inline-block rounded-full border-2 flex items-center justify-center"
+                :class="form.privacy === 'private' ? 'border-blue-500' : 'border-gray-300'"
+              >
+                <span
+                  class="w-2.5 h-2.5 rounded-full"
+                  :class="form.privacy === 'private' ? 'bg-blue-500' : ''"
+                />
               </span>
             </div>
           </label>
 
           <!-- Public -->
           <label
-            @click="checkPublic()"
             class="flex items-start gap-3 p-3 rounded-2xl border cursor-pointer transition"
             :class="form.privacy === 'public' ? 'border-blue-500 bg-blue-50' : 'border-gray-200 bg-white'"
+            @click="checkPublic()"
           >
-            <input type="radio" v-model="form.privacy" value="public" class="hidden" />
-            <div class="mt-1 text-xl"><i class="fas fa-globe"></i></div>
+            <input
+              v-model="form.privacy"
+              type="radio"
+              value="public"
+              class="hidden"
+            >
+            <div class="mt-1 text-xl"><i class="fas fa-globe" /></div>
             <div class="flex-1">
               <div class="font-semibold text-gray-900">
                 Public <span class="text-xs text-red-500 italic ml-1">Subscribers only</span>
@@ -213,9 +282,14 @@
               <p class="text-sm text-gray-500">Kuiz anda akan boleh diakses dan digunakan oleh pengguna lain.</p>
             </div>
             <div class="mt-1">
-              <span class="w-5 h-5 inline-block rounded-full border-2 flex items-center justify-center"
-                    :class="form.privacy === 'public' ? 'border-blue-500' : 'border-gray-300'">
-                <span class="w-2.5 h-2.5 rounded-full" :class="form.privacy === 'public' ? 'bg-blue-500' : ''"></span>
+              <span
+                class="w-5 h-5 inline-block rounded-full border-2 flex items-center justify-center"
+                :class="form.privacy === 'public' ? 'border-blue-500' : 'border-gray-300'"
+              >
+                <span
+                  class="w-2.5 h-2.5 rounded-full"
+                  :class="form.privacy === 'public' ? 'bg-blue-500' : ''"
+                />
               </span>
             </div>
           </label>
@@ -223,28 +297,42 @@
       </div>
 
       <!-- Subscribe modal -->
-      <div v-if="showModal" class="fixed inset-0 flex items-center justify-center bg-black/40 z-50">
+      <div
+        v-if="showModal"
+        class="fixed inset-0 flex items-center justify-center bg-black/40 z-50"
+      >
         <div class="bg-white w-80 rounded-2xl text-center shadow-lg overflow-hidden">
           <div class="bg-[#FFF5E5] flex items-center justify-center py-6 relative">
-            <img src="/modals/crown.png" alt="Premium Icon" class="w-14 h-14" />
-            <div class="absolute left-6 top-6 w-2 h-2 rounded-full bg-orange-400"></div>
-            <div class="absolute right-6 top-8 w-2 h-2 rounded-full bg-orange-400"></div>
-            <div class="absolute left-10 bottom-5 w-2 h-2 rounded-full bg-orange-400"></div>
-            <div class="absolute right-10 bottom-5 w-2 h-2 rounded-full bg-orange-400"></div>
+            <img
+              src="/modals/crown.png"
+              alt="Premium Icon"
+              class="w-14 h-14"
+            >
+            <div class="absolute left-6 top-6 w-2 h-2 rounded-full bg-orange-400" />
+            <div class="absolute right-6 top-8 w-2 h-2 rounded-full bg-orange-400" />
+            <div class="absolute left-10 bottom-5 w-2 h-2 rounded-full bg-orange-400" />
+            <div class="absolute right-10 bottom-5 w-2 h-2 rounded-full bg-orange-400" />
           </div>
 
           <div class="px-6 py-5">
-            <h3 class="font-semibold text-gray-900 mb-2">Want to share your quiz with others?</h3>
+            <h3 class="font-semibold text-gray-900 mb-2">
+              Want to share your quiz with others?
+            </h3>
             <p class="text-sm text-gray-500 mb-6">
               To publish your quiz and make it accessible to others, please
               <span class="text-red-500 font-semibold">subscribe</span> first.
             </p>
             <div class="space-y-3">
-              <button class="w-full bg-blue-600 text-white py-2 rounded-full font-semibold" @click="subscribeNow">
+              <button
+                class="w-full bg-blue-600 text-white py-2 rounded-full font-semibold"
+                @click="subscribeNow"
+              >
                 Subscribe Now
               </button>
-              <button class="w-full border border-blue-600 text-blue-600 py-2 rounded-full font-semibold"
-                      @click="showModal = false">
+              <button
+                class="w-full border border-blue-600 text-blue-600 py-2 rounded-full font-semibold"
+                @click="maybeLater"
+              >
                 Maybe Later
               </button>
             </div>
@@ -256,9 +344,8 @@
     <!-- Bottom Nav Buttons -->
     <div class="fixed bottom-0 left-0 right-0 bg-white border-t px-4 py-3 flex gap-3">
       <button
-        class="border border-[#2563EB] text-[#2563EB] w-full py-3 rounded-[20px] font-semibold disabled:opacity-50"
+        class="border border-[#2563EB] text-[#2563EB] w-full py-3 rounded-[20px] font-semibold"
         @click="prevPage"
-        :disabled="isFirstPage"
       >
         Back
       </button>
@@ -299,6 +386,11 @@ function checkPublic() {
 function subscribeNow() {
   showModal.value = false;
   router.push("/subscribe");
+}
+
+function maybeLater() {
+  form.privacy = "private"; // force back to private
+  showModal.value = false;
 }
 
 const form = reactive({
@@ -413,8 +505,8 @@ const submitQuiz = async () => {
     snackbar.trigger(`Quiz ${form.subjectName} created!`, "success");
     router.push("/quiz");
   } catch (error) {
-    snackbar.trigger("Failed to create quiz", "error");
-    console.error("FAILED:", error);
+    snackbar.trigger(`Failed to create quiz: ${error.response.data.message}`,);
+    console.error("FAILEDS:", error);
   }
 };
 
@@ -433,11 +525,41 @@ const generateDifficulty = (level) => {
   }
 };
 
+function validateStep(step) {
+  switch (step) {
+    case 0:
+      if (!form.subjectId) { snackbar.trigger("Please select a subject first", "error"); return false; }
+      return true;
+    case 1:
+      if (!form.gradeId) { snackbar.trigger("Please select a grade", "error"); return false; }
+      if (!form.totalQuestion || Number(form.totalQuestion) <= 0) { snackbar.trigger("Total question is required", "error"); return false; }
+      return true;
+    case 2:
+      // Cover optional; keep as valid
+      return true;
+    case 3:
+      if (!form.privacy) { snackbar.trigger("Please select privacy", "error"); return false; }
+      return true;
+    default:
+      return true;
+  }
+}
+
 const nextPage = () => {
+  if (!validateStep(page.value)) return;
   if (!isLastPage.value) page.value++;
-  else submitQuiz();
+  else {
+    // Final validation before submit
+    if (validateStep(3)) submitQuiz();
+  }
 };
-const prevPage = () => { if (!isFirstPage.value) page.value--; };
+const prevPage = () => {
+  if (isFirstPage.value) {
+    router.push("/");
+  } else {
+    page.value--;
+  }
+};
 </script>
 
 <style scoped>

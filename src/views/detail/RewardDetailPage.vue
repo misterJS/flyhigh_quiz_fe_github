@@ -9,17 +9,21 @@
             to="/home"
             class="text-sm text-[#2563EB] flex items-center gap-1"
           >
-            <i class="fas fa-arrow-left"></i> Back
+            <i class="fas fa-arrow-left" /> Back
           </router-link>
 
-          
+          <!-- Top Section -->
           <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            
+            <!-- XP Box -->
             <div class="bg-white rounded-2xl p-6 shadow-sm col-span-1">
-              <p class="text-sm text-gray-600 font-medium mb-2">Total Point</p>
+              <p class="text-sm text-gray-600 font-medium mb-2">
+                Total Point
+              </p>
               <div class="flex items-center justify-between">
                 <div>
-                  <p class="text-3xl font-bold text-[#2563EB]">71928 XP</p>
+                  <p class="text-3xl font-bold text-[#2563EB]">
+                    71928 XP
+                  </p>
                   <p class="text-xs text-gray-500 mt-1">
                     Rewards You Can Get With Your Points
                   </p>
@@ -28,17 +32,17 @@
                   src="@/assets/flame-icon.png"
                   class="w-10 h-10"
                   alt="fire"
-                />
+                >
               </div>
               <div class="w-full bg-gray-200 rounded-full h-2 mt-4">
                 <div
                   class="bg-[#2563EB] h-2 rounded-full"
                   style="width: 33%"
-                ></div>
+                />
               </div>
             </div>
 
-            
+            <!-- Banner -->
             <div
               class="lg:col-span-2 bg-[#2563EB] text-white rounded-2xl p-6 flex items-center justify-between"
             >
@@ -60,11 +64,11 @@
                 src="@/assets/trophy.png"
                 alt="trophy"
                 class="w-24 hidden md:block"
-              />
+              >
             </div>
           </div>
 
-          
+          <!-- Rewards Grid -->
           <div class="mt-4">
             <h2 class="text-base font-semibold text-[#111827] mb-4">
               Rewards to Get

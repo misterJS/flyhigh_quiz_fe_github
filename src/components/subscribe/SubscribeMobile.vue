@@ -3,10 +3,16 @@
     <!-- Header -->
     <header class="sticky top-0 bg-transparent z-10 border-none">
       <div class="max-w-md mx-auto px-4 py-3 flex items-center gap-3">
-        <button class="p-2 -ml-2" @click="goBack" aria-label="Back">
-          <i class="fas fa-arrow-left text-lg text-gray-900"></i>
+        <button
+          class="p-2 -ml-2"
+          aria-label="Back"
+          @click="goBack"
+        >
+          <i class="fas fa-arrow-left text-lg text-gray-900" />
         </button>
-        <h1 class="text-base font-normal text-gray-900">Subscribe</h1>
+        <h1 class="text-base font-normal text-gray-900">
+          Subscribe
+        </h1>
       </div>
     </header>
 
@@ -41,10 +47,16 @@
               <!-- Price row -->
               <div class="mb-2">
                 <p class="font-extrabold leading-none">
-                  <span :class="isActive(plan.id) ? 'text-white' : 'text-[#0B63F6]'" class="text-2xl">
+                  <span
+                    :class="isActive(plan.id) ? 'text-white' : 'text-[#0B63F6]'"
+                    class="text-2xl"
+                  >
                     {{ plan.price }} {{ currency }}
                   </span>
-                  <span :class="isActive(plan.id) ? 'text-white/80' : 'text-gray-500'" class="font-medium">
+                  <span
+                    :class="isActive(plan.id) ? 'text-white/80' : 'text-gray-500'"
+                    class="font-medium"
+                  >
                     /month
                   </span>
                 </p>
@@ -52,16 +64,25 @@
 
               <!-- Title & subtitle -->
               <div class="space-y-0.5">
-                <p :class="isActive(plan.id) ? 'text-white' : 'text-gray-900'" class="text-base font-semibold">
+                <p
+                  :class="isActive(plan.id) ? 'text-white' : 'text-gray-900'"
+                  class="text-base font-semibold"
+                >
                   {{ plan.title }}
                 </p>
-                <p :class="isActive(plan.id) ? 'text-white/90' : 'text-gray-500'" class="text-sm">
+                <p
+                  :class="isActive(plan.id) ? 'text-white/90' : 'text-gray-500'"
+                  class="text-sm"
+                >
                   {{ plan.subtitle }}
                 </p>
               </div>
 
               <!-- CTA (hanya untuk yang tidak aktif) -->
-              <div v-if="!isActive(plan.id)" class="mt-3 flex justify-end">
+              <div
+                v-if="!isActive(plan.id)"
+                class="mt-3 flex justify-end"
+              >
                 <button
                   class="px-4 py-2 text-sm rounded-full border border-blue-500 text-blue-600 font-semibold"
                   @click.stop="selectAndUpgrade(plan.id)"
@@ -81,15 +102,15 @@
       <div class="max-w-md mx-auto px-4 pb-6 pt-2">
         <button
           class="w-full bg-[#0B63F6] hover:bg-[#155EE0] disabled:bg-[#93C5FD] text-white py-3.5 rounded-xl text-base font-semibold shadow"
-          @click="upgrade"
           :disabled="processing || !canUpgrade"
+          @click="upgrade"
         >
           {{ processing ? 'Processing...' : 'Upgrade' }}
         </button>
         <button
           class="w-full mt-3 text-red-500 text-base font-medium"
-          @click="openCancelModal"
           :disabled="processing"
+          @click="openCancelModal"
         >
           Cancel subscribe
         </button>
@@ -108,10 +129,14 @@
           class="w-full max-w-md bg-white rounded-t-3xl lg:rounded-2xl p-6 pb-5 shadow-xl"
           @click.stop
         >
-          <div class="w-12 h-1.5 bg-gray-300 rounded-full mx-auto mb-3 lg:hidden"></div>
+          <div class="w-12 h-1.5 bg-gray-300 rounded-full mx-auto mb-3 lg:hidden" />
 
           <div class="flex justify-center mb-3">
-            <img src="@/assets/unsubscribe.png" alt="unsubscribe" class="w-40 h-40 object-contain" />
+            <img
+              src="@/assets/unsubscribe.png"
+              alt="unsubscribe"
+              class="w-40 h-40 object-contain"
+            >
           </div>
 
           <h3 class="text-base font-semibold text-center text-gray-900">
@@ -124,15 +149,15 @@
           <div class="mt-5 space-y-3">
             <button
               class="w-full bg-[#0B63F6] hover:bg-[#155EE0] text-white py-3 rounded-xl text-base font-semibold"
-              @click="closeCancelModal"
               :disabled="processing"
+              @click="closeCancelModal"
             >
               Stay subscribe
             </button>
             <button
               class="w-full bg-[#F87171] hover:bg-[#ef4444] text-white py-3 rounded-xl text-base font-semibold disabled:opacity-60"
-              @click="confirmUnsubscribe"
               :disabled="processing"
+              @click="confirmUnsubscribe"
             >
               {{ processing ? 'Unsubscribing...' : 'Unsubscribe' }}
             </button>
@@ -153,7 +178,11 @@
           class="w-full max-w-md bg-white rounded-2xl p-6 shadow-xl text-center"
           @click.stop
         >
-          <img src="@/assets/unsubscribe.png" alt="success" class="w-36 h-36 object-contain mx-auto mb-2" />
+          <img
+            src="@/assets/unsubscribe.png"
+            alt="success"
+            class="w-36 h-36 object-contain mx-auto mb-2"
+          >
           <h3 class="text-base font-semibold text-gray-900 mb-1">
             Unsubscription success
           </h3>

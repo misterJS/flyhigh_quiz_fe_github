@@ -45,17 +45,17 @@ const slides = [
     >
       <div
         class="w-[154px] h-[154px] mx-auto rounded-full bg-[#FFFFFF]/10"
-      ></div>
+      />
     </div>
     <div
       class="w-[52px] absolute top-[24px] left-[33px] h-[52px] mx-auto rounded-full bg-[#FFFFFF]/10"
-    ></div>
+    />
     <div
       class="border left-[-310px] absolute z-0 border-[#FFFFFF]/10 w-[678px] h-[678px] flex items-center rounded-full bottom-[-30px]"
     >
       <div
         class="w-[154px] h-[154px] mx-auto rounded-full bg-[#FFFFFF]/10"
-      ></div>
+      />
     </div>
     <div
       class="text-white absolute right-4 top-2 h-[81px] w-[56px] justify-center items-center flex"
@@ -66,13 +66,13 @@ const slides = [
       v-if="number === 2"
       class="absolute w-[279px] z-20 shadow-md ml-[50px] mt-[192px] rounded-[10px] overflow-hidden"
     >
-      <img src="@/assets/My-recent-match.png" />
+      <img src="@/assets/My-recent-match.png">
     </div>
     <div
       v-if="number === 2"
       class="absolute w-[279px] z-20 shadow-md ml-[89px] mt-[312px] rounded-[10px] overflow-hidden"
     >
-      <img src="@/assets/My-recent-match.png" />
+      <img src="@/assets/My-recent-match.png">
     </div>
     <div
       v-if="number === 3"
@@ -99,13 +99,19 @@ const slides = [
           <button
             class="bg-[#007CEF] ml-auto mt-[4px] border rounded-full border-[#FFFFFF] w-[56px] h-[56px]"
           >
-            <img src="@/assets/Vector-(8).png" class="w-[27px] mx-auto" />
+            <img
+              src="@/assets/Vector-(8).png"
+              class="w-[27px] mx-auto"
+            >
           </button>
         </div>
       </div>
     </div>
     <div class="w-[266px] relative z-10 mx-auto">
-      <img :src="currentSlide.image" class="mx-auto" />
+      <img
+        :src="currentSlide.image"
+        class="mx-auto"
+      >
     </div>
     <div
       class="absolute p-5 bottom-0 left-0 w-full h-auto bg-white z-10 rounded-t-[12px]"
@@ -114,15 +120,15 @@ const slides = [
         <div
           class="mx-auto w-[91px] flex h-[4px] justify-between mt-[24px] rounded-[12px]"
         >
-          <div class="w-[25px] h-[4px] bg-[#007CEF]"></div>
+          <div class="w-[25px] h-[4px] bg-[#007CEF]" />
           <div
             class="w-[25px] h-[4px]"
             :class="number >= 2 ? 'bg-[#007CEF]' : 'bg-[#007CEF]/20'"
-          ></div>
+          />
           <div
             class="w-[25px] h-[4px]"
             :class="number >= 3 ? 'bg-[#007CEF]' : 'bg-[#007CEF]/20'"
-          ></div>
+          />
         </div>
         <p class="text-center text-[32px] mt-6">
           {{ currentSlide.title }}
@@ -131,8 +137,8 @@ const slides = [
           {{ currentSlide.description }}
         </p>
         <button
-          @click="changeNumber"
           class="bg-[#007CEF] mt-6 w-full rounded-[8px] h-[54px] text-white"
+          @click="changeNumber"
         >
           Next
         </button>

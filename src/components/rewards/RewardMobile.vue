@@ -3,10 +3,15 @@
     <!-- Header -->
     <div class="sticky top-0 z-10 bg-[#F9FAFB] px-4 pt-4 pb-2">
       <div class="flex items-center gap-3">
-        <button class="w-9 h-9 grid place-items-center" @click="goBack">
-          <i class="fas fa-arrow-left text-gray-800"></i>
+        <button
+          class="w-9 h-9 grid place-items-center"
+          @click="goBack"
+        >
+          <i class="fas fa-arrow-left text-gray-800" />
         </button>
-        <h1 class="text-[17px] font-normal text-gray-900">Rewards</h1>
+        <h1 class="text-[17px] font-normal text-gray-900">
+          Rewards
+        </h1>
       </div>
     </div>
 
@@ -23,13 +28,18 @@
               {{ totalXP }} XP
             </div>
           </div>
-          <div class="text-3xl -mt-1">🔥</div>
+          <div class="text-3xl -mt-1">
+            🔥
+          </div>
         </div>
 
         <!-- Progress -->
         <div class="mt-2">
           <div class="h-2 w-full bg-gray-200 rounded-full overflow-hidden">
-            <div class="h-2 bg-[#2A7BF6] rounded-full transition-all" :style="{ width: topPercent + '%' }" />
+            <div
+              class="h-2 bg-[#2A7BF6] rounded-full transition-all"
+              :style="{ width: topPercent + '%' }"
+            />
           </div>
 
           <div class="mt-2 flex items-center justify-between text-[13px] text-gray-700">
@@ -51,7 +61,9 @@
 
     <!-- Rewards List -->
     <section class="px-4 mt-5">
-      <h2 class="text-[15px] font-semibold text-gray-900 mb-3">Rewards to Get</h2>
+      <h2 class="text-[15px] font-semibold text-gray-900 mb-3">
+        Rewards to Get
+      </h2>
 
       <div class="space-y-4">
         <article
@@ -65,13 +77,22 @@
           <div class="flex items-start gap-3">
             <!-- thumb -->
             <div class="w-12 h-12 rounded-xl overflow-hidden bg-gray-100 flex items-center justify-center">
-              <img v-if="r.image" :src="r.image" class="w-full h-full object-cover" />
-              <span v-else class="text-xl">🎁</span>
+              <img
+                v-if="r.image"
+                :src="r.image"
+                class="w-full h-full object-cover"
+              >
+              <span
+                v-else
+                class="text-xl"
+              >🎁</span>
             </div>
 
             <div class="flex-1">
               <div class="flex items-start justify-between">
-                <h3 class="text-[15px] font-semibold text-gray-900 leading-tight">{{ r.title }}</h3>
+                <h3 class="text-[15px] font-semibold text-gray-900 leading-tight">
+                  {{ r.title }}
+                </h3>
 
                 <!-- check on right -->
                 <button
@@ -79,13 +100,17 @@
                   :class="r.claimable ? 'bg-[#0B63F6] border-[#0B63F6] text-white' : 'bg-white border-gray-300 text-transparent'"
                   @click="toggleSelect(r)"
                 >
-                  <i class="fas fa-check text-[11px]"></i>
+                  <i class="fas fa-check text-[11px]" />
                 </button>
               </div>
 
               <p class="text-[12px] text-gray-500 mt-0.5">
-                <template v-if="r.claimable">Rewards can be redeemed now 🎉</template>
-                <template v-else>{{ r.requirement }}</template>
+                <template v-if="r.claimable">
+                  Rewards can be redeemed now 🎉
+                </template>
+                <template v-else>
+                  {{ r.requirement }}
+                </template>
               </p>
 
               <!-- cost + percent -->
@@ -95,7 +120,10 @@
               </div>
 
               <!-- progress bar -->
-              <div class="mt-2 h-2 w-full rounded-full overflow-hidden" :class="r.claimable ? 'bg-blue-100' : 'bg-gray-200'">
+              <div
+                class="mt-2 h-2 w-full rounded-full overflow-hidden"
+                :class="r.claimable ? 'bg-blue-100' : 'bg-gray-200'"
+              >
                 <div
                   class="h-2 rounded-full"
                   :class="r.claimable ? 'bg-[#0B63F6]' : 'bg-gray-400'"

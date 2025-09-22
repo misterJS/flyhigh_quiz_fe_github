@@ -2,10 +2,16 @@
   <div class="min-h-screen bg-[#F3F4F6] p-4 pb-24">
     <!-- Header -->
     <div class="flex items-center gap-3 mb-5">
-      <button @click="goBack" class="text-gray-800 text-lg" aria-label="Back">
-        <i class="fas fa-arrow-left"></i>
+      <button
+        class="text-gray-800 text-lg"
+        aria-label="Back"
+        @click="goBack"
+      >
+        <i class="fas fa-arrow-left" />
       </button>
-      <h1 class="font-normal text-lg">Notification Setting</h1>
+      <h1 class="font-normal text-lg">
+        Notification Setting
+      </h1>
     </div>
 
     <!-- Card -->
@@ -13,46 +19,64 @@
       <!-- Daily -->
       <div class="flex justify-between items-start py-3">
         <div class="pr-3">
-          <p class="font-semibold text-sm text-gray-900 mb-1">Daily Quiz Reminder</p>
+          <p class="font-semibold text-sm text-gray-900 mb-1">
+            Daily Quiz Reminder
+          </p>
           <p class="text-[13px] leading-5 text-gray-500">
             🔔 Reminds you to try a quiz every day and keep learning fun!
           </p>
         </div>
         <label class="switch">
-          <input type="checkbox" v-model="settings.dailyReminder" aria-label="Daily Quiz Reminder" />
-          <span class="slider"></span>
+          <input
+            v-model="settings.dailyReminder"
+            type="checkbox"
+            aria-label="Daily Quiz Reminder"
+          >
+          <span class="slider" />
         </label>
       </div>
 
-      <div class="h-px bg-gray-100 my-1"></div>
+      <div class="h-px bg-gray-100 my-1" />
 
       <!-- New Quiz -->
       <div class="flex justify-between items-start py-3">
         <div class="pr-3">
-          <p class="font-semibold text-sm text-gray-900 mb-1">New Quiz Available</p>
+          <p class="font-semibold text-sm text-gray-900 mb-1">
+            New Quiz Available
+          </p>
           <p class="text-[13px] leading-5 text-gray-500">
             🎓 Get a notification when there's a new quiz or subject to explore.
           </p>
         </div>
         <label class="switch">
-          <input type="checkbox" v-model="settings.newQuiz" aria-label="New Quiz Available" />
-          <span class="slider"></span>
+          <input
+            v-model="settings.newQuiz"
+            type="checkbox"
+            aria-label="New Quiz Available"
+          >
+          <span class="slider" />
         </label>
       </div>
 
-      <div class="h-px bg-gray-100 my-1"></div>
+      <div class="h-px bg-gray-100 my-1" />
 
       <!-- Reward -->
       <div class="flex justify-between items-start py-3">
         <div class="pr-3">
-          <p class="font-semibold text-sm text-gray-900 mb-1">Reward Alert</p>
+          <p class="font-semibold text-sm text-gray-900 mb-1">
+            Reward Alert
+          </p>
           <p class="text-[13px] leading-5 text-gray-500">
             🏆 Tells you when you’re close to winning a badge or reward!
           </p>
         </div>
         <label class="switch">
-          <input type="checkbox" v-model="settings.rewardAlert" aria-label="Reward Alert" />
-          <span class="slider"></span>
+          <input
+            v-model="settings.rewardAlert"
+            type="checkbox"
+            aria-label="Reward Alert"
+          >
+          <span class="slider" />
         </label>
       </div>
     </div>
