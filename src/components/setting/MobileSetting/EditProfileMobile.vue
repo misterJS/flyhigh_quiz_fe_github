@@ -87,7 +87,7 @@
         >
           {{ selectedLocationLabel }}
         </span>
-        <i class="fas fa-chevron-right text-gray-400 text-sm" />
+        <i class="fas fa-chevron-right text-gray-400 text-sm"></i>
       </button>
     </div>
 

@@ -142,15 +142,12 @@ const goBack = () => {
 </script>
 
 <template>
-  <div
-    v-if="props.isVisible"
-    class="min-h-screen bg-gray-50"
-  >
+  <div v-if="props.isVisible" class="min-h-screen bg-gray-50">
     <!-- Header with Back Button -->
     <!-- <div class="bg-white px-6 py-4 border-b border-gray-200"> -->
     <button
-      class="flex items-center text-gray-600 hover:text-gray-800"
       @click="goBack"
+      class="flex items-center text-gray-600 hover:text-gray-800"
     >
       <svg
         width="24"
@@ -186,13 +183,13 @@ const goBack = () => {
         <button
           v-for="filter in ['All', 'Redeemed', 'Expired']"
           :key="filter"
+          @click="handleFilterChange(filter)"
           :class="[
             'pb-2 text-sm font-medium border-b-2 -mb-px transition-colors',
             selectedFilter === filter
               ? 'text-blue-600 border-blue-600'
               : 'text-gray-500 border-transparent hover:text-gray-700',
           ]"
-          @click="handleFilterChange(filter)"
         >
           {{ filter }}
         </button>
@@ -216,12 +213,12 @@ const goBack = () => {
             />
           </svg>
           <input
-            v-model="searchQuery"
             type="text"
+            v-model="searchQuery"
+            @input="handleSearch"
             placeholder="Search..."
             class="pl-10 pr-4 py-2 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            @input="handleSearch"
-          >
+          />
         </div>
 
         <!-- Right Controls -->
@@ -281,14 +278,14 @@ const goBack = () => {
               <input
                 type="checkbox"
                 class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
-              >
+              />
 
               <div class="flex items-center space-x-3 min-w-0 flex-1">
                 <img
                   :src="item.image"
                   :alt="item.name"
                   class="h-12 w-12 rounded-lg object-cover flex-shrink-0"
-                >
+                />
                 <div class="min-w-0">
                   <div class="text-xs text-gray-500 font-medium">
                     Reward Item
@@ -314,9 +311,7 @@ const goBack = () => {
 
               <!-- Points Used -->
               <div class="text-left min-w-0">
-                <div class="text-xs text-gray-500 font-medium">
-                  Points Used
-                </div>
+                <div class="text-xs text-gray-500 font-medium">Points Used</div>
                 <div class="text-sm text-gray-900">
                   {{ item.pointsUsed }} XP
                 </div>
@@ -337,18 +332,14 @@ const goBack = () => {
                 <div class="text-xs text-gray-500 font-medium">
                   Source of Points
                 </div>
-                <div class="text-sm text-gray-900">
-                  {{ item.sourcePoints }}
-                </div>
+                <div class="text-sm text-gray-900">{{ item.sourcePoints }}</div>
               </div>
             </div>
 
             <!-- Right: Status + Actions -->
             <div class="flex items-center space-x-4 flex-shrink-0">
               <div class="text-center">
-                <div class="text-xs text-gray-500 font-medium">
-                  Status
-                </div>
+                <div class="text-xs text-gray-500 font-medium">Status</div>
                 <span
                   :class="[
                     'inline-flex px-2 py-1 text-xs font-medium rounded-full',
@@ -363,11 +354,7 @@ const goBack = () => {
 
               <!-- Menu Button -->
               <button class="text-gray-400 hover:text-gray-600">
-                <svg
-                  class="h-5 w-5"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                >
+                <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
                   <path
                     d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z"
                   />
@@ -386,15 +373,9 @@ const goBack = () => {
             v-model="itemsPerPage"
             class="border border-gray-300 rounded px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
-            <option :value="9">
-              9
-            </option>
-            <option :value="25">
-              25
-            </option>
-            <option :value="50">
-              50
-            </option>
+            <option :value="9">9</option>
+            <option :value="25">25</option>
+            <option :value="50">50</option>
           </select>
           <span>from {{ totalItems }}</span>
         </div>
@@ -403,9 +384,9 @@ const goBack = () => {
         <div class="flex items-center space-x-1">
           <!-- Previous Button -->
           <button
+            @click="goToPage(currentPage - 1)"
             :disabled="currentPage === 1"
             class="p-2 text-gray-500 hover:text-gray-700 disabled:opacity-50 disabled:cursor-not-allowed"
-            @click="goToPage(currentPage - 1)"
           >
             <svg
               class="w-4 h-4"
@@ -426,13 +407,13 @@ const goBack = () => {
           <button
             v-for="page in [1, 2, 3]"
             :key="page"
+            @click="goToPage(page)"
             :class="[
               'px-3 py-1 text-sm font-medium rounded',
               currentPage === page
                 ? 'bg-blue-600 text-white'
                 : 'text-gray-600 hover:bg-gray-100',
             ]"
-            @click="goToPage(page)"
           >
             {{ page }}
           </button>
@@ -440,22 +421,22 @@ const goBack = () => {
           <span class="px-2 text-gray-500">...</span>
 
           <button
+            @click="goToPage(10)"
             :class="[
               'px-3 py-1 text-sm font-medium rounded',
               currentPage === 10
                 ? 'bg-blue-600 text-white'
                 : 'text-gray-600 hover:bg-gray-100',
             ]"
-            @click="goToPage(10)"
           >
             10
           </button>
 
           <!-- Next Button -->
           <button
+            @click="goToPage(currentPage + 1)"
             :disabled="currentPage === totalPages"
             class="p-2 text-gray-500 hover:text-gray-700 disabled:opacity-50 disabled:cursor-not-allowed"
-            @click="goToPage(currentPage + 1)"
           >
             <svg
               class="w-4 h-4"

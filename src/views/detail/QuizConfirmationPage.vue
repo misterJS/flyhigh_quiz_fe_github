@@ -10,9 +10,9 @@
       <!-- Stack Card -->
       <div class="relative w-[320px] sm:w-[360px]">
         <!-- shadow layers -->
-        <div class="absolute inset-x-6 bottom-[-28px] h-8 bg-white/70 rounded-2xl blur-[2px]" />
-        <div class="absolute inset-x-5 bottom-[-18px] h-8 bg-white/80 rounded-2xl" />
-        <div class="absolute inset-x-4 bottom-[-8px] h-8 bg-white rounded-2xl" />
+        <div class="absolute inset-x-6 bottom-[-28px] h-8 bg-white/70 rounded-2xl blur-[2px]"></div>
+        <div class="absolute inset-x-5 bottom-[-18px] h-8 bg-white/80 rounded-2xl"></div>
+        <div class="absolute inset-x-4 bottom-[-8px] h-8 bg-white rounded-2xl"></div>
 
         <!-- Card utama -->
         <div class="relative bg-white text-[#0F1020] rounded-2xl px-6 py-7 shadow-xl">
@@ -86,17 +86,15 @@
       <!-- Crown icon with confetti -->
       <div class="relative mx-auto mb-3 w-20 h-20 grid place-items-center">
         <div class="w-16 h-16 rounded-full bg-[#0B6CF0]/10 text-[#0B6CF0] grid place-items-center">
-          <i class="fas fa-crown text-xl" />
+          <i class="fas fa-crown text-xl"></i>
         </div>
-        <span class="absolute -top-1 left-2 w-2 h-2 bg-[#F59E0B] rounded-full" />
-        <span class="absolute -top-2 right-4 w-2 h-2 bg-[#8B5CF6] rounded-full" />
-        <span class="absolute bottom-0 left-1 w-2 h-2 bg-[#EF4444] rounded-full" />
-        <span class="absolute -right-1 bottom-2 w-2 h-2 bg-[#22C55E] rounded-full" />
+        <span class="absolute -top-1 left-2 w-2 h-2 bg-[#F59E0B] rounded-full"></span>
+        <span class="absolute -top-2 right-4 w-2 h-2 bg-[#8B5CF6] rounded-full"></span>
+        <span class="absolute bottom-0 left-1 w-2 h-2 bg-[#EF4444] rounded-full"></span>
+        <span class="absolute -right-1 bottom-2 w-2 h-2 bg-[#22C55E] rounded-full"></span>
       </div>
 
-      <h3 class="text-[17px] font-semibold text-[#111827]">
-        It's time for Upgrade!
-      </h3>
+      <h3 class="text-[17px] font-semibold text-[#111827]">It's time for Upgrade!</h3>
       <p class="text-sm text-gray-600 mt-1">
         Upgrade to remove ads, unlimited play and access all game only with $2/month
       </p>

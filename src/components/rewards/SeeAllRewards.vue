@@ -166,15 +166,10 @@ const redeemReward = (reward) => {
 
 <template>
   <!-- Section Content (bukan modal lagi) -->
-  <div
-    v-if="props.isVisible"
-    class="space-y-6"
-  >
+  <div v-if="props.isVisible" class="space-y-6">
     <!-- Header Section -->
     <div class="flex items-center justify-between">
-      <h2 class="text-xl font-semibold text-gray-900">
-        Rewards to Get
-      </h2>
+      <h2 class="text-xl font-semibold text-gray-900">Rewards to Get</h2>
     </div>
 
     <!-- Rewards Grid -->
@@ -191,17 +186,13 @@ const redeemReward = (reward) => {
               :src="reward.image"
               :alt="reward.name"
               class="w-16 h-16 object-contain"
-            >
+            />
           </div>
 
           <!-- Reward Info -->
           <div class="text-center mb-3">
-            <h3 class="font-medium text-gray-900 mb-1">
-              {{ reward.name }}
-            </h3>
-            <p class="text-xs text-gray-500 mb-2">
-              {{ reward.description }}
-            </p>
+            <h3 class="font-medium text-gray-900 mb-1">{{ reward.name }}</h3>
+            <p class="text-xs text-gray-500 mb-2">{{ reward.description }}</p>
             <div
               class="flex items-center justify-center gap-1 text-sm font-medium text-gray-700"
             >
@@ -228,12 +219,13 @@ const redeemReward = (reward) => {
                   width: `${reward.progress}%`,
                   backgroundColor: getProgressColor(reward.progress),
                 }"
-              />
+              ></div>
             </div>
           </div>
 
           <!-- Action Button -->
           <button
+            @click="redeemReward(reward)"
             :disabled="!reward.canRedeem"
             :class="[
               'w-full py-2 px-4 rounded-lg text-sm font-medium transition-colors',
@@ -241,7 +233,6 @@ const redeemReward = (reward) => {
                 ? 'bg-blue-600 text-white hover:bg-blue-700'
                 : 'bg-gray-100 text-gray-400 cursor-not-allowed',
             ]"
-            @click="redeemReward(reward)"
           >
             {{ reward.canRedeem ? "Redeem" : "Redeem" }}
           </button>
@@ -249,15 +240,12 @@ const redeemReward = (reward) => {
       </div>
 
       <!-- Pagination -->
-      <div
-        v-if="totalPages > 1"
-        class="flex items-center justify-end gap-2"
-      >
+      <div class="flex items-center justify-end gap-2" v-if="totalPages > 1">
         <!-- Previous Button -->
         <button
+          @click="goToPage(currentPage - 1)"
           :disabled="currentPage === 1"
           class="p-2 rounded-lg border border-gray-300 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
-          @click="goToPage(currentPage - 1)"
         >
           <svg
             class="w-4 h-4"
@@ -270,35 +258,32 @@ const redeemReward = (reward) => {
               stroke-linejoin="round"
               stroke-width="2"
               d="M15 19l-7-7 7-7"
-            />
+            ></path>
           </svg>
         </button>
 
         <!-- Page Numbers -->
-        <template
-          v-for="page in totalPages"
-          :key="page"
-        >
+        <template v-for="page in totalPages" :key="page">
           <button
             v-if="
               page === 1 ||
-                page === totalPages ||
-                (page >= currentPage - 1 && page <= currentPage + 1)
+              page === totalPages ||
+              (page >= currentPage - 1 && page <= currentPage + 1)
             "
+            @click="goToPage(page)"
             :class="[
               'px-3 py-2 rounded-lg text-sm font-medium transition-colors',
               page === currentPage
                 ? 'bg-blue-600 text-white'
                 : 'text-gray-700 hover:bg-gray-100',
             ]"
-            @click="goToPage(page)"
           >
             {{ page }}
           </button>
           <span
             v-else-if="
               (page === currentPage - 2 && currentPage > 3) ||
-                (page === currentPage + 2 && currentPage < totalPages - 2)
+              (page === currentPage + 2 && currentPage < totalPages - 2)
             "
             class="px-2 text-gray-400"
           >
@@ -308,9 +293,9 @@ const redeemReward = (reward) => {
 
         <!-- Next Button -->
         <button
+          @click="goToPage(currentPage + 1)"
           :disabled="currentPage === totalPages"
           class="p-2 rounded-lg border border-gray-300 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
-          @click="goToPage(currentPage + 1)"
         >
           <svg
             class="w-4 h-4"
@@ -323,7 +308,7 @@ const redeemReward = (reward) => {
               stroke-linejoin="round"
               stroke-width="2"
               d="M9 5l7 7-7 7"
-            />
+            ></path>
           </svg>
         </button>
       </div>

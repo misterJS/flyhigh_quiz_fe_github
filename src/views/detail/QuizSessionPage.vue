@@ -22,10 +22,12 @@
     </div>
 
     <!-- Timer -->
+    <!-- Timer -->
     <div class="px-4 text-sm text-gray-600 mb-2 text-right">
       ⏱ {{ formattedTimer }}
     </div>
 
+    <!-- Questions (paged by batch) -->
     <!-- Questions (paged by batch) -->
     <div class="px-4 mt-6 flex flex-col gap-6">
       <div
@@ -49,6 +51,7 @@
         </div>
 
         <!-- Options -->
+        <!-- Options -->
         <div class="flex flex-col gap-3">
           <button
             v-for="(opt, i) in question.answer"
@@ -61,6 +64,7 @@
             ]"
             @click="selectAnswer(batchStartIndex + qIndex, i)"
           >
+            <!-- PERFECT-CIRCLE BULLET -->
             <!-- PERFECT-CIRCLE BULLET -->
             <span
               class="answer-bullet border"
@@ -87,6 +91,7 @@
     </div>
 
     <!-- Bottom -->
+    <!-- Bottom -->
     <div class="px-4 py-6 border-t mt-6 flex justify-between items-center">
       <div class="text-blue-600 text-sm font-medium flex items-center gap-1">
         <i class="fas fa-check-circle" /> {{ totalAnswered }} of
@@ -98,6 +103,7 @@
         :class="{ 'opacity-50 cursor-not-allowed': !canProceed }"
         @click="goNextBatch"
       >
+        {{ isLastBatch ? "Finish" : "Next" }}
         {{ isLastBatch ? "Finish" : "Next" }}
       </button>
     </div>
@@ -120,10 +126,12 @@ const router = useRouter();
 const quizId = route.params.id;
 
 /* ---------- localStorage keys isolated per quiz ---------- */
+/* ---------- localStorage keys isolated per quiz ---------- */
 const ANSWERS_KEY = `quiz:${quizId}:answers`;
 const TIMER_KEY = `quiz:${quizId}:timer`;
 const DEFAULT_SECONDS = 600;
 
+/* ---------- state ---------- */
 /* ---------- state ---------- */
 const questions = ref([]);
 const selectedAnswers = ref([]);
@@ -133,8 +141,13 @@ const timer = ref(parseInt(localStorage.getItem(TIMER_KEY)) || DEFAULT_SECONDS);
 let timerInterval = null;
 
 /* ---------- computed ---------- */
+/* ---------- computed ---------- */
 const batchStartIndex = computed(() => batchIndex.value * batchSize);
 const paginatedQuestions = computed(() =>
+  questions.value.slice(
+    batchStartIndex.value,
+    batchStartIndex.value + batchSize
+  )
   questions.value.slice(
     batchStartIndex.value,
     batchStartIndex.value + batchSize
@@ -161,6 +174,7 @@ const formattedTimer = computed(() => {
 });
 
 /* ---------- helpers ---------- */
+/* ---------- helpers ---------- */
 function loadSavedAnswers(list) {
   const fresh = Array(list.length).fill(null);
   let saved;
@@ -185,6 +199,7 @@ function clearStorageForThisQuiz() {
   localStorage.removeItem(TIMER_KEY);
 }
 
+/* ---------- actions ---------- */
 /* ---------- actions ---------- */
 function selectAnswer(index, choiceIndex) {
   const q = questions.value[index];
@@ -227,6 +242,21 @@ async function goNextBatch() {
     } else {
       router.push("/quiz-finish");
     }
+
+    const sid = result.startId ?? result.StartId;
+    if (sid) {
+      router.push({
+        path: `/quiz-finish`,
+        query: {
+          score: result.Score,
+          grade: result.Grade,
+          exp: result.Exp,
+          startId: sid,
+        },
+      });
+    } else {
+      router.push("/quiz-finish");
+    }
   } else {
     snackbar.trigger("Quiz isn't done!", "error");
   }
@@ -248,6 +278,7 @@ onMounted(async () => {
   }
 
   timerInterval = setInterval(async () => {
+  timerInterval = setInterval(async () => {
     if (timer.value > 0) {
       timer.value--;
       localStorage.setItem(TIMER_KEY, String(timer.value));
@@ -257,8 +288,25 @@ onMounted(async () => {
 
       const payload = JSON.parse(localStorage.getItem(ANSWERS_KEY) || "[]");
       const result = await submitAnswer(quizId, auth.userId, payload);
+      const payload = JSON.parse(localStorage.getItem(ANSWERS_KEY) || "[]");
+      const result = await submitAnswer(quizId, auth.userId, payload);
 
       clearStorageForThisQuiz();
+
+      const sid = result?.startId ?? result?.StartId;
+      if (sid) {
+        router.push({
+          path: `/quiz-finish`,
+          query: {
+            score: result?.Score,
+            grade: result?.Grade,
+            exp: result?.Exp,
+            startId: sid,
+          },
+        });
+      } else {
+        router.push("/quiz-finish");
+      }
 
       const sid = result?.startId ?? result?.StartId;
       if (sid) {
@@ -285,12 +333,16 @@ onUnmounted(() => {
 
 <style scoped>
 /* Keep the bullet perfectly round, independent of parent line-height or flex sizing */
+/* Keep the bullet perfectly round, independent of parent line-height or flex sizing */
 .answer-bullet {
   width: 20px;
   height: 20px;
   border-radius: 9999px;
   display: inline-grid;
   place-items: center;
+  flex: 0 0 auto; /* never stretch */
+  aspect-ratio: 1 / 1; /* extra guard; width/height already enforce square */
+  line-height: 0; /* prevent inheriting line-height from text */
   flex: 0 0 auto; /* never stretch */
   aspect-ratio: 1 / 1; /* extra guard; width/height already enforce square */
   line-height: 0; /* prevent inheriting line-height from text */

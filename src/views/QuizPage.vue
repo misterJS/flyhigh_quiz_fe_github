@@ -1,10 +1,13 @@
 <template>
   <div class="flex flex-col lg:flex-row min-h-screen bg-[#f9fafb]">
     <!-- Sidebar desktop -->
+    <!-- Sidebar desktop -->
     <SidebarComponent class="hidden lg:block" />
 
     <!-- Main Content -->
+    <!-- Main Content -->
     <div class="flex-1 flex flex-col w-full">
+      <!-- Header desktop -->
       <!-- Header desktop -->
       <HeaderComponent class="hidden lg:flex" />
 
@@ -108,8 +111,10 @@
     </div>
 
     <!-- Bottom Nav Mobile -->
+    <!-- Bottom Nav Mobile -->
     <BottomBarNavigation class="lg:hidden" />
 
+    <!-- =============== Filter Modal (new look) =============== -->
     <!-- =============== Filter Modal (new look) =============== -->
     <div
       v-if="filterModalOpen"
@@ -124,6 +129,7 @@
         </div>
 
         <!-- Header -->
+        <!-- Header -->
         <div class="px-6 pt-4 pb-2 flex items-center justify-between">
           <h3 class="font-semibold text-[15px]">Filters</h3>
           <button
@@ -136,6 +142,7 @@
 
         <hr class="border-gray-100" />
 
+        <!-- Progress -->
         <!-- Progress -->
         <div class="px-6 py-4">
           <div class="flex items-center gap-2 mb-3">
@@ -157,6 +164,7 @@
 
         <hr class="border-gray-100" />
 
+        <!-- Category -->
         <!-- Category -->
         <div class="px-6 py-4">
           <div class="flex items-center justify-between mb-3">
@@ -191,6 +199,7 @@
         <hr class="border-gray-100" />
 
         <!-- Grade -->
+        <!-- Grade -->
         <div class="px-6 pt-4 pb-6">
           <div class="flex items-center gap-2 mb-3">
             <i class="fas fa-book text-gray-500" />
@@ -216,6 +225,7 @@
               />
             </button>
 
+            <!-- options -->
             <!-- options -->
             <div
               v-if="gradeOpen"
@@ -244,6 +254,7 @@
       </div>
     </div>
     <!-- =============== /Filter Modal =============== -->
+    <!-- =============== /Filter Modal =============== -->
   </div>
 </template>
 
@@ -267,12 +278,15 @@ const subjects = ref([]);
 const filterModalOpen = ref(false);
 
 // progress
+// progress
 const progress = ref("All");
 const progressOptions = ["All", "Ongoing", "Completed"];
 
 // categories
+// categories
 const selectedCategories = ref([]);
 
+// grade dropdown
 // grade dropdown
 const grade = ref("");
 const gradeOpen = ref(false);
@@ -535,6 +549,7 @@ function applyFilter() {
 </script>
 
 <style scoped>
+/* Pills */
 /* Pills */
 .chip {
   @apply inline-flex items-center gap-2 px-3 h-8 rounded-full text-sm transition border;

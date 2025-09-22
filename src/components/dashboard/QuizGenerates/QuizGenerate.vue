@@ -345,6 +345,7 @@
     <div class="fixed bottom-0 left-0 right-0 bg-white border-t px-4 py-3 flex gap-3">
       <button
         class="border border-[#2563EB] text-[#2563EB] w-full py-3 rounded-[20px] font-semibold"
+        class="border border-[#2563EB] text-[#2563EB] w-full py-3 rounded-[20px] font-semibold"
         @click="prevPage"
       >
         Back
@@ -386,6 +387,11 @@ function checkPublic() {
 function subscribeNow() {
   showModal.value = false;
   router.push("/subscribe");
+}
+
+function maybeLater() {
+  form.privacy = "private"; // force back to private
+  showModal.value = false;
 }
 
 function maybeLater() {
@@ -545,12 +551,44 @@ function validateStep(step) {
   }
 }
 
+function validateStep(step) {
+  switch (step) {
+    case 0:
+      if (!form.subjectId) { snackbar.trigger("Please select a subject first", "error"); return false; }
+      return true;
+    case 1:
+      if (!form.gradeId) { snackbar.trigger("Please select a grade", "error"); return false; }
+      if (!form.totalQuestion || Number(form.totalQuestion) <= 0) { snackbar.trigger("Total question is required", "error"); return false; }
+      return true;
+    case 2:
+      // Cover optional; keep as valid
+      return true;
+    case 3:
+      if (!form.privacy) { snackbar.trigger("Please select privacy", "error"); return false; }
+      return true;
+    default:
+      return true;
+  }
+}
+
 const nextPage = () => {
+  if (!validateStep(page.value)) return;
   if (!validateStep(page.value)) return;
   if (!isLastPage.value) page.value++;
   else {
     // Final validation before submit
     if (validateStep(3)) submitQuiz();
+  }
+  else {
+    // Final validation before submit
+    if (validateStep(3)) submitQuiz();
+  }
+};
+const prevPage = () => {
+  if (isFirstPage.value) {
+    router.push("/");
+  } else {
+    page.value--;
   }
 };
 const prevPage = () => {
