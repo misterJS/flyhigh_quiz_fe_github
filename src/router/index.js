@@ -9,6 +9,7 @@ import ClassesPage from "@/views/ClassesPage.vue";
 import SettingPage from "@/views/SettingPage.vue";
 import HelpPage from "@/views/HelpPage.vue";
 import QuizPage from "@/views/QuizPage.vue";
+import QuizSearchPage from "@/views/QuizSearchPage.vue";
 import QuizDetailPage from "@/views/detail/QuizDetailPage.vue";
 import RewardHistoryPage from "@/views/history/RewardHistoryPage.vue";
 import QuizConfirmationPage from "@/views/detail/QuizConfirmationPage.vue";
@@ -232,6 +233,12 @@ const allRoutes = [
     meta: { title: "Quiz List" },
   },
   {
+    path: "/quiz/search",
+    name: "QuizSearch",
+    component: QuizSearchPage,
+    meta: { title: "Search Topics", device: "mobile" },
+  },
+  {
     path: "/quiz/:id",
     name: "QuizDetail",
     component: QuizDetailPage,
@@ -285,3 +292,5 @@ router.beforeEach((to, from, next) => {
 });
 
 export default router;
+
+

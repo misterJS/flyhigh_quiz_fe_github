@@ -6,7 +6,7 @@
       src="../../assets/reward/confetti_component.png"
       alt="Confetti"
       class="absolute top-0 right-0 h-24 opacity-70 pointer-events-none"
-    />
+    >
 
     <div class="flex flex-col justify-center z-10">
       <h3 class="text-base font-semibold text-gray-900 mb-0.5">
@@ -21,7 +21,9 @@
       >
         300 / 500 <span class="text-base">🎯</span>
       </div>
-      <p class="text-sm text-gray-400 mb-4">80% of target</p>
+      <p class="text-sm text-gray-400 mb-4">
+        80% of target
+      </p>
 
       <button
         class="bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium py-2 px-4 rounded-lg w-max"
@@ -34,7 +36,7 @@
       src="../../assets/reward/cup.png"
       alt="Trophy"
       class="h-20 w-20 object-contain z-10"
-    />
+    >
   </div>
 </template>
 

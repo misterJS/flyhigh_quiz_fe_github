@@ -5,7 +5,7 @@
     <!-- Back Button (mobile only) -->
     <div class="absolute top-5 left-5 md:hidden">
       <button @click="goBack">
-        <i class="fas fa-arrow-left text-white md:text-[#007bff] text-lg"></i>
+        <i class="fas fa-arrow-left text-white md:text-[#007bff] text-lg" />
       </button>
     </div>
 
@@ -14,7 +14,7 @@
       src="@/assets/quiz-finish.png"
       alt="Quiz Complete"
       class="w-48 md:w-72 mb-8"
-    />
+    >
 
     <!-- Title -->
     <h2
@@ -28,7 +28,9 @@
       <div
         class="flex-1 bg-white/20 backdrop-blur-sm rounded-xl py-4 flex flex-col items-center"
       >
-        <div class="text-3xl mb-2">🌟</div>
+        <div class="text-3xl mb-2">
+          🌟
+        </div>
         <div class="text-sm font-medium text-white md:text-[#007bff]">
           {{ grade }}
         </div>
@@ -36,7 +38,9 @@
       <div
         class="flex-1 bg-white/20 backdrop-blur-sm rounded-xl py-4 flex flex-col items-center"
       >
-        <div class="text-3xl mb-2">🥇</div>
+        <div class="text-3xl mb-2">
+          🥇
+        </div>
         <div class="text-sm font-medium text-white md:text-[#007bff]">
           {{ scorePct }}%
         </div>
@@ -44,7 +48,9 @@
       <div
         class="flex-1 bg-white/20 backdrop-blur-sm rounded-xl py-4 flex flex-col items-center"
       >
-        <div class="text-3xl mb-2">☀️</div>
+        <div class="text-3xl mb-2">
+          ☀️
+        </div>
         <div class="text-sm font-medium text-white md:text-[#007bff]">
           {{ expStr }} Points
         </div>

@@ -2,7 +2,7 @@
   <div class="min-h-screen bg-[#0B6CF0] text-white relative flex flex-col">
     <!-- Lingkaran besar background -->
     <div class="absolute inset-0 flex top-[15%] justify-center pointer-events-none">
-      <div class="w-[300px] h-[300px] md:w-[640px] md:h-[640px] rounded-full bg-white/10"></div>
+      <div class="w-[300px] h-[300px] md:w-[640px] md:h-[640px] rounded-full bg-white/10" />
     </div>
 
     <!-- Konten tengah -->
@@ -16,10 +16,12 @@
 
         <!-- Card utama -->
         <div class="relative bg-white text-[#0F1020] rounded-2xl px-6 py-7 shadow-xl">
-          <div class="text-[#FF7A7A] text-xs font-semibold text-center mb-3 tracking-wider">01/25</div>
+          <div class="text-[#FF7A7A] text-xs font-semibold text-center mb-3 tracking-wider">
+            01/25
+          </div>
           <p class="text-[18px] font-semibold leading-6 text-center">
             What is the total number of
-            <br class="hidden sm:block" />
+            <br class="hidden sm:block">
             marbles Budi has now?
           </p>
         </div>
@@ -30,18 +32,24 @@
                  rounded-2xl px-5 py-3 w-[240px] flex items-center gap-3 shadow-md"
         >
           <div class="w-9 h-9 rounded-full bg-white/15 flex items-center justify-center">
-            <i class="fas fa-book-open text-white"></i>
+            <i class="fas fa-book-open text-white" />
           </div>
           <div class="leading-5">
-            <div class="text-[15px] font-semibold">10+</div>
-            <div class="text-[12px] opacity-80 -mt-0.5">Quiz category</div>
+            <div class="text-[15px] font-semibold">
+              10+
+            </div>
+            <div class="text-[12px] opacity-80 -mt-0.5">
+              Quiz category
+            </div>
           </div>
         </div>
       </div>
 
       <!-- Headline & sub -->
       <div class="mt-48 text-center">
-        <h2 class="text-[24px] font-normal mb-2">Let's start the quizz</h2>
+        <h2 class="text-[24px] font-normal mb-2">
+          Let's start the quizz
+        </h2>
         <p class="text-white/90 text-[15px] max-w-sm">
           Answer all the questions to the best of your ability.
         </p>
@@ -52,16 +60,16 @@
     <div class="px-6 pb-10">
       <div class="max-w-md mx-auto flex flex-col gap-4">
         <button
-          @click="startQuiz"
           class="w-full h-14 rounded-[22px] bg-white text-[#0B6CF0] text-[16px] font-semibold shadow
                  hover:bg-white/95 transition"
+          @click="startQuiz"
         >
           Let's Go
         </button>
         <button
-          @click="changeMind"
           class="w-full h-14 rounded-[22px] border border-white text-white text-[16px] font-semibold
                  hover:bg-white/10 transition"
+          @click="changeMind"
         >
           Change My Mind
         </button>

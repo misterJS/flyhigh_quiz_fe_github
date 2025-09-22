@@ -4,7 +4,9 @@
     :style="{ backgroundImage: `url(${backgroundImage})` }"
   >
     <div class="mt-4 mx-5">
-      <p class="font-bold">Ranking</p>
+      <p class="font-bold">
+        Ranking
+      </p>
 
       <div
         class="bg-white/20 p-1 rounded-[100px] mt-4 h-[46px] flex gap-4 items-center overflow-hidden relative"
@@ -16,7 +18,7 @@
               ? 'translate-x-0'
               : 'translate-x-[calc(100%+8px)]'
           "
-        ></div>
+        />
 
         <button
           class="w-full z-10 h-[38px] flex items-center justify-center font-semibold text-sm transition-all duration-200 rounded-[100px]"
@@ -35,22 +37,36 @@
       </div>
 
       <div class="mt-4 w-full text-center">
-        <p v-if="activeTab === 'weekly'" class="font-semibold">
+        <p
+          v-if="activeTab === 'weekly'"
+          class="font-semibold"
+        >
           Defending Champion this week!
         </p>
-        <p v-else class="font-semibold">Menampilkan data sepanjang waktu...</p>
+        <p
+          v-else
+          class="font-semibold"
+        >
+          Menampilkan data sepanjang waktu...
+        </p>
       </div>
     </div>
 
     <div class="flex gap-[22px] mx-auto mt-[35px]">
       <!-- Rank 2 -->
-      <div class="mt-[64px]" v-if="leaderboardData[1]">
+      <div
+        v-if="leaderboardData[1]"
+        class="mt-[64px]"
+      >
         <div class="relative w-fit mx-auto">
           <img
             :src="top2"
             class="w-[14px] absolute top-[35px] left-1/2 -translate-x-1/2 z-10"
-          />
-          <img :src="avatarNumber1" class="w-[56px] mx-auto relative z-0" />
+          >
+          <img
+            :src="avatarNumber1"
+            class="w-[56px] mx-auto relative z-0"
+          >
           <p class="font-medium text-sm text-center">
             {{ leaderboardData[1].Name }}
           </p>
@@ -60,7 +76,7 @@
         </div>
         <div
           class="w-[100px] h-[320px] bg-gradient-to-b from-[#146DBF] to-[#04427C] rounded-[14px] mt-[12px]"
-        ></div>
+        />
       </div>
 
       <!-- Rank 1 -->
@@ -69,12 +85,15 @@
           <img
             :src="crown"
             class="w-[32px] absolute top-[-19px] left-1/2 -translate-x-1/2 z-10"
-          />
+          >
           <img
             :src="top1"
             class="w-[14px] absolute top-[35px] left-1/2 -translate-x-1/2 z-10"
-          />
-          <img :src="avatarNumber1" class="w-[56px] mx-auto relative z-0" />
+          >
+          <img
+            :src="avatarNumber1"
+            class="w-[56px] mx-auto relative z-0"
+          >
           <p class="font-medium text-sm text-center">
             {{ leaderboardData[0].Name }}
           </p>
@@ -84,17 +103,23 @@
         </div>
         <div
           class="w-[100px] h-[361px] bg-gradient-to-b from-[#146DBF] to-[#04427C] rounded-[14px] mt-[12px]"
-        ></div>
+        />
       </div>
 
       <!-- Rank 3 -->
-      <div class="mt-[64px]" v-if="leaderboardData[2]">
+      <div
+        v-if="leaderboardData[2]"
+        class="mt-[64px]"
+      >
         <div class="relative w-fit mx-auto">
           <img
             :src="top3"
             class="w-[14px] absolute top-[35px] left-1/2 -translate-x-1/2 z-10"
-          />
-          <img :src="avatarNumber1" class="w-[56px] mx-auto relative z-0" />
+          >
+          <img
+            :src="avatarNumber1"
+            class="w-[56px] mx-auto relative z-0"
+          >
           <p class="font-medium text-sm text-center">
             {{ leaderboardData[2].Name }}
           </p>
@@ -104,7 +129,7 @@
         </div>
         <div
           class="w-[100px] h-[280px] bg-gradient-to-b from-[#146DBF] to-[#04427C] rounded-[14px] mt-[12px]"
-        ></div>
+        />
       </div>
     </div>
 
@@ -114,10 +139,12 @@
       <div class="w-full">
         <div
           class="mx-auto w-[57px] h-[6px] bg-[#E0E0E0] mt-[16px] rounded-[12px]"
-        ></div>
+        />
       </div>
       <div class="w-full flex justify-between mt-6">
-        <p class="text-black font-medium">List Of Winners</p>
+        <p class="text-black font-medium">
+          List Of Winners
+        </p>
         <p class="text-black text-[12px]">
           {{ leaderboardData.length }} students
         </p>
@@ -131,10 +158,15 @@
           <img
             :src="[badge1, badge2, badge3][index] || badge1"
             class="w-[36px] mr-4 mb-4"
-          />
-          <img :src="avatarNumber1" class="w-[36px] mb-4 mr-4" />
+          >
+          <img
+            :src="avatarNumber1"
+            class="w-[36px] mb-4 mr-4"
+          >
           <div>
-            <p class="font-semibold text-[14px]">{{ user.Name }}</p>
+            <p class="font-semibold text-[14px]">
+              {{ user.Name }}
+            </p>
             <p class="font-semibold text-[10px] text-[#007CEF]">
               {{ user.XP }} XP
             </p>

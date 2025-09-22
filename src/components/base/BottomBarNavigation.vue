@@ -2,23 +2,51 @@
   <nav
     class="fixed bottom-0 left-0 right-0 bg-white border-t shadow p-3 flex justify-around text-sm z-50 lg:hidden"
   >
-    <router-link to="/home" class="flex flex-col items-center">
-      <img :src="getIcon('Dashboard')" class="w-6 h-6 mb-1" alt="Home" />
+    <router-link
+      to="/home"
+      class="flex flex-col items-center"
+    >
+      <img
+        :src="getIcon('Dashboard')"
+        class="w-6 h-6 mb-1"
+        alt="Home"
+      >
       <span :class="getTextClass('Dashboard')">Home</span>
     </router-link>
 
-    <router-link to="/quiz" class="flex flex-col items-center">
-      <img :src="getIcon('QuizPage')" class="w-6 h-6 mb-1" alt="Quiz" />
+    <router-link
+      to="/quiz"
+      class="flex flex-col items-center"
+    >
+      <img
+        :src="getIcon('QuizPage')"
+        class="w-6 h-6 mb-1"
+        alt="Quiz"
+      >
       <span :class="getTextClass('QuizPage')">Quiz</span>
     </router-link>
 
-    <router-link to="/ranking" class="flex flex-col items-center">
-      <img :src="getIcon('Ranking')" class="w-6 h-6 mb-1" alt="Ranking" />
+    <router-link
+      to="/ranking"
+      class="flex flex-col items-center"
+    >
+      <img
+        :src="getIcon('Ranking')"
+        class="w-6 h-6 mb-1"
+        alt="Ranking"
+      >
       <span :class="getTextClass('Ranking')">Ranking</span>
     </router-link>
 
-    <router-link to="/settings" class="flex flex-col items-center">
-      <img :src="getIcon('Settings')" class="w-6 h-6 mb-1" alt="Profile" />
+    <router-link
+      to="/settings"
+      class="flex flex-col items-center"
+    >
+      <img
+        :src="getIcon('Settings')"
+        class="w-6 h-6 mb-1"
+        alt="Profile"
+      >
       <span :class="getTextClass('Settings')">Profile</span>
     </router-link>
   </nav>

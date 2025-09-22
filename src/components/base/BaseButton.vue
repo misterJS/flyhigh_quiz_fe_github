@@ -1,8 +1,17 @@
 <template>
-  <button :class="buttonClasses" :disabled="disabled || loading">
-    <span v-if="loading" class="loader mr-2"></span>
+  <button
+    :class="buttonClasses"
+    :disabled="disabled || loading"
+  >
+    <span
+      v-if="loading"
+      class="loader mr-2"
+    />
 
-    <span v-if="icon && iconPosition === 'left'" class="mr-2">
+    <span
+      v-if="icon && iconPosition === 'left'"
+      class="mr-2"
+    >
       <slot name="icon" />
     </span>
 
@@ -10,7 +19,10 @@
       <slot />
     </span>
 
-    <span v-if="icon && iconPosition === 'right'" class="ml-2">
+    <span
+      v-if="icon && iconPosition === 'right'"
+      class="ml-2"
+    >
       <slot name="icon" />
     </span>
   </button>

@@ -13,10 +13,16 @@
         "
       />
       <div class="relative z-10 max-w-sm mx-auto px-6 pt-10 pb-20 text-center text-white">
-        <img src="@/assets/logowhite.png" alt="Fly High" class="w-24 mx-auto mb-5" />
-        <h1 class="text-[28px] font-semibold mb-2">Verification</h1>
+        <img
+          src="@/assets/logowhite.png"
+          alt="Fly High"
+          class="w-24 mx-auto mb-5"
+        >
+        <h1 class="text-[28px] font-semibold mb-2">
+          Verification
+        </h1>
         <p class="text-sm text-white/90">
-          We have sent 4 digits verification code to your<br />
+          We have sent 4 digits verification code to your<br>
           email address <span class="font-medium break-all">{{ email }}</span>
         </p>
       </div>
@@ -32,6 +38,7 @@
               v-for="(d, idx) in digits"
               :key="idx"
               ref="boxes"
+              v-model="digits[idx]"
               type="text"
               inputmode="numeric"
               pattern="[0-9]*"
@@ -42,12 +49,11 @@
               :class="{
                 'ring-2 ring-[#1877F2] border-transparent': activeIndex === idx,
               }"
-              v-model="digits[idx]"
               @focus="activeIndex = idx"
               @input="onInput(idx, $event)"
               @keydown.backspace.prevent="onBackspace(idx)"
               @paste.prevent="onPaste($event)"
-            />
+            >
           </div>
 
           <!-- Verify button -->
@@ -59,10 +65,28 @@
             @click="verify"
           >
             <span v-if="!loading">Verification</span>
-            <span v-else class="inline-flex items-center gap-2">
-              <svg class="animate-spin h-4 w-4" viewBox="0 0 24 24" fill="none">
-                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="white" stroke-width="4"/>
-                <path class="opacity-75" fill="white" d="M4 12a8 8 0 018-8v4A4 4 0 008 12H4z"/>
+            <span
+              v-else
+              class="inline-flex items-center gap-2"
+            >
+              <svg
+                class="animate-spin h-4 w-4"
+                viewBox="0 0 24 24"
+                fill="none"
+              >
+                <circle
+                  class="opacity-25"
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="white"
+                  stroke-width="4"
+                />
+                <path
+                  class="opacity-75"
+                  fill="white"
+                  d="M4 12a8 8 0 018-8v4A4 4 0 008 12H4z"
+                />
               </svg>
               Verifying…
             </span>
@@ -86,7 +110,10 @@
             </button>
           </div>
 
-          <p v-if="errorMsg" class="mt-3 text-center text-xs text-red-600">
+          <p
+            v-if="errorMsg"
+            class="mt-3 text-center text-xs text-red-600"
+          >
             {{ errorMsg }}
           </p>
         </div>

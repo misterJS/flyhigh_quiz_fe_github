@@ -3,10 +3,16 @@
   <div class="min-h-screen bg-[#F6F7F9] p-4 pb-28">
     <!-- Header -->
     <div class="flex items-center gap-3 mb-5">
-      <button @click="goBack" class="text-gray-800 text-lg" aria-label="Back">
-        <i class="fas fa-arrow-left"></i>
+      <button
+        class="text-gray-800 text-lg"
+        aria-label="Back"
+        @click="goBack"
+      >
+        <i class="fas fa-arrow-left" />
       </button>
-      <h1 class="text-lg font-semibold">Payment Method</h1>
+      <h1 class="text-lg font-semibold">
+        Payment Method
+      </h1>
     </div>
 
     <!-- Methods -->
@@ -23,19 +29,19 @@
             :src="mcLogo"
             class="w-10 h-7 object-contain"
             alt="Mastercard"
-          />
+          >
           <img
             v-else-if="m.brand === 'visa'"
             :src="visaLogo"
             class="w-10 h-7 object-contain"
             alt="Visa"
-          />
+          >
           <img
             v-else
             :src="appleLogo"
             class="w-10 h-7 object-contain"
             alt="Apple Pay"
-          />
+          >
           <div class="text-left">
             <p class="text-[15px] font-semibold text-gray-900">
               {{ displayName(m) }}
@@ -47,8 +53,13 @@
         </div>
 
         <div class="text-right">
-          <p class="text-sm font-medium text-[#2563EB]">Connected</p>
-          <p v-if="m.isDefault" class="text-[11px] text-gray-400 mt-0.5">
+          <p class="text-sm font-medium text-[#2563EB]">
+            Connected
+          </p>
+          <p
+            v-if="m.isDefault"
+            class="text-[11px] text-gray-400 mt-0.5"
+          >
             Default
           </p>
         </div>
@@ -75,9 +86,12 @@
         <div
           class="absolute left-0 right-0 bottom-0 bg-white rounded-t-2xl p-4 shadow-xl"
         >
-          <div class="w-12 h-1.5 bg-gray-300 rounded-full mx-auto mb-4"></div>
+          <div class="w-12 h-1.5 bg-gray-300 rounded-full mx-auto mb-4" />
           <div class="flex items-center gap-3 mb-3">
-            <img :src="sheetLogo" class="w-8 h-6 object-contain" />
+            <img
+              :src="sheetLogo"
+              class="w-8 h-6 object-contain"
+            >
             <div>
               <p class="text-sm font-semibold">
                 {{ displayName(sheet) }}
@@ -93,14 +107,14 @@
             @click="makeDefault(sheet)"
           >
             <span class="text-sm">Set as default</span>
-            <i class="fas fa-check text-gray-400"></i>
+            <i class="fas fa-check text-gray-400" />
           </button>
           <button
             class="w-full text-left px-3 py-3 rounded-xl hover:bg-gray-50 flex items-center justify-between"
             @click="disconnect(sheet)"
           >
             <span class="text-sm text-red-600">Remove / Disconnect</span>
-            <i class="fas fa-trash-alt text-red-500 text-xs"></i>
+            <i class="fas fa-trash-alt text-red-500 text-xs" />
           </button>
           <button
             class="mt-2 w-full text-center px-3 py-3 rounded-xl border border-gray-200"

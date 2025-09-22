@@ -8,7 +8,7 @@
         : 'text-gray-600 hover:bg-gray-100'
     "
   >
-    <i :class="[icon, isActive ? 'text-white' : 'text-gray-400']"></i>
+    <i :class="[icon, isActive ? 'text-white' : 'text-gray-400']" />
     <span>{{ text }}</span>
   </router-link>
 </template>

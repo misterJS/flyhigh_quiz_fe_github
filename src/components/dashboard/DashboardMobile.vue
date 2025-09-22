@@ -2,24 +2,28 @@
   <div class="min-h-screen bg-[#f9fafb] px-4 pb-20 pt-5">
     <!-- Header -->
     <div class="mb-6">
-      <div class="flex items-center justify-between rounded-[22px] p-5 bg-white shadow-sm">
+      <div
+        class="flex items-center justify-between rounded-[22px] p-5 bg-white shadow-sm"
+      >
         <!-- Kiri: avatar + greeting + nama -->
         <div class="flex items-center gap-3">
           <div class="flex items-center gap-4">
             <!-- avatar dalam lingkaran hijau (✅ pakai fallback) -->
-            <div class="w-12 h-12 rounded-full bg-[#E6F6E9] grid place-items-center">
+            <div
+              class="w-12 h-12 rounded-full bg-[#E6F6E9] grid place-items-center"
+            >
               <img
                 :src="avatarSrc"
-                @error="onAvatarError"
                 class="w-9 h-9 rounded-full object-cover"
                 alt="avatar"
+                @error="onAvatarError"
               />
             </div>
 
             <div class="leading-tight">
               <p class="text-xs text-[#9AA3AF]">Good morning</p>
               <p class="text-lg font-normal text-[#1C103B]">
-                {{ profile.name || '—' }}
+                {{ profile.name || "—" }}
               </p>
             </div>
           </div>
@@ -27,10 +31,19 @@
           <!-- Kanan: pill XP + bell -->
           <div class="flex items-center gap-3">
             <!-- XP pill -->
-            <div class="flex items-center gap-2 bg-[#F0ECFE] px-4 py-2 rounded-full">
+            <div
+              class="flex items-center gap-2 bg-[#F0ECFE] px-4 py-2 rounded-full"
+            >
               <!-- diamond icon -->
-              <svg viewBox="0 0 24 24" class="w-5 h-5 text-[#7C5CFF]" fill="currentColor" aria-hidden="true">
-                <path d="M7.5 3.5h9l4 5-9 12-9-12 4-5zM9 5.5l-2.5 3L12 18l5.5-9.5-2.5-3H9z" />
+              <svg
+                viewBox="0 0 24 24"
+                class="w-5 h-5 text-[#7C5CFF]"
+                fill="currentColor"
+                aria-hidden="true"
+              >
+                <path
+                  d="M7.5 3.5h9l4 5-9 12-9-12 4-5zM9 5.5l-2.5 3L12 18l5.5-9.5-2.5-3H9z"
+                />
               </svg>
               <span class="text-base font-semibold text-[#7C5CFF]">
                 {{ leaderboardScore?.[0]?.XP ?? 0 }}
@@ -40,8 +53,12 @@
         </div>
 
         <!-- bell (✅ route ke /notification) -->
-        <button class="text-[#1C103B]" aria-label="Notifications" @click="goToUrl('/notification')">
-          <i class="far fa-bell text-xl"></i>
+        <button
+          class="text-[#1C103B]"
+          aria-label="Notifications"
+          @click="goToUrl('/notification')"
+        >
+          <i class="far fa-bell text-xl" />
         </button>
       </div>
     </div>
@@ -71,31 +88,54 @@
           View All Rewards
         </BaseButton>
       </div>
-      <img src="@/assets/cup-confetti.png" class="absolute right-2 bottom-2 w-42" />
+      <img
+        src="@/assets/cup-confetti.png"
+        class="absolute right-2 bottom-2 w-42"
+      />
     </div>
 
     <!-- Subjects -->
     <div class="bg-white rounded-2xl shadow-custom p-4 mb-4">
       <div class="flex justify-between items-center mb-4">
         <h3 class="text-base font-semibold text-gray-900">Subjects</h3>
-        <a href="/subject-all" class="text-sm text-blue-600 font-medium">View All</a>
+        <a href="/subject-all" class="text-sm text-blue-600 font-medium"
+          >View All</a
+        >
       </div>
 
       <div class="flex justify-between">
-        <div v-for="subject in subjects" :key="subject.name" class="flex flex-col items-center text-center">
-          <img :src="subject.icon" alt="" class="w-[52px] h-[52px] object-contain" />
-          <p class="text-sm mt-2 text-gray-800">{{ subject.name }}</p>
+        <div
+          v-for="subject in subjects"
+          :key="subject.SubjectId ?? subject.Id ?? subject.name"
+          class="flex flex-col items-center text-center cursor-pointer"
+          role="button"
+          tabindex="0"
+          @click="goToQuizWithSubject(subject)"
+          @keydown.enter="goToQuizWithSubject(subject)"
+          :aria-label="`Go to quizzes filtered by ${
+            subject.name ?? subject.SubjectName
+          }`"
+          :title="`Filter by ${subject.name ?? subject.SubjectName}`"
+        >
+          <img
+            :src="subject.icon"
+            alt=""
+            class="w-[52px] h-[52px] object-contain"
+          />
+          <p class="text-sm mt-2 text-gray-800">
+            {{ subject.name ?? subject.SubjectName }}
+          </p>
         </div>
       </div>
     </div>
 
-    <BaseButton @click="goToUrl('/quiz/generate')" class="mb-4 py-4 rounded-xl">
+    <BaseButton class="mb-4 py-4 rounded-xl" @click="goToUrl('/quiz/generate')">
       <div class="flex gap-3 items-center w-full">
         <img src="@/assets/ideas.png" class="w-8 h-8 rounded-full" />
         <p class="font-semibold text-base text-left">
           Create your own quiz, invite friends to play!
         </p>
-        <i class="fas fa-angle-right w-8"></i>
+        <i class="fas fa-angle-right w-8" />
       </div>
     </BaseButton>
 
@@ -103,7 +143,9 @@
     <div class="bg-white rounded-2xl shadow-custom p-4 mb-6">
       <div class="flex justify-between items-center mb-2">
         <h3 class="font-semibold text-base text-gray-900">Leaderboard</h3>
-        <a href="/ranking" class="text-sm text-blue-600 font-medium">View All</a>
+        <a href="/ranking" class="text-sm text-blue-600 font-medium"
+          >View All</a
+        >
       </div>
       <div class="space-y-2">
         <div
@@ -114,7 +156,9 @@
           <div class="flex items-center gap-3">
             <img :src="user.avatar" class="w-10 h-10 rounded-full" />
             <div>
-              <p class="text-sm font-medium">{{ user.name }}</p>
+              <p class="text-sm font-medium">
+                {{ user.name }}
+              </p>
               <p class="text-xs text-gray-400">{{ user.xp }} XP</p>
             </div>
           </div>
@@ -193,6 +237,18 @@ const handleGetProfile = async () => {
   }
 };
 
+const goToQuizWithSubject = (subject) => {
+  const id   = subject?.SubjectId ?? subject?.Id ?? subject?.id ?? null;
+  const name = subject?.SubjectName ?? subject?.name ?? "";
+
+  const query = {};
+  if (id != null) query.subjectId = String(id); 
+  if (name)      query.subjectName = name;       
+
+  router.push({ path: "/quiz", query });
+};
+
+
 const leaderboard = ref([]);
 
 const fetchLeaderboard = async () => {
@@ -235,9 +291,9 @@ onMounted(() => {
 });
 
 const subjects = [
-  { name: "Biology", icon: require("@/assets/biology.png") },
-  { name: "History", icon: require("@/assets/history.png") },
-  { name: "Geography", icon: require("@/assets/geography.png") },
-  { name: "Economics", icon: require("@/assets/economics.png") },
+  { name: "Science", icon: require("@/assets/biology.png") },
+  { name: "Sejarah", icon: require("@/assets/history.png") },
+  { name: "Mathematics", icon: require("@/assets/geography.png") },
+  { name: "Other", icon: require("@/assets/economics.png") },
 ];
 </script>

@@ -57,7 +57,7 @@
                 alt="Quiz Image"
                 loading="lazy"
                 class="w-full h-[200px] object-cover"
-              />
+              >
             </div>
 
             <!-- Title & Desc -->
@@ -72,7 +72,7 @@
             <p class="text-sm text-gray-600 mb-6 leading-relaxed">
               {{
                 quiz?.description ??
-                "This module on Additional Mathematics is designed to deepen students understanding of advanced mathematical concepts.It covers topics such as algebra, calculus, and geometry. Read More"
+                  "This module on Additional Mathematics is designed to deepen students understanding of advanced mathematical concepts.It covers topics such as algebra, calculus, and geometry. Read More"
               }}
             </p>
 
@@ -84,7 +84,9 @@
               <div class="flex items-center gap-4">
                 <img src="@/assets/crown.png" class="w-20 h-20" alt="crown" />
                 <div>
-                  <p class="text-lg font-semibold leading-5">Upgrade pro</p>
+                  <p class="text-lg font-semibold leading-5">
+                    Upgrade pro
+                  </p>
                   <p class="text-sm opacity-90 mt-1">
                     Upgrade to remove ads, unlimited play and access all game
                   </p>
@@ -92,8 +94,8 @@
               </div>
 
               <button
-                @click="goSubscribe"
                 class="shrink-0 bg-[#F59E0B] hover:bg-[#EA8A00] text-white px-5 py-2 rounded-full font-semibold text-sm"
+                @click="goSubscribe"
               >
                 Upgrade
               </button>
@@ -189,13 +191,16 @@
 
             <!-- TAB: QUIZ -->
             <div v-else>
-              <h2 class="text-sm font-semibold text-[#111827] mb-3">Quizzes</h2>
+              <h2 class="text-sm font-semibold text-[#111827] mb-3">
+                Quizzes
+              </h2>
 
               <div
                 class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6"
               >
                 <QuizCard
                   v-for="(item, index) in quizList"
+                  :id="item.id"
                   :key="index"
                   :image="item.image"
                   :title="item.title"
@@ -203,11 +208,13 @@
                   :points="item.CreditAmount"
                   :modules="item.totalQuiz"
                   :duration="item.totalHour"
-                  :id="item.id"
                 />
               </div>
 
-              <div v-if="quizLoading" class="text-center py-4 text-gray-600">
+              <div
+                v-if="quizLoading"
+                class="text-center py-4 text-gray-600"
+              >
                 Loading more quizzes...
               </div>
             </div>

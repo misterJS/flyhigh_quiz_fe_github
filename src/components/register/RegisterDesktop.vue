@@ -7,18 +7,22 @@
         src="@/assets/hero-login-1.png"
         alt="Student"
         class="bg-cover"
-      />
+      >
       <img
         v-else
         src="@/assets/hero-login-2.png"
         alt="Parent"
         class="bg-cover"
-      />
+      >
     </div>
 
     <!-- Right Section -->
     <div class="w-1/2 flex flex-col justify-center px-10 max-w-md mx-auto">
-      <img src="@/assets/logo.png" alt="Logo" class="w-20 mb-8 mx-auto" />
+      <img
+        src="@/assets/logo.png"
+        alt="Logo"
+        class="w-20 mb-8 mx-auto"
+      >
 
       <div class="mb-6">
         <SwitchButtonGroup
@@ -40,58 +44,53 @@
         </p>
       </div>
 
-      <form @submit.prevent="register" class="space-y-4">
+      <form
+        class="space-y-4"
+        @submit.prevent="register"
+      >
         <div class="flex gap-4">
           <div class="w-1/2">
-            <label class="block text-sm font-medium text-gray-700 mb-1"
-              >First Name</label
-            >
+            <label class="block text-sm font-medium text-gray-700 mb-1">First Name</label>
             <input
               v-model="firstName"
               type="text"
               placeholder="Enter your first name"
               class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
+            >
           </div>
           <div class="w-1/2">
-            <label class="block text-sm font-medium text-gray-700 mb-1"
-              >Last Name</label
-            >
+            <label class="block text-sm font-medium text-gray-700 mb-1">Last Name</label>
             <input
               v-model="lastName"
               type="text"
               placeholder="Enter your last name"
               class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
+            >
           </div>
         </div>
 
         <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1"
-            >Email</label
-          >
+          <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
           <input
             v-model="email"
             type="email"
             placeholder="Enter your email"
             class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
+          >
         </div>
 
         <!-- Password & Confirm Password dalam 1 baris -->
         <div class="flex gap-4">
           <!-- Password -->
           <div class="w-1/2">
-            <label class="block text-sm font-medium text-gray-700 mb-1"
-              >Password</label
-            >
+            <label class="block text-sm font-medium text-gray-700 mb-1">Password</label>
             <div class="relative">
               <input
-                :type="showPassword ? 'text' : 'password'"
                 v-model="password"
+                :type="showPassword ? 'text' : 'password'"
                 placeholder="Password"
                 class="w-full px-4 py-2 pr-12 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
+              >
               <button
                 type="button"
                 class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500"
@@ -105,16 +104,14 @@
 
           <!-- Confirm Password -->
           <div class="w-1/2">
-            <label class="block text-sm font-medium text-gray-700 mb-1"
-              >Confirm Password</label
-            >
+            <label class="block text-sm font-medium text-gray-700 mb-1">Confirm Password</label>
             <div class="relative">
               <input
-                :type="showConfirmPassword ? 'text' : 'password'"
                 v-model="confirmPassword"
+                :type="showConfirmPassword ? 'text' : 'password'"
                 placeholder="Confirm password"
                 class="w-full px-4 py-2 pr-12 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
+              >
               <button
                 type="button"
                 class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500"
@@ -128,12 +125,16 @@
         </div>
 
         <div class="flex items-start text-sm">
-          <input type="checkbox" v-model="agreeTerms" class="mr-2 mt-1" />
-          <label
-            >I agree to the applicable
-            <a href="#" class="text-blue-600 hover:underline"
-              >terms and conditions</a
-            >
+          <input
+            v-model="agreeTerms"
+            type="checkbox"
+            class="mr-2 mt-1"
+          >
+          <label>I agree to the applicable
+            <a
+              href="#"
+              class="text-blue-600 hover:underline"
+            >terms and conditions</a>
           </label>
         </div>
 
@@ -148,7 +149,10 @@
 
       <p class="mt-6 text-sm text-center text-gray-600">
         Have an account?
-        <a href="#" class="text-blue-600 hover:underline">Sign In</a>
+        <a
+          href="#"
+          class="text-blue-600 hover:underline"
+        >Sign In</a>
       </p>
     </div>
   </div>

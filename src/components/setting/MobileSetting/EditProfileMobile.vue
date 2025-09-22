@@ -2,15 +2,23 @@
   <div class="min-h-screen bg-[#F3F4F6] p-4 pb-28">
     <!-- Header -->
     <div class="flex items-center gap-3 mb-5">
-      <button @click="goBack" class="text-gray-800 text-lg" aria-label="Back">
-        <i class="fas fa-arrow-left"></i>
+      <button
+        class="text-gray-800 text-lg"
+        aria-label="Back"
+        @click="goBack"
+      >
+        <i class="fas fa-arrow-left" />
       </button>
-      <h1 class="font-normal text-lg">Profile Edit</h1>
+      <h1 class="font-normal text-lg">
+        Profile Edit
+      </h1>
     </div>
 
     <!-- Account Setting Card -->
     <div class="bg-white rounded-3xl p-5 shadow-sm space-y-5 mb-5">
-      <h2 class="text-sm font-semibold text-gray-900">Account setting</h2>
+      <h2 class="text-sm font-semibold text-gray-900">
+        Account setting
+      </h2>
 
       <!-- Profile picture + Change button -->
       <div class="flex items-center gap-3">
@@ -18,7 +26,7 @@
           :src="photoPreview || require('@/assets/Avatar.png')"
           class="w-20 h-20 rounded-full object-cover"
           alt="Profile photo"
-        />
+        >
         <div>
           <button
             type="button"
@@ -33,36 +41,42 @@
             accept="image/*"
             class="hidden"
             @change="handleFileChange"
-          />
+          >
         </div>
       </div>
 
       <!-- Display Name -->
       <div>
-        <p class="text-sm text-gray-900 mb-1">Display Name</p>
+        <p class="text-sm text-gray-900 mb-1">
+          Display Name
+        </p>
         <input
           v-model="name"
           type="text"
           placeholder="Enter display name"
           class="w-full border border-gray-200 rounded-[12px] px-4 py-3 text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-400 bg-white"
-        />
+        >
       </div>
 
       <!-- Email -->
       <div>
-        <p class="text-sm text-gray-900 mb-1">Email addres</p>
+        <p class="text-sm text-gray-900 mb-1">
+          Email addres
+        </p>
         <input
           v-model="email"
           type="email"
           placeholder="Enter email"
           class="w-full border border-gray-200 rounded-[12px] px-4 py-3 text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-400 bg-white"
-        />
+        >
       </div>
     </div>
 
     <!-- Location Section -->
     <div class="bg-white rounded-3xl p-5 shadow-sm mb-5">
-      <p class="text-sm font-semibold text-gray-900 mb-2">Location</p>
+      <p class="text-sm font-semibold text-gray-900 mb-2">
+        Location
+      </p>
       <button
         type="button"
         class="w-full flex items-center justify-between border border-gray-200 rounded-[12px] px-4 py-3 bg-white"
@@ -80,26 +94,26 @@
     <!-- Logout Section -->
     <div class="bg-white rounded-3xl p-4 shadow-sm mb-5">
       <button
-        @click="openLogoutModal"
         class="flex items-center justify-between w-full text-sm font-semibold text-red-500"
         type="button"
+        @click="openLogoutModal"
       >
         <div class="flex items-center gap-3">
           <span class="bg-[#FFF1F0] p-2 rounded-full inline-flex">
-            <i class="fas fa-sign-out-alt"></i>
+            <i class="fas fa-sign-out-alt" />
           </span>
           <span>Logout account</span>
         </div>
-        <i class="fas fa-chevron-right text-red-300 text-xs"></i>
+        <i class="fas fa-chevron-right text-red-300 text-xs" />
       </button>
     </div>
 
     <!-- Save Button -->
     <div class="fixed bottom-4 left-4 right-4">
       <button
-        @click="saveProfile"
         class="w-full bg-[#2563EB] hover:bg-[#1E55D6] text-white py-4 rounded-[14px] text-sm font-semibold shadow-lg"
         type="button"
+        @click="saveProfile"
       >
         Save
       </button>
@@ -112,19 +126,19 @@
       <div
         v-if="showLogout"
         class="fixed inset-0 z-50 bg-black/40 flex items-end sm:items-center justify-center p-4"
-        @keyup.esc="closeLogoutModal"
         tabindex="-1"
+        @keyup.esc="closeLogoutModal"
       >
         <div class="w-full max-w-sm bg-white rounded-[20px] shadow-lg p-6 relative">
           <!-- Big red circular icon -->
           <div class="w-24 h-24 mx-auto mb-4 rounded-full bg-[#FEE2E2] flex items-center justify-center">
             <div class="w-20 h-20 rounded-full bg-[#EF4444] flex items-center justify-center">
-              <i class="fas fa-sign-out-alt text-white text-2xl"></i>
+              <i class="fas fa-sign-out-alt text-white text-2xl" />
             </div>
           </div>
 
           <p class="text-center text-[17px] font-semibold text-[#111827] mb-6 leading-tight">
-            Are you sure you want<br />to logout?
+            Are you sure you want<br>to logout?
           </p>
 
           <div class="flex items-center justify-between">

@@ -1,16 +1,21 @@
 <template>
   <div class="flex flex-col lg:flex-row min-h-screen bg-[#f9fafb]">
     <!-- Sidebar desktop -->
+    <!-- Sidebar desktop -->
     <SidebarComponent class="hidden lg:block" />
 
     <!-- Main Content -->
+    <!-- Main Content -->
     <div class="flex-1 flex flex-col w-full">
+      <!-- Header desktop -->
       <!-- Header desktop -->
       <HeaderComponent class="hidden lg:flex" />
 
       <main class="flex-1 p-4 sm:p-6 lg:p-8 pb-24">
         <!-- Banner -->
-        <section class="bg-[#BFDBFE] rounded-2xl p-4 sm:p-6 text-center mb-6 sm:mb-8 relative">
+        <section
+          class="bg-[#BFDBFE] rounded-2xl p-4 sm:p-6 text-center mb-6 sm:mb-8 relative"
+        >
           <h2 class="text-lg sm:text-xl font-semibold text-[#111827]">
             What’s the lesson for today?
           </h2>
@@ -19,42 +24,77 @@
               type="text"
               placeholder="Search Topics"
               class="w-full py-2 px-4 pl-10 rounded-full text-sm border border-transparent focus:outline-none focus:ring-2 focus:ring-[#2563EB]"
+              @focus="handleSearchTap"
+              @click="handleSearchTap"
             />
-            <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
             <i
-              class="fas fa-sliders-h absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 cursor-pointer"
-              @click="handleFilterModalOpen"
-            ></i>
+              class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"
+            />
+            <div class="absolute right-4 top-1/2 -translate-y-1/2">
+              <button
+                type="button"
+                class="relative w-6 h-6 text-gray-400 hover:text-gray-600"
+                @click="handleFilterModalOpen"
+                aria-label="Open filters"
+              >
+                <i class="fas fa-sliders-h text-[16px]" />
+                <span
+                  v-if="filterCount > 0"
+                  class="absolute -top-1.5 -right-1.5 min-w-[16px] h-[16px] px-[4px] rounded-full bg-[#2563EB] text-white text-[10px] leading-[16px] text-center"
+                >
+                  {{ filterCount }}
+                </span>
+              </button>
+            </div>
           </div>
         </section>
 
-        <!-- Subjects (only mobile) -->
-        <div class="bg-white rounded-2xl p-4 shadow-sm mb-6 lg:hidden">
+        <!-- Subjects (mobile pills that sync with ?subjectName=...) -->
+        <div class="bg-transparent rounded-2xl mb-6 lg:hidden">
           <div class="flex justify-between items-center mb-4">
             <h3 class="text-base font-semibold text-gray-900">Subjects</h3>
-            <a href="/subject-all" class="text-sm text-blue-600 font-medium">View All</a>
+            <a href="/subject-all" class="text-sm text-blue-600 font-medium"
+              >View All</a
+            >
           </div>
 
-          <div class="flex justify-between">
-            <div
-              v-for="subject in subjects"
-              :key="subject.name"
-              class="flex flex-col items-center text-center"
+          <div class="flex gap-2 overflow-x-auto no-scrollbar">
+            <button
+              v-for="name in chipSubjects"
+              :key="name"
+              type="button"
+              @click="goToSubject(name)"
+              :class="[
+                'px-4 py-2 rounded-full border text-sm whitespace-nowrap transition flex items-center gap-2',
+                isActiveSubject(name)
+                  ? 'bg-[#2563EB] text-white border-[#2563EB]'
+                  : 'bg-white text-gray-800 border-gray-200 hover:bg-gray-50',
+              ]"
             >
-              <div class="bg-gray-100 w-14 h-14 rounded-full shadow-sm flex items-center justify-center">
-                <img :src="`/subjects/${subject.SubjectName}.png`" alt="" class="w-[52px] h-[52px] object-contain" />
-              </div>
-              <p class="text-sm mt-2 text-gray-800">
-                {{ subject.SubjectName }}
-              </p>
-            </div>
+              <span>{{ name }}</span>
+
+              <!-- ikon X hanya untuk subject aktif selain 'All' -->
+              <span
+                v-if="isActiveSubject(name) && name !== 'All'"
+                class="chip-x cursor-pointer"
+                @click.stop="clearSubject"
+                aria-label="Clear subject"
+                title="Clear"
+              >
+                ×
+              </span>
+            </button>
           </div>
         </div>
 
         <!-- Quiz Cards -->
-        <section class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
+        <section
+          class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6"
+        >
+          <h3 class="text-base font-semibold text-gray-900">Quizess</h3>
           <QuizCard
             v-for="(quiz, index) in quizzes"
+            :id="quiz.id"
             :key="index"
             :image="quiz.image"
             :title="quiz.title"
@@ -62,50 +102,59 @@
             :points="quiz.CreditAmount"
             :modules="quiz.totalQuiz"
             :duration="quiz.totalHour"
-            :id="quiz.id"
           />
-          <div v-if="loading" class="text-center py-4 text-gray-600">Loading more quizzes...</div>
+          <div v-if="loading" class="text-center py-4 text-gray-600">
+            Loading more quizzes...
+          </div>
         </section>
       </main>
     </div>
 
     <!-- Bottom Nav Mobile -->
+    <!-- Bottom Nav Mobile -->
     <BottomBarNavigation class="lg:hidden" />
 
+    <!-- =============== Filter Modal (new look) =============== -->
     <!-- =============== Filter Modal (new look) =============== -->
     <div
       v-if="filterModalOpen"
       class="fixed inset-0 z-50 bg-black/30 flex justify-center items-end lg:items-center"
     >
-      <div class="bg-white w-full max-w-md rounded-t-2xl lg:rounded-2xl p-0 overflow-hidden">
+      <div
+        class="bg-white w-full max-w-md rounded-t-2xl lg:rounded-2xl p-0 overflow-hidden"
+      >
         <!-- grabber -->
         <div class="lg:hidden pt-3">
-          <div class="w-16 h-1.5 bg-gray-300 rounded-full mx-auto"></div>
+          <div class="w-16 h-1.5 bg-gray-300 rounded-full mx-auto" />
         </div>
 
         <!-- Header -->
+        <!-- Header -->
         <div class="px-6 pt-4 pb-2 flex items-center justify-between">
           <h3 class="font-semibold text-[15px]">Filters</h3>
-          <button class="text-sm text-[#2563EB] font-medium" @click="resetFilter()">Reset</button>
+          <button
+            class="text-sm text-[#2563EB] font-medium"
+            @click="resetFilter()"
+          >
+            Reset
+          </button>
         </div>
 
         <hr class="border-gray-100" />
 
         <!-- Progress -->
+        <!-- Progress -->
         <div class="px-6 py-4">
           <div class="flex items-center gap-2 mb-3">
-            <i class="fas fa-chart-bar text-gray-500"></i>
+            <i class="fas fa-chart-bar text-gray-500" />
             <h4 class="text-sm font-semibold">Progres</h4>
           </div>
           <div class="flex flex-wrap gap-2">
             <button
               v-for="opt in progressOptions"
               :key="opt"
+              :class="['chip', progress === opt ? 'chip-active' : 'chip-idle']"
               @click="progress = opt"
-              :class="[
-                'chip',
-                progress === opt ? 'chip-active' : 'chip-idle'
-              ]"
             >
               <span>{{ opt }}</span>
               <span v-if="progress === opt" class="chip-x">×</span>
@@ -116,10 +165,11 @@
         <hr class="border-gray-100" />
 
         <!-- Category -->
+        <!-- Category -->
         <div class="px-6 py-4">
           <div class="flex items-center justify-between mb-3">
             <div class="flex items-center gap-2">
-              <i class="fas fa-cubes text-gray-500"></i>
+              <i class="fas fa-cubes text-gray-500" />
               <h4 class="text-sm font-semibold">
                 Category ({{ categories.length || 0 }})
               </h4>
@@ -130,14 +180,18 @@
             <button
               v-for="cat in categories"
               :key="cat.id"
-              @click="toggleCategory(cat.id)"
               :class="[
                 'chip',
-                selectedCategories.includes(cat.id) ? 'chip-active' : 'chip-idle'
+                selectedCategories.includes(cat.id)
+                  ? 'chip-active'
+                  : 'chip-idle',
               ]"
+              @click="toggleCategory(cat.id)"
             >
               <span>{{ cat.name }}</span>
-              <span v-if="selectedCategories.includes(cat.id)" class="chip-x">×</span>
+              <span v-if="selectedCategories.includes(cat.id)" class="chip-x"
+                >×</span
+              >
             </button>
           </div>
         </div>
@@ -145,25 +199,33 @@
         <hr class="border-gray-100" />
 
         <!-- Grade -->
+        <!-- Grade -->
         <div class="px-6 pt-4 pb-6">
           <div class="flex items-center gap-2 mb-3">
-            <i class="fas fa-book text-gray-500"></i>
+            <i class="fas fa-book text-gray-500" />
             <h4 class="text-sm font-semibold">Grade</h4>
           </div>
 
           <!-- Custom dropdown -->
-          <div class="relative" ref="gradeMenuRef">
+          <div ref="gradeMenuRef" class="relative">
             <button
-              class="w-full h-11 px-4 text-sm rounded-xl border transition
-                     flex items-center justify-between
-                     focus:outline-none focus:ring-2 focus:ring-[#2563EB] border-[#CBD5E1]"
+              class="w-full h-11 px-4 text-sm rounded-xl border transition flex items-center justify-between focus:outline-none focus:ring-2 focus:ring-[#2563EB] border-[#CBD5E1]"
               @click="gradeOpen = !gradeOpen"
             >
-              <span class="text-gray-500" v-if="!selectedGradeText">Select grade</span>
+              <span v-if="!selectedGradeText" class="text-gray-500"
+                >Select grade</span
+              >
               <span v-else class="text-gray-900">{{ selectedGradeText }}</span>
-              <i :class="['fas', 'fa-chevron-' + (gradeOpen ? 'up' : 'down'), 'text-gray-400']"></i>
+              <i
+                :class="[
+                  'fas',
+                  'fa-chevron-' + (gradeOpen ? 'up' : 'down'),
+                  'text-gray-400',
+                ]"
+              />
             </button>
 
+            <!-- options -->
             <!-- options -->
             <div
               v-if="gradeOpen"
@@ -192,6 +254,7 @@
       </div>
     </div>
     <!-- =============== /Filter Modal =============== -->
+    <!-- =============== /Filter Modal =============== -->
   </div>
 </template>
 
@@ -202,7 +265,9 @@ import HeaderComponent from "@/components/base/HeaderComponent.vue";
 import QuizCard from "@/components/base/QuizCardComponent.vue";
 import BottomBarNavigation from "@/components/base/BottomBarNavigation.vue";
 import { useAuthStore } from "@/stores/authStore";
-import { ref, onMounted, onBeforeUnmount, computed } from "vue";
+import { ref, onMounted, onBeforeUnmount, computed, watch } from "vue";
+import { useRouter, useRoute } from "vue-router";
+import { useIsMobile } from "@/composable/useIsMobile";
 import { QuizListSubject } from "@/api/subjectApi";
 import { AllQuizList, QuizCategories } from "@/api/quizApi";
 
@@ -213,25 +278,82 @@ const subjects = ref([]);
 const filterModalOpen = ref(false);
 
 // progress
+// progress
 const progress = ref("All");
 const progressOptions = ["All", "Ongoing", "Completed"];
 
 // categories
+// categories
 const selectedCategories = ref([]);
 
+// grade dropdown
 // grade dropdown
 const grade = ref("");
 const gradeOpen = ref(false);
 const gradeMenuRef = ref(null);
+const grades = ref([{ id: 1, GradeName: "Loading..." }]);
 const selectedGradeText = computed(() => {
   const g = grades.value?.find((x) => x?.Id === grade.value);
   return g?.GradeName || "";
 });
 
-// stores
+// subject from URL (query)
+const route = useRoute();
+const selectedSubjectName = ref(""); // "History" from ?subjectName=History
+
+const filterCount = computed(() => {
+  let c = 0;
+  if (selectedCategories.value.length) c += 1;
+  if (progress.value && progress.value !== "All") c += 1;
+  if (grade.value) c += 1;
+  return c;
+});
+
+const chipSubjects = computed(() => {
+  const names = (subjects.value ?? [])
+    .map((s) => s?.SubjectName ?? s?.name)
+    .filter(Boolean);
+
+  const uniq = Array.from(new Set(names));
+
+  if (!selectedSubjectName.value) {
+    return ["All", ...uniq];
+  }
+
+  const active = selectedSubjectName.value;
+  const rest = uniq.filter((n) => n !== active);
+  return [active, "All", ...rest];
+});
+
+const isActiveSubject = (name) => {
+  // active if equals current selection; "All" active when none selected
+  if (!selectedSubjectName.value) return name === "All";
+  return name === selectedSubjectName.value;
+};
+
+// stores & router
 const quizStore = useQuizGradeAll();
 const auth = useAuthStore();
-const grades = ref([{ id: 1, GradeName: "Loading..." }]);
+const router = useRouter();
+const { isMobile } = useIsMobile();
+
+let isNavigatingToSearch = false;
+
+const handleSearchTap = (event) => {
+  if (!isMobile.value) return;
+  if (isNavigatingToSearch) return;
+
+  isNavigatingToSearch = true;
+
+  event?.preventDefault?.();
+  event?.target?.blur?.();
+
+  router.push({ name: "QuizSearch" }).finally(() => {
+    setTimeout(() => {
+      isNavigatingToSearch = false;
+    }, 200);
+  });
+};
 
 // Pagination
 const page = ref(1);
@@ -253,21 +375,27 @@ const getAllQuiz = async (isLoadMore = false) => {
     if (selectedCategories.value.length > 0) {
       params.quizCategoryIds = selectedCategories.value;
     }
-
     if (grade.value) {
       params.gradeId = grade.value;
+    }
+    // ← apply subject filter from URL query
+    if (selectedSubjectName.value) {
+      // sesuaikan key bila backend memakai nama lain
+      params.subjectName = selectedSubjectName.value;
     }
 
     const data = await AllQuizList(params);
 
-    const list = data.data.filter((quiz) => quiz.totalQuiz > 0);
+    const list = (data?.data ?? []).filter(
+      (quiz) => (quiz?.totalQuiz ?? 0) > 0
+    );
     if (!isLoadMore) {
       quizzes.value = list;
     } else {
       quizzes.value.push(...list);
     }
 
-    totalPages.value = data.totalPages;
+    totalPages.value = data?.totalPages ?? totalPages.value;
     page.value++;
   } catch (error) {
     console.error(error);
@@ -280,31 +408,64 @@ const getAllSubject = async () => {
   try {
     const data = await QuizListSubject();
     allSubjects.value = data;
-    subjects.value = data.slice(0, 4);
+    subjects.value = data;
   } catch (error) {
     console.error(error);
   }
 };
 
+// Pills click -> update URL (subjectName) and refetch
+const goToSubject = (name) => {
+  const next = name === "All" ? "" : name;
+  selectedSubjectName.value = next;
+
+  const q = { ...route.query };
+  if (next) q.subjectName = next;
+  else delete q.subjectName;
+
+  router.replace({ name: route.name, query: q }).catch(() => {});
+
+  page.value = 1;
+  totalPages.value = 1;
+  quizzes.value = [];
+  getAllQuiz(false);
+};
+
 // Infinite Scroll
 const handleScroll = () => {
   const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
-  if (scrollTop + clientHeight >= scrollHeight - 50) {
-    getAllQuiz(true);
-  }
+  if (scrollTop + clientHeight >= scrollHeight - 50) getAllQuiz(true);
 };
 
 onMounted(() => {
+  // set selected subject from URL before first fetch
+  const initial = route.query.subjectName;
+  selectedSubjectName.value = typeof initial === "string" ? initial : "";
+
   getAllQuiz();
   getCategories();
   getAllSubject();
   window.addEventListener("scroll", handleScroll);
   document.addEventListener("click", onClickAway);
 });
+
 onBeforeUnmount(() => {
   window.removeEventListener("scroll", handleScroll);
   document.removeEventListener("click", onClickAway);
 });
+
+// react when ?subjectName changes externally
+watch(
+  () => route.query.subjectName,
+  (nv, ov) => {
+    if (nv === ov) return;
+    selectedSubjectName.value = typeof nv === "string" ? nv : "";
+    page.value = 1;
+    totalPages.value = 1;
+    quizzes.value = [];
+    getAllQuiz(false);
+  }
+);
 
 const onClickAway = (e) => {
   if (!gradeMenuRef.value) return;
@@ -336,7 +497,9 @@ function toggleCategory(catId) {
   handling = true;
 
   if (selectedCategories.value.includes(catId)) {
-    selectedCategories.value = selectedCategories.value.filter((id) => id !== catId);
+    selectedCategories.value = selectedCategories.value.filter(
+      (id) => id !== catId
+    );
   } else {
     selectedCategories.value.push(catId);
   }
@@ -348,11 +511,32 @@ function selectGrade(id) {
   gradeOpen.value = false;
 }
 
+function clearSubject() {
+  if (!selectedSubjectName.value) return;
+
+  selectedSubjectName.value = "";
+  const q = { ...route.query };
+  delete q.subjectName;
+  router.replace({ name: route.name, query: q }).catch(() => {});
+
+  page.value = 1;
+  totalPages.value = 1;
+  quizzes.value = [];
+  getAllQuiz(false);
+}
+
 function resetFilter() {
   progress.value = "All";
   selectedCategories.value = [];
   grade.value = "";
   page.value = 1;
+
+  // also clear subject filter & URL
+  selectedSubjectName.value = "";
+  const q = { ...route.query };
+  delete q.subjectName;
+  router.replace({ name: route.name, query: q }).catch(() => {});
+
   getAllQuiz(false);
 }
 
@@ -366,6 +550,7 @@ function applyFilter() {
 
 <style scoped>
 /* Pills */
+/* Pills */
 .chip {
   @apply inline-flex items-center gap-2 px-3 h-8 rounded-full text-sm transition border;
 }
@@ -377,5 +562,14 @@ function applyFilter() {
 }
 .chip-x {
   @apply inline-flex items-center justify-center rounded-full bg-transparent px-1 leading-none;
+}
+
+/* hide scrollbar for horizontal pills */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 </style>

@@ -3,13 +3,20 @@
   <div class="min-h-screen bg-[#FAFAFA] px-4 pt-4 pb-10">
     <!-- Header -->
     <div class="flex items-center gap-3 mb-4">
-      <button @click="goBack" class="text-gray-800 text-lg">
-        <i class="fas fa-arrow-left"></i>
+      <button
+        class="text-gray-800 text-lg"
+        @click="goBack"
+      >
+        <i class="fas fa-arrow-left" />
       </button>
-      <h1 class="text-lg font-semibold text-gray-900">Subjects</h1>
+      <h1 class="text-lg font-semibold text-gray-900">
+        Subjects
+      </h1>
     </div>
 
-    <p class="text-[15px] text-gray-600 mb-4">All Subject</p>
+    <p class="text-[15px] text-gray-600 mb-4">
+      All Subject
+    </p>
 
     <!-- Grid Subjects -->
     <div
@@ -38,7 +45,7 @@
               :alt="s.SubjectName"
               class="w-9 h-9 object-contain"
               loading="lazy"
-            />
+            >
           </div>
         </div>
 
@@ -52,7 +59,10 @@
     </div>
 
     <!-- Loading state -->
-    <div v-if="loading" class="mt-8 text-center text-gray-500 text-sm">
+    <div
+      v-if="loading"
+      class="mt-8 text-center text-gray-500 text-sm"
+    >
       Loading subjects…
     </div>
   </div>
@@ -88,7 +98,7 @@ const iconSrc = (name) => `/subjects/${name}.png`;
 /** Navigasi saat subjek dipilih */
 function openSubject(s) {
   // arahkan sesuai kebutuhanmu
-  router.push({ path: "/quiz", query: { subjectId: s.SubjectId, name: s.SubjectName } });
+  router.push({ path: "/quiz", query: { subjectId: s.SubjectId, subjectName: s.SubjectName } });
 }
 
 function goBack() {

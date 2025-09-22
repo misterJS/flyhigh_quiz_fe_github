@@ -18,7 +18,7 @@
                 type="text"
                 placeholder="Ask a question...."
                 class="w-full py-2.5 px-4 pr-24 rounded-full text-sm border border-gray-300 focus:ring-2 focus:ring-[#2563EB] focus:outline-none"
-              />
+              >
               <button
                 class="absolute right-2 top-1/2 -translate-y-1/2 px-4 py-1.5 bg-[#2563EB] text-white text-sm rounded-full"
               >

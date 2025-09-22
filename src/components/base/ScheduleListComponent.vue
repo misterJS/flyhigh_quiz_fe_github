@@ -1,8 +1,13 @@
 <template>
   <div class="bg-white rounded-xl p-5 shadow-sm w-full">
-    <h3 class="text-base font-semibold text-gray-800 mb-4">Today's schedule</h3>
+    <h3 class="text-base font-semibold text-gray-800 mb-4">
+      Today's schedule
+    </h3>
     <ul class="space-y-4">
-      <li v-for="(item, index) in schedules" :key="index">
+      <li
+        v-for="(item, index) in schedules"
+        :key="index"
+      >
         <div
           class="grid grid-cols-[auto_1fr_auto] items-start p-4 gap-4"
           :class="{
@@ -21,7 +26,7 @@
                 'h-5 w-1 rounded-sm mt-1',
                 item.lineColor === 'yellow' ? 'bg-yellow-400' : 'bg-teal-500',
               ]"
-            ></div>
+            />
             <div class="overflow-hidden">
               <p class="text-xs text-gray-400 font-medium leading-tight">
                 {{ item.subtitle }}

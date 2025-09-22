@@ -2,10 +2,16 @@
   <div class="min-h-screen bg-[#f9fafb] p-4 pb-24">
     <!-- Header -->
     <div class="flex items-center gap-3 mb-6">
-      <button @click="goBack" class="text-gray-700 text-lg" aria-label="Back">
-        <i class="fas fa-arrow-left"></i>
+      <button
+        class="text-gray-700 text-lg"
+        aria-label="Back"
+        @click="goBack"
+      >
+        <i class="fas fa-arrow-left" />
       </button>
-      <h1 class="font-semibold text-lg">Country</h1>
+      <h1 class="font-semibold text-lg">
+        Country
+      </h1>
     </div>
 
     <!-- Card with fetched countries -->
@@ -19,11 +25,22 @@
         <div class="flex items-center gap-3">
           <span class="text-base text-gray-900">{{ c.countryName }}</span>
         </div>
-        <span class="w-6 h-6 rounded-full grid place-items-center border-2" :class="selectedId === c.id ? 'border-blue-500' : 'border-gray-300'">
-          <span v-if="selectedId === c.id" class="w-3 h-3 rounded-full bg-blue-500"></span>
+        <span
+          class="w-6 h-6 rounded-full grid place-items-center border-2"
+          :class="selectedId === c.id ? 'border-blue-500' : 'border-gray-300'"
+        >
+          <span
+            v-if="selectedId === c.id"
+            class="w-3 h-3 rounded-full bg-blue-500"
+          />
         </span>
       </button>
-      <div v-if="loading" class="text-center text-gray-500 py-4">Loading...</div>
+      <div
+        v-if="loading"
+        class="text-center text-gray-500 py-4"
+      >
+        Loading...
+      </div>
     </div>
   </div>
   

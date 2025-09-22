@@ -2,22 +2,25 @@
   <div class="min-h-screen bg-[#f9fafb] flex flex-col">
     <!-- Header -->
     <div class="flex gap-2 w-full items-center p-4">
-      <button @click="goBack" class="text-gray-700 text-xl">
-        <i class="fas fa-arrow-left"></i>
+      <button
+        class="text-gray-700 text-xl"
+        @click="goBack"
+      >
+        <i class="fas fa-arrow-left" />
       </button>
       <div class="w-full mt-5">
         <div class="w-full bg-gray-200 h-2 rounded-full">
           <div
             class="h-2 bg-blue-500 rounded-full"
             :style="{ width: pageProgress + '%' }"
-          ></div>
+          />
         </div>
         <p class="text-xs text-gray-500 mt-1">
           Reviewing {{ endIndex }} / {{ totalQuestions }}
         </p>
       </div>
       <div class="flex items-center text-red-500 font-semibold">
-        <i class="fas fa-heart mr-1"></i> <span>5</span>
+        <i class="fas fa-heart mr-1" /> <span>5</span>
       </div>
     </div>
 
@@ -37,16 +40,19 @@
           <span
             class="text-xs px-2.5 py-1 rounded-full bg-blue-50 text-blue-700 border border-blue-200 whitespace-nowrap flex items-center gap-1"
           >
-            <i class="far fa-clock"></i> 20 Sec
+            <i class="far fa-clock" /> 20 Sec
           </span>
         </div>
 
-        <div v-if="q.image" class="flex justify-center mb-4">
+        <div
+          v-if="q.image"
+          class="flex justify-center mb-4"
+        >
           <img
             :src="q.image"
             alt="question image"
             class="max-h-48 object-contain rounded"
-          />
+          >
         </div>
 
         <!-- Options (read-only) -->
@@ -57,28 +63,31 @@
             :class="optionRowClass(q, opt)"
           >
             <!-- bullet -->
-            <span class="answer-bullet border" :class="bulletClass(q, opt)">
+            <span
+              class="answer-bullet border"
+              :class="bulletClass(q, opt)"
+            >
               <i
                 v-if="isSelected(q, opt) && isCorrectChoice(q, opt)"
                 class="fas fa-check text-[10px]"
-              ></i>
+              />
             </span>
 
             <span class="block">{{ opt.text }}</span>
 
             <!-- status pill on the right -->
             <div
-              class="ml-auto flex items-center gap-2 text-sm"
               v-if="isSelected(q, opt) && !isCorrectChoice(q, opt)"
+              class="ml-auto flex items-center gap-2 text-sm"
             >
-              <i class="fas fa-times-circle"></i>
+              <i class="fas fa-times-circle" />
               <span>Wrong answer</span>
             </div>
             <div
-              class="ml-auto flex items-center gap-2 text-sm"
               v-else-if="isCorrectChoice(q, opt)"
+              class="ml-auto flex items-center gap-2 text-sm"
             >
-              <i class="fas fa-check-circle"></i>
+              <i class="fas fa-check-circle" />
               <span>Correct</span>
             </div>
           </div>

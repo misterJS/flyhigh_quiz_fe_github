@@ -13,10 +13,16 @@
         "
       />
       <div class="relative z-10 max-w-sm mx-auto px-6 pt-10 pb-20 text-center text-white">
-        <img src="@/assets/logowhite.png" alt="Fly High" class="w-24 mx-auto mb-5" />
-        <h1 class="text-[28px] font-semibold mb-2">Create New Password</h1>
+        <img
+          src="@/assets/logowhite.png"
+          alt="Fly High"
+          class="w-24 mx-auto mb-5"
+        >
+        <h1 class="text-[28px] font-semibold mb-2">
+          Create New Password
+        </h1>
         <p class="text-sm text-white/90">
-          Your new password must be different from previous <br class="sm:hidden" />
+          Your new password must be different from previous <br class="sm:hidden">
           passwords.
         </p>
       </div>
@@ -30,15 +36,19 @@
           <label class="block text-sm font-semibold text-gray-900 mb-2">Password</label>
           <div class="relative mb-4">
             <input
-              :type="show1 ? 'text' : 'password'"
               v-model.trim="password"
+              :type="show1 ? 'text' : 'password'"
               placeholder="Type your password"
               class="w-full pl-11 pr-11 py-3 rounded-full bg-[#F3F6FD] border border-gray-200 text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#1877F2]"
               @keyup.enter="submit"
-            />
-            <i class="fas fa-lock absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
-            <button type="button" class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500" @click="show1 = !show1">
-              <i :class="show1 ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
+            >
+            <i class="fas fa-lock absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
+            <button
+              type="button"
+              class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500"
+              @click="show1 = !show1"
+            >
+              <i :class="show1 ? 'fas fa-eye-slash' : 'fas fa-eye'" />
             </button>
           </div>
 
@@ -46,19 +56,28 @@
           <label class="block text-sm font-semibold text-gray-900 mb-2">Confirm Password</label>
           <div class="relative">
             <input
-              :type="show2 ? 'text' : 'password'"
               v-model.trim="confirm"
+              :type="show2 ? 'text' : 'password'"
               placeholder="Type your password"
               class="w-full pl-11 pr-11 py-3 rounded-full bg-[#F3F6FD] border border-gray-200 text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#1877F2]"
               @keyup.enter="submit"
-            />
-            <i class="fas fa-lock absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
-            <button type="button" class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500" @click="show2 = !show2">
-              <i :class="show2 ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
+            >
+            <i class="fas fa-lock absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
+            <button
+              type="button"
+              class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500"
+              @click="show2 = !show2"
+            >
+              <i :class="show2 ? 'fas fa-eye-slash' : 'fas fa-eye'" />
             </button>
           </div>
 
-          <p v-if="errorMsg" class="mt-3 text-xs text-red-600">{{ errorMsg }}</p>
+          <p
+            v-if="errorMsg"
+            class="mt-3 text-xs text-red-600"
+          >
+            {{ errorMsg }}
+          </p>
 
           <button
             class="mt-6 w-full py-3 rounded-full text-white font-semibold text-sm transition
@@ -68,10 +87,28 @@
             @click="submit"
           >
             <span v-if="!loading">Reset password</span>
-            <span v-else class="inline-flex items-center gap-2">
-              <svg class="animate-spin h-4 w-4" viewBox="0 0 24 24" fill="none">
-                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="white" stroke-width="4"/>
-                <path class="opacity-75" fill="white" d="M4 12a8 8 0 018-8v4A4 4 0 008 12H4z"/>
+            <span
+              v-else
+              class="inline-flex items-center gap-2"
+            >
+              <svg
+                class="animate-spin h-4 w-4"
+                viewBox="0 0 24 24"
+                fill="none"
+              >
+                <circle
+                  class="opacity-25"
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="white"
+                  stroke-width="4"
+                />
+                <path
+                  class="opacity-75"
+                  fill="white"
+                  d="M4 12a8 8 0 018-8v4A4 4 0 008 12H4z"
+                />
               </svg>
               Processing…
             </span>
@@ -82,7 +119,10 @@
 
     <!-- FULLSCREEN SUCCESS (sesuai desain) -->
     <transition name="fade">
-      <div v-if="done" class="fixed inset-0 z-50">
+      <div
+        v-if="done"
+        class="fixed inset-0 z-50"
+      >
         <!-- Blue background + grid -->
         <div class="absolute inset-0 bg-[#1877F2]">
           <div
@@ -101,17 +141,21 @@
           <div class="w-full max-w-sm bg-white rounded-2xl shadow-lg overflow-hidden">
             <!-- top light panel + icon + confetti dots -->
             <div class="relative bg-[#EAF2FF] flex items-center justify-center py-10">
-              <div class="w-16 h-16 rounded-full bg-white grid place-items-center text-[#1877F2] text-2xl">🔒</div>
-              <span class="absolute left-14 top-6 w-2 h-2 rounded-full bg-[#FF8A4C]"></span>
-              <span class="absolute right-14 top-10 w-2 h-2 rounded-full bg-[#FF8A4C]"></span>
-              <span class="absolute left-20 bottom-8 w-2 h-2 rounded-full bg-[#2B6DE2]"></span>
-              <span class="absolute right-20 bottom-8 w-2 h-2 rounded-full bg-[#2B6DE2]"></span>
+              <div class="w-16 h-16 rounded-full bg-white grid place-items-center text-[#1877F2] text-2xl">
+                🔒
+              </div>
+              <span class="absolute left-14 top-6 w-2 h-2 rounded-full bg-[#FF8A4C]" />
+              <span class="absolute right-14 top-10 w-2 h-2 rounded-full bg-[#FF8A4C]" />
+              <span class="absolute left-20 bottom-8 w-2 h-2 rounded-full bg-[#2B6DE2]" />
+              <span class="absolute right-20 bottom-8 w-2 h-2 rounded-full bg-[#2B6DE2]" />
             </div>
 
             <div class="px-6 py-6 text-center">
-              <h3 class="text-lg font-semibold text-gray-900 mb-2">Password Changed!</h3>
+              <h3 class="text-lg font-semibold text-gray-900 mb-2">
+                Password Changed!
+              </h3>
               <p class="text-sm text-gray-500 mb-5">
-                Password changed successfully, you <br class="sm:hidden" />
+                Password changed successfully, you <br class="sm:hidden">
                 can login again with a new password.
               </p>
               <button

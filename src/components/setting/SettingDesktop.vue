@@ -15,13 +15,13 @@
               <button
                 v-for="tab in tabs"
                 :key="tab"
-                @click="activeTab = tab"
                 :class="[
                   'w-40 text-center pb-3',
                   activeTab === tab
                     ? 'text-[#2563EB] border-b-2 border-[#2563EB]'
                     : 'text-[#6B7280] hover:text-[#374151]',
                 ]"
+                @click="activeTab = tab"
               >
                 {{ tab }}
               </button>
@@ -38,7 +38,7 @@
                 src="@/assets/Avatar.png"
                 class="w-20 h-20 rounded-full object-cover"
                 alt="Profile"
-              />
+              >
             </div>
 
             <form class="space-y-8">
@@ -53,47 +53,51 @@
                   <label
                     class="block text-sm text-[#111827] mb-1"
                     for="firstName"
-                    >First Name</label
-                  >
+                  >First Name</label>
                   <input
                     v-if="profile"
                     id="firstName"
-                    type="text"
                     v-model="profile.name"
+                    type="text"
                     class="w-full border border-[#D1D5DB] rounded-lg px-4 py-2 text-sm text-[#111827] placeholder:text-[#9CA3AF] focus:ring-1 focus:ring-[#2563EB] focus:outline-none"
-                  />
+                  >
                 </div>
                 <div>
                   <label
                     class="block text-sm text-[#111827] mb-1"
                     for="lastName"
-                    >Last Name</label
-                  >
+                  >Last Name</label>
                   <input
                     id="lastName"
                     type="text"
                     value="Dinar"
                     class="w-full border border-[#D1D5DB] rounded-lg px-4 py-2 text-sm text-[#111827] placeholder:text-[#9CA3AF] focus:ring-1 focus:ring-[#2563EB] focus:outline-none"
-                  />
+                  >
                 </div>
               </div>
 
               <div>
-                <label class="block text-sm text-[#111827] mb-1" for="email">
+                <label
+                  class="block text-sm text-[#111827] mb-1"
+                  for="email"
+                >
                   Email Address
                   <span class="text-[#9CA3AF]">(Optional: Parent’s email)</span>
                 </label>
                 <input
                   v-if="profile"
                   id="email"
-                  type="email"
                   v-model="profile.email"
+                  type="email"
                   class="w-full border border-[#D1D5DB] rounded-lg px-4 py-2 text-sm text-[#111827] placeholder:text-[#9CA3AF] focus:ring-1 focus:ring-[#2563EB] focus:outline-none"
-                />
+                >
               </div>
 
               <div>
-                <label class="block text-sm text-[#111827] mb-1" for="phone">
+                <label
+                  class="block text-sm text-[#111827] mb-1"
+                  for="phone"
+                >
                   Phone Number
                   <span class="text-[#9CA3AF]">(Optional: Parent’s email)</span>
                 </label>
@@ -104,15 +108,15 @@
                     src="https://flagcdn.com/us.svg"
                     class="w-5 h-5 mr-2"
                     alt="US Flag"
-                  />
+                  >
                   <span class="text-sm text-[#111827] mr-2">+1</span>
                   <input
                     v-if="profile"
                     id="phone"
-                    type="tel"
                     v-model="profile.phone"
+                    type="tel"
                     class="flex-1 text-sm text-[#111827] bg-transparent focus:outline-none"
-                  />
+                  >
                 </div>
               </div>
 
@@ -137,13 +141,14 @@
           <div v-if="activeTab === 'General'">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
               <div>
-                <label class="text-sm font-medium text-[#111827] block mb-1"
-                  >Language <span class="text-red-500">*</span></label
-                >
+                <label class="text-sm font-medium text-[#111827] block mb-1">Language <span class="text-red-500">*</span></label>
                 <select
                   class="w-full border border-[#D1D5DB] rounded-lg px-4 py-2 text-sm"
                 >
-                  <option v-for="(language, index) in languages" :key="index">
+                  <option
+                    v-for="(language, index) in languages"
+                    :key="index"
+                  >
                     {{ language.name }}
                   </option>
                 </select>
@@ -153,9 +158,7 @@
               </div>
 
               <div>
-                <label class="text-sm font-medium text-[#111827] block mb-1"
-                  >Timezone <span class="text-red-500">*</span></label
-                >
+                <label class="text-sm font-medium text-[#111827] block mb-1">Timezone <span class="text-red-500">*</span></label>
                 <select
                   class="w-full border border-[#D1D5DB] rounded-lg px-4 py-2 text-sm"
                 >
@@ -170,14 +173,16 @@
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-6">
               <div>
-                <label class="text-sm font-medium text-[#111827] block mb-1"
-                  >Time Format <span class="text-red-500">*</span></label
-                >
+                <label class="text-sm font-medium text-[#111827] block mb-1">Time Format <span class="text-red-500">*</span></label>
                 <div class="flex gap-4 mt-2">
                   <label
                     class="flex items-center border px-4 py-2 rounded-lg text-sm cursor-pointer"
                   >
-                    <input type="radio" name="time-format" class="mr-2" />
+                    <input
+                      type="radio"
+                      name="time-format"
+                      class="mr-2"
+                    >
                     12 Hours
                   </label>
                   <label
@@ -188,21 +193,23 @@
                       name="time-format"
                       checked
                       class="mr-2"
-                    />
+                    >
                     24 Hours
                   </label>
                 </div>
               </div>
 
               <div>
-                <label class="text-sm font-medium text-[#111827] block mb-1"
-                  >Date Format <span class="text-red-500">*</span></label
-                >
+                <label class="text-sm font-medium text-[#111827] block mb-1">Date Format <span class="text-red-500">*</span></label>
                 <div class="flex gap-4 mt-2">
                   <label
                     class="flex items-center border px-4 py-2 rounded-lg text-sm cursor-pointer"
                   >
-                    <input type="radio" name="date-format" class="mr-2" />
+                    <input
+                      type="radio"
+                      name="date-format"
+                      class="mr-2"
+                    >
                     DD/MM/YY
                   </label>
                   <label
@@ -213,13 +220,17 @@
                       name="date-format"
                       checked
                       class="mr-2"
-                    />
+                    >
                     MM/DD/YY
                   </label>
                   <label
                     class="flex items-center border px-4 py-2 rounded-lg text-sm cursor-pointer"
                   >
-                    <input type="radio" name="date-format" class="mr-2" />
+                    <input
+                      type="radio"
+                      name="date-format"
+                      class="mr-2"
+                    >
                     YY/MM/DD
                   </label>
                 </div>
@@ -264,10 +275,10 @@
                 <!-- Switch -->
                 <label class="inline-flex items-center cursor-pointer">
                   <input
-                    type="checkbox"
                     v-model="notif.enabled"
+                    type="checkbox"
                     class="sr-only"
-                  />
+                  >
                   <div
                     class="w-11 h-6 flex items-center bg-gray-300 rounded-full p-1 transition-colors duration-300"
                     :class="{ 'bg-primary-blue': notif.enabled }"
@@ -275,7 +286,7 @@
                     <div
                       class="bg-white w-4 h-4 rounded-full shadow-md transform duration-300"
                       :class="{ 'translate-x-5': notif.enabled }"
-                    ></div>
+                    />
                   </div>
                 </label>
               </div>
@@ -310,10 +321,10 @@
                 </p>
                 <div class="relative">
                   <input
-                    :type="showNewPassword ? 'text' : 'password'"
                     v-model="newPassword"
+                    :type="showNewPassword ? 'text' : 'password'"
                     class="w-full border border-[#D1D5DB] rounded-lg px-4 py-2 text-sm pr-10 focus:ring-1 focus:ring-[#2563EB] focus:outline-none"
-                  />
+                  >
                   <button
                     type="button"
                     class="absolute right-3 top-2.5 text-gray-400"
@@ -323,7 +334,7 @@
                       :class="
                         showNewPassword ? 'fas fa-eye-slash' : 'fas fa-eye'
                       "
-                    ></i>
+                    />
                   </button>
                 </div>
               </div>
@@ -338,10 +349,10 @@
                 </p>
                 <div class="relative">
                   <input
-                    :type="showConfirmPassword ? 'text' : 'password'"
                     v-model="confirmPassword"
+                    :type="showConfirmPassword ? 'text' : 'password'"
                     class="w-full border border-[#D1D5DB] rounded-lg px-4 py-2 text-sm pr-10 focus:ring-1 focus:ring-[#2563EB] focus:outline-none"
-                  />
+                  >
                   <button
                     type="button"
                     class="absolute right-3 top-2.5 text-gray-400"
@@ -351,7 +362,7 @@
                       :class="
                         showConfirmPassword ? 'fas fa-eye-slash' : 'fas fa-eye'
                       "
-                    ></i>
+                    />
                   </button>
                 </div>
               </div>
