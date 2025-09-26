@@ -37,8 +37,8 @@
 <script setup>
 import { useRoute, useRouter } from "vue-router";
 import { onMounted, ref, onBeforeUnmount, reactive, computed } from "vue";
-import QuizDetailMobile from "@/components/mobile/QuizDetailMobile.vue";
-import QuizDetailDesktop from "@/components/desktop/QuizDetailDesktop.vue";
+import QuizDetailMobile from "@/components/detailQuiz/QuizDetailMobile.vue";
+import QuizDetailDesktop from "@/components/detailQuiz/QuizDetailDesktop.vue";
 import {
   QuizPreview,
   AllQuizList,

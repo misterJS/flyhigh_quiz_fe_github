@@ -388,7 +388,7 @@
             </button>
           </div>
 
-          <!-- Modal Content -->
+          <!-- Modal Content it's time for upgrade-->
           <div class="text-center mb-4">
             <img
               src="@/assets/crown-uprage-pro.png"
