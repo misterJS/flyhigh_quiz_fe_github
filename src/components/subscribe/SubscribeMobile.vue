@@ -435,8 +435,8 @@
 </template>
 
 <script setup>
-import { ref, computed } from "vue";
-import { useRouter } from "vue-router";
+import { ref, computed, onMounted } from "vue";
+import { useRouter, useRoute } from "vue-router";
 import PaymentMethodModal from "@/components/subscribe/PaymentMethodModal.vue";
 import SuccessModal from "@/components/subscribe/SuccessModal.vue";
 
@@ -446,6 +446,7 @@ const props = defineProps({
 });
 
 const router = useRouter();
+const route = useRoute();
 const currency = computed(() => props.currency);
 
 // Quiz intro state
@@ -489,6 +490,14 @@ const showUpgradeModal = ref(false);
 const showUpgradePremiumScreen = ref(false);
 const showPaymentMethodModal = ref(false);
 const showSuccessModal = ref(false);
+
+// Check query parameter on mount
+onMounted(() => {
+  if (route.query.showUpgradePremiumScreen === 'true') {
+    showQuizIntro.value = false;
+    showUpgradePremiumScreen.value = true;
+  }
+});
 
 // Helpers
 // const isActive = (id) => id === props.currentPlanId;
